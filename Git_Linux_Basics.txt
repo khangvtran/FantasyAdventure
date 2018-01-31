@@ -1,0 +1,71 @@
+Linux Basic Helps for anyone who needs it:
+	- To see your current directory:
+	pwd
+
+	- To go to a directory:
+	cd dirA\dir2\dir3
+
+	- To see all the file in the current directory, including hidden file:
+	ls -a
+
+
+Git Basic Guideline:
+* Rule of Thumbs:
+	- Always make sure you know what files are in your directory. Use: ls -a
+	- Always make sure you are at your branch. Use: git status
+	- When collaborate with other people, pull from GitHub server repo before doing any additional work . Use: git pull 
+	  Your additional work must be built on top of what is currently on your branch on the remote server. Otherwise, there will be conflict.
+	  If there is conflict in timeline, you would not be able to push your work. 
+	- Only push to GitHub server repo code that works
+	- It is advisable to use an additional storage of code in addition to GitHub (We use Google Drive.)
+	
+
+
+* Beginning:
+
+	- Go into the directory (folder) where you want your work to be stored
+
+	- To clone the github server repo into your local machine:
+	git clone https://github.com/khangvtran/FantasyAdventure.git
+	
+	- To see status of the current branch. You will
+	git status
+
+	- To create new branch:
+	git branch BrandName
+
+	- To move into a branch:
+	git checkout BrandName
+
+* Working and pushing
+	- Make sure you are at your branch (see steps above)
+	
+	- To get what is currently on GitHub server repo (this is important to avoid commit timeline conflict):
+	git pull
+
+	- To add a file :
+	git add FileName 
+	or to add everything: git add *
+
+	- To commit:
+	git commit -m"description of what you are committing"
+
+	- To push onto GitHub server repo:
+	git push
+
+	- For the first time pushing, you are likely need to copy the command that GitHub tells you
+	  Also, GitHub might ask you to enter your username and password
+
+* To merge a branch (For integration):
+	- example: to merge branch ABC to branch master
+	git checkout master
+	git merge ABC
+	https://stackoverflow.com/questions/14168677/merge-development-branch-with-master
+
+* To delete a branch (caution):
+	git branch -d BranchName
+	https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-remotely
+
+
+
+
