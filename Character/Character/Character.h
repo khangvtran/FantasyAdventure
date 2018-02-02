@@ -36,7 +36,7 @@ private:
         int xPos;
         int yPos;
     };
-    
+    // Josh added comment
     Location location; // instantiate an inner object from struct location
 public:
     /* Constructor*/
