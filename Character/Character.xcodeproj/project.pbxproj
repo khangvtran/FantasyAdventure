@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* CharacterTest.cpp */; };
 		76DC51532024E33800A45484 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC51512024E33800A45484 /* Character.cpp */; };
+		B290FB5D2024EC740066320E /* Mage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B290FB572024EC730066320E /* Mage.cpp */; };
+		B290FB5E2024EC740066320E /* Fighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B290FB5B2024EC740066320E /* Fighter.cpp */; };
+		B290FB5F2024EC740066320E /* Rogue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B290FB5C2024EC740066320E /* Rogue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +31,12 @@
 		76DC514A2024DFFB00A45484 /* CharacterTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterTest.cpp; sourceTree = "<group>"; };
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
+		B290FB572024EC730066320E /* Mage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mage.cpp; sourceTree = "<group>"; };
+		B290FB582024EC730066320E /* Fighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fighter.h; sourceTree = "<group>"; };
+		B290FB592024EC740066320E /* Rogue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rogue.h; sourceTree = "<group>"; };
+		B290FB5A2024EC740066320E /* Mage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mage.h; sourceTree = "<group>"; };
+		B290FB5B2024EC740066320E /* Fighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fighter.cpp; sourceTree = "<group>"; };
+		B290FB5C2024EC740066320E /* Rogue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rogue.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +72,12 @@
 				76DC514A2024DFFB00A45484 /* CharacterTest.cpp */,
 				76DC51512024E33800A45484 /* Character.cpp */,
 				76DC51522024E33800A45484 /* Character.h */,
+				B290FB5B2024EC740066320E /* Fighter.cpp */,
+				B290FB582024EC730066320E /* Fighter.h */,
+				B290FB572024EC730066320E /* Mage.cpp */,
+				B290FB5A2024EC740066320E /* Mage.h */,
+				B290FB5C2024EC740066320E /* Rogue.cpp */,
+				B290FB592024EC740066320E /* Rogue.h */,
 			);
 			path = Character;
 			sourceTree = "<group>";
@@ -124,6 +139,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B290FB5F2024EC740066320E /* Rogue.cpp in Sources */,
+				B290FB5D2024EC740066320E /* Mage.cpp in Sources */,
+				B290FB5E2024EC740066320E /* Fighter.cpp in Sources */,
 				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,
 				76DC51532024E33800A45484 /* Character.cpp in Sources */,
 			);
