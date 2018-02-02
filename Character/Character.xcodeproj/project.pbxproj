@@ -28,6 +28,7 @@
 		76DC514A2024DFFB00A45484 /* CharacterTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterTest.cpp; sourceTree = "<group>"; };
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
+		76DC51552024E5DF00A45484 /* LinkedList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 				76DC514A2024DFFB00A45484 /* CharacterTest.cpp */,
 				76DC51512024E33800A45484 /* Character.cpp */,
 				76DC51522024E33800A45484 /* Character.h */,
+				76DC51552024E5DF00A45484 /* LinkedList.h */,
 			);
 			path = Character;
 			sourceTree = "<group>";
