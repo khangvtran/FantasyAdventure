@@ -42,6 +42,7 @@ public:
     /* Constructor*/
     Character(string Name, int row, int col) : name(Name)
     {
+        // still need to implement math for determining base stats for each subclass
         setXPos(row-1);
         setYPos(rand() % col);
     }
