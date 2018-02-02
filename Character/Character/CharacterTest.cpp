@@ -2,8 +2,8 @@
 //  main.cpp
 //  Character
 
+# include "Character.h"
 
-#include <iostream>
 
 int main() {
     return 0;
