@@ -11,7 +11,7 @@
 
 #include "Character.h"
 
-class Rogue : public Character {
+class Fighter : public Character {
     
 };
 
