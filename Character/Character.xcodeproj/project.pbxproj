@@ -31,6 +31,7 @@
 		76DC514A2024DFFB00A45484 /* CharacterTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterTest.cpp; sourceTree = "<group>"; };
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
+		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		B290FB572024EC730066320E /* Mage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mage.cpp; sourceTree = "<group>"; };
 		B290FB582024EC730066320E /* Fighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fighter.h; sourceTree = "<group>"; };
 		B290FB592024EC740066320E /* Rogue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rogue.h; sourceTree = "<group>"; };
@@ -69,6 +70,7 @@
 		76DC51492024DFFB00A45484 /* Character */ = {
 			isa = PBXGroup;
 			children = (
+				76DC51582024FF4E00A45484 /* LinkedList.h */,
 				76DC514A2024DFFB00A45484 /* CharacterTest.cpp */,
 				76DC51512024E33800A45484 /* Character.cpp */,
 				76DC51522024E33800A45484 /* Character.h */,
