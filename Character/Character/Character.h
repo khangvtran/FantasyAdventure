@@ -31,7 +31,7 @@ private:
     // List<items> itemList;
     // set<equipments> equipmentSet;
     Dungeon* dungeon;
-    Room* room;
+    Room* currentRoom;
     struct Location
     {
         int xPos;
@@ -42,11 +42,14 @@ private:
     Location location; // instantiate an inner object from struct location
 public:
     /* Constructor*/
-    Character(string Name, int row, int col) : name(Name)
+    Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(dungeon)
     {
         // still need to implement math for determining base stats for each subclass
         setXPos(row-1);
         setYPos(rand() % col);
+        
+        // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
+        currentRoom = dungeon->getRoom(location.xPos, location.yPos);
     }
     
     /* Destructor */
@@ -81,7 +84,8 @@ public:
     // void useItem(items item);
     // virtual void swapEquipment(equipments equipment) = 0;
     // void attack(monsters monster) = 0;
-    virtual void useSpecialAbility() = 0;
+    void useSpecialAbility();
+    
     void moveNorth();
     void moveSouth();
     void moveEast();
