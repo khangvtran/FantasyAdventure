@@ -86,6 +86,9 @@ public:
     // void attack(monsters monster) = 0;
     void useSpecialAbility();
     
+    void attack();
+    bool accurateHit();
+
     void moveNorth();
     void moveSouth();
     void moveEast();
