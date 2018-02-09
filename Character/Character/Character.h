@@ -16,7 +16,7 @@
 # include <iomanip>
 # include <cstdlib>
 using namespace std;
-
+# include "Dungeon.hpp"
 # include "LinkedList.h"
 
 class Character
@@ -30,7 +30,7 @@ private:
     bool alive = true;
     // List<items> itemList;
     // set<equipments> equipmentSet;
-    
+    Dungeon* dungeon;
     struct Location
     {
         int xPos;
@@ -81,7 +81,10 @@ public:
     // virtual void swapEquipment(equipments equipment) = 0;
     // void attack(monsters monster) = 0;
     virtual void useSpecialAbility() = 0;
-    void move(char * moveCommand);
+    void moveNorth();
+    void moveSouth();
+    void moveEast();
+    void moveWest();
 };
 
 
