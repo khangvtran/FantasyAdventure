@@ -125,15 +125,26 @@ void Character::pickupItem(items item)
  */
 
 
+
 /*void move (char* moveCommand)
 {
     cout << "Calling move Command" << endl;
     // Ask Anna about the map
 }*/
 
-void Character::moveNorth()
+void Character::moveNorth() // throw(exception)
 {
-    
+    if(currentRoom->checkNorth())    // Anna: Room class needs checkNorth()
+    {
+        location.yPos--;
+        currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
+        
+    }
+    else
+    {
+        // exception, handled by main
+        // throw exception("Player cannot move north)"
+    }
 }
 
 void Character::moveSouth()
@@ -150,6 +161,7 @@ void Character::moveWest()
 {
     
 }
+
 
 
 
