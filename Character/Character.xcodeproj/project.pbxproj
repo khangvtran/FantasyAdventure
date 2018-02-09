@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* CharacterTest.cpp */; };
 		76DC51532024E33800A45484 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC51512024E33800A45484 /* Character.cpp */; };
+		76DC5160202E216900A45484 /* Dungeon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC515D202E216900A45484 /* Dungeon.cpp */; };
+		76DC5161202E216900A45484 /* Room.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC515F202E216900A45484 /* Room.cpp */; };
 		B290FB5D2024EC740066320E /* Mage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B290FB572024EC730066320E /* Mage.cpp */; };
 		B290FB5E2024EC740066320E /* Fighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B290FB5B2024EC740066320E /* Fighter.cpp */; };
 		B290FB5F2024EC740066320E /* Rogue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B290FB5C2024EC740066320E /* Rogue.cpp */; };
@@ -32,6 +34,10 @@
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
 		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
+		76DC515C202E216900A45484 /* Room.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Room.hpp; path = ../../Dungeon_Room/Room.hpp; sourceTree = "<group>"; };
+		76DC515D202E216900A45484 /* Dungeon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dungeon.cpp; path = ../../Dungeon_Room/Dungeon.cpp; sourceTree = "<group>"; };
+		76DC515E202E216900A45484 /* Dungeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Dungeon.hpp; path = ../../Dungeon_Room/Dungeon.hpp; sourceTree = "<group>"; };
+		76DC515F202E216900A45484 /* Room.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Room.cpp; path = ../../Dungeon_Room/Room.cpp; sourceTree = "<group>"; };
 		B290FB572024EC730066320E /* Mage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mage.cpp; sourceTree = "<group>"; };
 		B290FB582024EC730066320E /* Fighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fighter.h; sourceTree = "<group>"; };
 		B290FB592024EC740066320E /* Rogue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rogue.h; sourceTree = "<group>"; };
@@ -70,6 +76,10 @@
 		76DC51492024DFFB00A45484 /* Character */ = {
 			isa = PBXGroup;
 			children = (
+				76DC515D202E216900A45484 /* Dungeon.cpp */,
+				76DC515E202E216900A45484 /* Dungeon.hpp */,
+				76DC515F202E216900A45484 /* Room.cpp */,
+				76DC515C202E216900A45484 /* Room.hpp */,
 				76DC51582024FF4E00A45484 /* LinkedList.h */,
 				76DC514A2024DFFB00A45484 /* CharacterTest.cpp */,
 				76DC51512024E33800A45484 /* Character.cpp */,
@@ -143,9 +153,11 @@
 			files = (
 				B290FB5F2024EC740066320E /* Rogue.cpp in Sources */,
 				B290FB5D2024EC740066320E /* Mage.cpp in Sources */,
+				76DC5160202E216900A45484 /* Dungeon.cpp in Sources */,
 				B290FB5E2024EC740066320E /* Fighter.cpp in Sources */,
 				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,
 				76DC51532024E33800A45484 /* Character.cpp in Sources */,
+				76DC5161202E216900A45484 /* Room.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
