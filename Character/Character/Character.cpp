@@ -125,13 +125,31 @@ void Character::pickupItem(items item)
  */
 
 
-void move (char* moveCommand)
+/*void move (char* moveCommand)
 {
     cout << "Calling move Command" << endl;
     // Ask Anna about the map
+}*/
+
+void Character::moveNorth()
+{
+    
 }
 
+void Character::moveSouth()
+{
+    
+}
 
+void Character::moveEast()
+{
+    
+}
+
+void Character::moveWest()
+{
+    
+}
 
 
 
