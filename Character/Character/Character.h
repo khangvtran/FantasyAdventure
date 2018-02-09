@@ -31,6 +31,7 @@ private:
     // List<items> itemList;
     // set<equipments> equipmentSet;
     Dungeon* dungeon;
+    Room* room;
     struct Location
     {
         int xPos;
