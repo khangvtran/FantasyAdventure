@@ -42,10 +42,10 @@ private:
     Location location; // instantiate an inner object from struct location
 public:
     /* Constructor*/
-    Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(dungeon)
+    Character(string Name, int row = 0, int col = 0, Dungeon& dungeon) : name(Name), dungeon(dungeon)
     {
         // still need to implement math for determining base stats for each subclass
-        setXPos(row-1);
+        setXPos(row);
         setYPos(rand() % col);
         
         // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
