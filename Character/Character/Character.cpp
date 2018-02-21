@@ -184,7 +184,7 @@ void Character::moveNorth() // throw(exception)
 
 void Character::moveSouth() // throw(exception)
 {
-    if(currentRoom->checkSouth())    // Anna: Room class needs checkNorth()
+    if(currentRoom->checkSouth())    // Anna: Room class needs checkSouth()
     {
         location.yPos++;
         currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
@@ -199,7 +199,7 @@ void Character::moveSouth() // throw(exception)
 
 void Character::moveEast() // throw(exception)
 {
-    if(currentRoom->checkEast())    // Anna: Room class needs checkNorth()
+    if(currentRoom->checkEast())    // Anna: Room class needs checkEast()
     {
         location.xPos++;
         currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
@@ -214,7 +214,7 @@ void Character::moveEast() // throw(exception)
 
 void Character::moveWest() // throw(exception)
 {
-    if(currentRoom->checkWest())    // Anna: Room class needs checkNorth()
+    if(currentRoom->checkWest())    // Anna: Room class needs checkWest()
     {
         location.xPos--;
         currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
