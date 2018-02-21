@@ -10,8 +10,7 @@
 
 
 #include <string>
-#include "List.h"
-#include "Book.h"
+#include "LinkedList.h"
 using namespace std;
 
 class HashTable {
@@ -39,19 +38,19 @@ public:
     //returns the count
     //pre: 0<= index < SIZE
 
-    int search(Book b) const;
+    int search(Item b) const;
     //Searches for b in the table
     //returns the index at which b is located
     //returns -1 if b is not in the table
 
     /**Manipulation Procedures*/
 
-    void insert(Book b);
+    void insert(Item b);
     //inserts a new book into the table
     //calls the hash function on the key to determine
     //the correct bucket
 
-    void remove(Book b);
+    void remove(Item b);
     //removes b from the table
     //calls the hash function on the key to determine
     //the correct bucket
@@ -86,7 +85,7 @@ public:
 
 private:
     static const int SIZE = 10;
-    List<Book> Table[SIZE];
+    List<Item> Table[SIZE];
 };
 
 

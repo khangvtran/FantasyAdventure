@@ -8,7 +8,7 @@
 
 # include "HashTable.h"
 /************* Access Functions *************/
-int HashTable::hash(string key) const
+int HashTable::hash(Item key) const
 {
     int index, sum = 0;
     for(int i = 0; i < key.length(); i++)
@@ -19,12 +19,12 @@ int HashTable::hash(string key) const
 
 int HashTable::countBucket(int index) const
 {
-	assert(index >= 0);
-	assert(index < SIZE);
+	//assert(index >= 0);
+	//assert(index < SIZE);
 	return Table[index].getSize();
 }
 
-int HashTable::search(Book b) const
+int HashTable::search(Item b) const
 {
 	string key = b.get_title() + b.get_author();
 	int index = hash(key);
@@ -36,40 +36,38 @@ int HashTable::search(Book b) const
 
 void HashTable::printBucket(ostream& out, int index) const
 {
-	assert(index >= 0);
-	assert(index < SIZE);
+	//assert(index >= 0);
+	//assert(index < SIZE);
 	Table[index].print();
 }
 
 
 void HashTable::printTable(ostream& out) const
 {
-	out << "Books in the Catalogue:" << endl;
+	//out << "Books in the Catalogue:" << endl;
 	for (int i = 0; i < SIZE; i++)
 	{
 		if (!Table[i].isEmpty())
 		{
-			out << "Group " << i+1 << endl;
+			/*out << "Group " << i+1 << endl;
 			out << Table[i].getStart() << endl;
 			out << "+" << countBucket(i) - 1 <<" more similar book(s)" << endl << endl << endl;
-			//cout << "+" << Table.countBucket(i) - 1 <<" more similar book(s)" << endl << endl << endl;
+			//cout << "+" << Table.countBucket(i) - 1 <<" more similar book(s)" << endl << endl << endl;*/
 		}
 	}
 }
-# include "HashTable.h"
-
 
 
 /************* Manipulation Procedures *************/
 
-void HashTable::insert(Book b)
+void HashTable::insert(Item b)
 {
-	string key = b.get_title() + b.get_author();
-	int index = hash(key);
+	//string key = b.get_title() + b.get_author();
+	int index = hash(b);
 	Table[index].insertStop(b);
 }
 
-void HashTable::remove(Book b)
+void HashTable::remove(Item b)
 {
 //removes b from the table
 //calls the hash function on the key to determine
