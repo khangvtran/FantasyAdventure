@@ -16,7 +16,9 @@
 # include <iomanip>
 # include <cstdlib>
 using namespace std;
+
 # include "Dungeon.hpp"
+# include "Room.hpp"
 # include "LinkedList.h"
 
 class Character
@@ -40,16 +42,21 @@ private:
     // Khang added comment
     // Josh added comment
     Location location; // instantiate an inner object from struct location
+    
+
+    
 public:
     /* Constructor*/
-    Character(string Name, int row = 0, int col = 0, Dungeon& dungeon) : name(Name), dungeon(dungeon)
+    Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon)
     {
         // still need to implement math for determining base stats for each subclass
-        setXPos(row);
+        setXPos(row-1);
         setYPos(rand() % col);
-        
+        cout << "X: " << location.xPos << " Y: " << location.yPos << endl;
         // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
-        currentRoom = dungeon->getRoom(location.xPos, location.yPos);
+        currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
+        
+         setInitialAttributes();
     }
     
     /* Destructor */
@@ -67,6 +74,7 @@ public:
     
     
     /* Manipulator */
+    void setInitialAttributes();
     void setName(string Name);
     void setHealth(int Health);
     void setStrength(int Strength);
@@ -77,18 +85,28 @@ public:
     void setYPos(int Y);
     
     
-    /* Other operations */
+    /* Interaction with Items - Equipment */
     
     // void pickupItem(items item);
     // void dropItem(items item)
     // void useItem(items item);
     // virtual void swapEquipment(equipments equipment) = 0;
+
+    
+    /* Interactions with Monsters */
     // void attack(monsters monster) = 0;
     void useSpecialAbility();
-    
     void attack();
     bool accurateHit();
+    
+    /* Ineraction with RoomObjects */
+    void readBook() const;
+    void readMap() const;
+    void useFlare() const
+    void activateEndgameTreasure() const;
 
+    
+    /* Moving */
     void moveNorth();
     void moveSouth();
     void moveEast();

@@ -54,6 +54,46 @@ int Character::getYPos() const
 
 
 /* Manipulator */
+
+void Character::setInitialAttributes()
+{
+    int temp = -1;
+    int totalBaseStat = 18;
+    cout << "You have " << totalBaseStat << " points to allocate into Strength (affecting damage), Intelligence (affecting healing), and Luck (affecting accuracy)" << endl;
+    do
+    {
+        cout << "Enter number of points to allocate for strength: ";
+        cin >> temp;
+        if(temp < 0 || temp > totalBaseStat)
+        cerr << " ERROR" << endl;
+    } while(temp < 0 || totalBaseStat > 0);
+    setStrength(temp);
+    totalBaseStat -= temp;
+    
+    
+    while (temp < 0 || totalBaseStat > 0)
+    {
+        cout << "Enter number of points to allocate for intelligence: ";
+        cin >> temp;
+        if(temp < 0 || temp > totalBaseStat)
+        cerr << " ERROR" << endl;
+    }
+    setIntelligence(temp);
+    totalBaseStat -= temp;
+    
+    
+    while(temp < 0 || totalBaseStat > 0)
+    {
+        cout << "Enter number of points to allocate for luck: ";
+        cin >> temp;
+        if(temp < 0 || temp > totalBaseStat)
+        cerr << " ERROR" << endl;
+    }
+    setLuck(temp);
+    totalBaseStat -= temp;
+}
+
+
 void Character::setName(string Name)
 {
     name = Name;
@@ -167,13 +207,90 @@ bool Character::accurateHit()
 }
 
 
+
+
+
+
+void Character::readBook() const
+{
+    RoomObject* currentRoomObjectPtr = currentRoom->roomObjectPtr;
+    if (currentRoomObjectPtr)
+    {
+        Book * BookPtr = dynamic_cast<Book*>(currentRoomObjectPtr);
+        if (BookPtr)
+        {
+            BookPtr->read();
+        }
+        else
+        {
+            cout << "Does this thing look like a book to you, mate?" << endl;
+        }
+    }
+    else
+    {
+        cout << "Do you see anything around, fool?" << endl;
+    }
+}
+
+
+
+
+
+
+void Character::readMap() const
+{
+    RoomObject* currentRoomObjectPtr = currentRoom->roomObjectPtr;
+    if (currentRoomObjectPtr)
+    {
+        Map* MapPtr = dynamic_cast<Map*>(currentRoomObjectPtr);
+        if (MapPtr)
+        {
+            MapPtr->read();
+        }
+        else
+        {
+            cout << "This is not a map. Are you high, mate" << endl;
+        }
+    }
+    else
+    {
+        cout << "The room is empty, pal." << endl;
+    }
+}
+
+
+
+void Character::useFlare() const
+{
+    RoomObject* currentRoomObjectPtr = currentRoom->roomObjectPtr;
+    if (currentRoomObjectPtr)
+    {
+        Flare* FlarePtr = dynamic_cast<Flare*>(currentRoomObjectPtr);
+        if (FlarePtr)
+        {
+            FlarePtr->useFlare();
+        }
+        else
+        {
+            cout << "This is not a flare. You are a fool, aren't you" << endl;
+        }
+    }
+    else
+    {
+        cout << "Do you see anything around. I don't" << endl;
+    }
+}
+
+
+
+
 void Character::moveNorth() // throw(exception)
 {
     if(currentRoom->checkNorth())    // Anna: Room class needs checkNorth()
     {
         location.yPos--;
-        currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
-        currentRoom->print();
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
+        cout << currentRoom->getDescription();
     }
     else
     {
@@ -184,11 +301,11 @@ void Character::moveNorth() // throw(exception)
 
 void Character::moveSouth() // throw(exception)
 {
-    if(currentRoom->checkSouth())    // Anna: Room class needs checkSouth()
+    if(currentRoom->checkSouth())    // Anna: Room class needs checkNorth()
     {
         location.yPos++;
-        currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
-        currentRoom->print();
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
+        cout << currentRoom->getDescription();
     }
     else
     {
@@ -199,11 +316,11 @@ void Character::moveSouth() // throw(exception)
 
 void Character::moveEast() // throw(exception)
 {
-    if(currentRoom->checkEast())    // Anna: Room class needs checkEast()
+    if(currentRoom->checkEast())    // Anna: Room class needs checkNorth()
     {
         location.xPos++;
-        currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
-        currentRoom->print();
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
+        cout << currentRoom->getDescription();
     }
     else
     {
@@ -214,11 +331,11 @@ void Character::moveEast() // throw(exception)
 
 void Character::moveWest() // throw(exception)
 {
-    if(currentRoom->checkWest())    // Anna: Room class needs checkWest()
+    if(currentRoom->checkWest())    // Anna: Room class needs checkNorth()
     {
         location.xPos--;
-        currentRoom = dungeon->getRoom(location.xPos, location.yPos);    //Anna: dungeon class needs getRoom(x, y)
-        currentRoom->print();
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
+        cout << currentRoom->getDescription();
     }
     else
     {
@@ -226,6 +343,7 @@ void Character::moveWest() // throw(exception)
         // throw exception("Player cannot move West)"
     }
 }
+
 
 
 

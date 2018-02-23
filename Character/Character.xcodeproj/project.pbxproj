@@ -35,7 +35,6 @@
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
 		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
-		B240189C203E15D60067CDC8 /* Dungeon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Dungeon; path = Character/Dungeon; sourceTree = "<group>"; };
 		B290FB572024EC730066320E /* Mage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mage.cpp; sourceTree = "<group>"; };
 		B290FB582024EC730066320E /* Fighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fighter.h; sourceTree = "<group>"; };
 		B290FB592024EC740066320E /* Rogue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rogue.h; sourceTree = "<group>"; };
@@ -58,7 +57,6 @@
 		76DC513E2024DFFB00A45484 = {
 			isa = PBXGroup;
 			children = (
-				B240189C203E15D60067CDC8 /* Dungeon */,
 				76DC51492024DFFB00A45484 /* Character */,
 				76DC51482024DFFB00A45484 /* Products */,
 			);
