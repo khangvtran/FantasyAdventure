@@ -15,6 +15,8 @@
 # include <string>
 # include <iomanip>
 # include <cstdlib>
+
+#include <unordered_map>
 using namespace std;
 
 # include "Dungeon.hpp"
@@ -31,7 +33,7 @@ private:
     int luck;
     bool alive = true;
     // List<items> itemList;
-    // set<equipments> equipmentSet;
+    unordered_map<string, Equipment> equipmentSet;
     Dungeon* dungeon;
     Room* currentRoom;
     struct Location
