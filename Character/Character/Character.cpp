@@ -213,7 +213,7 @@ bool Character::accurateHit()
 
 void Character::readBook() const
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->roomObjectPtr;
+    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
     {
         Book * BookPtr = dynamic_cast<Book*>(currentRoomObjectPtr);
@@ -239,7 +239,7 @@ void Character::readBook() const
 
 void Character::readMap() const
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->roomObjectPtr;
+    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
     {
         Map* MapPtr = dynamic_cast<Map*>(currentRoomObjectPtr);
@@ -262,12 +262,12 @@ void Character::readMap() const
 
 void Character::useFlare() const
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->roomObjectPtr;
+    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
     {
         Flare* FlarePtr = dynamic_cast<Flare*>(currentRoomObjectPtr);
         if (FlarePtr)
-        {
+        {b
             FlarePtr->useFlare();
         }
         else
