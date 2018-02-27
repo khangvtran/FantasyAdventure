@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* CharacterTest.cpp */; };
 		76DC51532024E33800A45484 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC51512024E33800A45484 /* Character.cpp */; };
+		B2868A702046216400CB8B84 /* RoomObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A5E2046216200CB8B84 /* RoomObject.cpp */; };
+		B2868A712046216400CB8B84 /* Dungeon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A602046216300CB8B84 /* Dungeon.cpp */; };
+		B2868A732046216400CB8B84 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A662046216300CB8B84 /* Monster.cpp */; };
+		B2868A752046216400CB8B84 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A6C2046216400CB8B84 /* Exceptions.cpp */; };
+		B2868A762046216400CB8B84 /* Room.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A6D2046216400CB8B84 /* Room.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +34,26 @@
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
 		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
+		B2868A5B2046216200CB8B84 /* MonstersTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MonstersTest.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/MonstersTest.cpp"; sourceTree = "<group>"; };
+		B2868A5C2046216200CB8B84 /* Room.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Room.hpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Room.hpp"; sourceTree = "<group>"; };
+		B2868A5D2046216200CB8B84 /* equipment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = equipment.h; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/equipment.h"; sourceTree = "<group>"; };
+		B2868A5E2046216200CB8B84 /* RoomObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RoomObject.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/RoomObject.cpp"; sourceTree = "<group>"; };
+		B2868A5F2046216300CB8B84 /* walls.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = walls.bin; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/walls.bin"; sourceTree = "<group>"; };
+		B2868A602046216300CB8B84 /* Dungeon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dungeon.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Dungeon.cpp"; sourceTree = "<group>"; };
+		B2868A612046216300CB8B84 /* RoomObject.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RoomObject.txt; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/RoomObject.txt"; sourceTree = "<group>"; };
+		B2868A622046216300CB8B84 /* test_Room_Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_Room_Object.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/test_Room_Object.cpp"; sourceTree = "<group>"; };
+		B2868A632046216300CB8B84 /* Dungeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Dungeon.hpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Dungeon.hpp"; sourceTree = "<group>"; };
+		B2868A642046216300CB8B84 /* Monster.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Monster.hpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Monster.hpp"; sourceTree = "<group>"; };
+		B2868A652046216300CB8B84 /* items.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = items.txt; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/items.txt"; sourceTree = "<group>"; };
+		B2868A662046216300CB8B84 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Monster.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Monster.cpp"; sourceTree = "<group>"; };
+		B2868A672046216300CB8B84 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/main.cpp"; sourceTree = "<group>"; };
+		B2868A682046216300CB8B84 /* item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = item.h; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/item.h"; sourceTree = "<group>"; };
+		B2868A692046216400CB8B84 /* RoomObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoomObject.h; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/RoomObject.h"; sourceTree = "<group>"; };
+		B2868A6A2046216400CB8B84 /* Exceptions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Exceptions.hpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Exceptions.hpp"; sourceTree = "<group>"; };
+		B2868A6B2046216400CB8B84 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkedList.h; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/LinkedList.h"; sourceTree = "<group>"; };
+		B2868A6C2046216400CB8B84 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Exceptions.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Exceptions.cpp"; sourceTree = "<group>"; };
+		B2868A6D2046216400CB8B84 /* Room.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Room.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/Room.cpp"; sourceTree = "<group>"; };
+		B2868A6E2046216400CB8B84 /* RoomDeploymentTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RoomDeploymentTest.cpp; path = "../../../../../../Downloads/drive-download-20180227T230802Z-001/RoomDeploymentTest.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +72,26 @@
 			children = (
 				76DC51492024DFFB00A45484 /* Character */,
 				76DC51482024DFFB00A45484 /* Products */,
+				B2868A602046216300CB8B84 /* Dungeon.cpp */,
+				B2868A632046216300CB8B84 /* Dungeon.hpp */,
+				B2868A5D2046216200CB8B84 /* equipment.h */,
+				B2868A6C2046216400CB8B84 /* Exceptions.cpp */,
+				B2868A6A2046216400CB8B84 /* Exceptions.hpp */,
+				B2868A682046216300CB8B84 /* item.h */,
+				B2868A652046216300CB8B84 /* items.txt */,
+				B2868A6B2046216400CB8B84 /* LinkedList.h */,
+				B2868A672046216300CB8B84 /* main.cpp */,
+				B2868A662046216300CB8B84 /* Monster.cpp */,
+				B2868A642046216300CB8B84 /* Monster.hpp */,
+				B2868A5B2046216200CB8B84 /* MonstersTest.cpp */,
+				B2868A6D2046216400CB8B84 /* Room.cpp */,
+				B2868A5C2046216200CB8B84 /* Room.hpp */,
+				B2868A6E2046216400CB8B84 /* RoomDeploymentTest.cpp */,
+				B2868A5E2046216200CB8B84 /* RoomObject.cpp */,
+				B2868A692046216400CB8B84 /* RoomObject.h */,
+				B2868A612046216300CB8B84 /* RoomObject.txt */,
+				B2868A622046216300CB8B84 /* test_Room_Object.cpp */,
+				B2868A5F2046216300CB8B84 /* walls.bin */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,7 +172,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,
+				B2868A712046216400CB8B84 /* Dungeon.cpp in Sources */,
+				B2868A732046216400CB8B84 /* Monster.cpp in Sources */,
+				B2868A762046216400CB8B84 /* Room.cpp in Sources */,
+				B2868A752046216400CB8B84 /* Exceptions.cpp in Sources */,
 				76DC51532024E33800A45484 /* Character.cpp in Sources */,
+				B2868A702046216400CB8B84 /* RoomObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -249,6 +300,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

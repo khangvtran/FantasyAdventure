@@ -65,7 +65,8 @@ void Character::setInitialAttributes()
         cout << "Enter number of points to allocate for strength: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
-        cerr << " ERROR" << endl;
+            cerr << " ERROR" << endl;
+        else break;
     } while(temp < 0 || totalBaseStat > 0);
     setStrength(temp);
     totalBaseStat -= temp;
@@ -76,7 +77,8 @@ void Character::setInitialAttributes()
         cout << "Enter number of points to allocate for intelligence: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
-        cerr << " ERROR" << endl;
+            cerr << " ERROR" << endl;
+        else break;
     }
     setIntelligence(temp);
     totalBaseStat -= temp;
@@ -87,7 +89,8 @@ void Character::setInitialAttributes()
         cout << "Enter number of points to allocate for luck: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
-        cerr << " ERROR" << endl;
+            cerr << " ERROR" << endl;
+        else break;
     }
     setLuck(temp);
     totalBaseStat -= temp;
@@ -189,7 +192,9 @@ void Character::attack()
         double damage = strength * 1.5;
         m->setHealth(m->getHealth() - damage);
     }
-    double monsterDamage = m->attack();
+    bool flag = false; // THIS IS NEW
+    
+    double monsterDamage = m->attack(luck, flag);
     setHealth(health - monsterDamage);
     if(!isAlive())
         ;//throw exception (died);
@@ -216,7 +221,7 @@ void Character::readBook() const
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
     {
-        Book * BookPtr = dynamic_cast<Book*>(currentRoomObjectPtr);
+        Book* BookPtr = dynamic_cast<Book*>(currentRoomObjectPtr);
         if (BookPtr)
         {
             BookPtr->read();
@@ -245,7 +250,7 @@ void Character::readMap() const
         Map* MapPtr = dynamic_cast<Map*>(currentRoomObjectPtr);
         if (MapPtr)
         {
-            MapPtr->read();
+            MapPtr->check();
         }
         else
         {
@@ -265,10 +270,10 @@ void Character::useFlare() const
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
     {
-        Flare* FlarePtr = dynamic_cast<Flare*>(currentRoomObjectPtr);
+        Flares* FlarePtr = dynamic_cast<Flares*>(currentRoomObjectPtr);
         if (FlarePtr)
-        {b
-            FlarePtr->useFlare();
+        {
+            FlarePtr->DisplayAdjacentRoomObject();
         }
         else
         {

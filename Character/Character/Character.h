@@ -19,9 +19,12 @@
 #include <unordered_map>
 using namespace std;
 
+# include "item.h"
+# include "equipment.h"
 # include "Dungeon.hpp"
 # include "Room.hpp"
 # include "LinkedList.h"
+# include "RoomObject.h"
 
 class Character
 {
@@ -33,7 +36,7 @@ private:
     int luck;
     bool alive = true;
     // List<items> itemList;
-    unordered_map<string, Equipment> equipmentSet;
+    unordered_map<string, Equipment*> equipmentSet;
     Dungeon* dungeon;
     Room* currentRoom;
     struct Location
@@ -104,7 +107,7 @@ public:
     /* Ineraction with RoomObjects */
     void readBook() const;
     void readMap() const;
-    void useFlare() const
+    void useFlare() const;
     void activateEndgameTreasure() const;
 
     
