@@ -17,6 +17,8 @@
 # include <cstdlib>
 
 #include <unordered_map>
+#include <vector>
+
 using namespace std;
 
 # include "item.h"
@@ -35,8 +37,10 @@ private:
     int intelligence;
     int luck;
     bool alive = true;
-    // List<items> itemList;
+    
+    List<Item*> itemList;
     unordered_map<string, Equipment*> equipmentSet;
+    
     Dungeon* dungeon;
     Room* currentRoom;
     struct Location
@@ -47,26 +51,23 @@ private:
         int yPos;
         Location(int xb, int yb) : xBound(xb), yBound(yb) {}
     };
-    // Khang added comment
-    // Josh added comment
+
     Location location; // instantiate an inner object from struct location
     
 
     
 public:
-    /* Constructor*/
-    Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
-    {
-        // still need to implement math for determining base stats for each subclass
-        //location.xBound = row+1;
-        setXPos(row-1);
-        setYPos(rand() % col-1);
-        cout << "X: " << location.xPos << " Y: " << location.yPos << endl;
-        // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
-        currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
-        
-         setInitialAttributes();
-    }
+    
+    
+    
+    /* Constructor */
+    /**
+     * name is assigned for character name.
+     * row refers to the MAX bound of rows in the dungeon.
+     * col refers to the MAX bound of cols in the dungeon.
+     * dungeon is a reference which gets stored to use for the dungeon pointer.
+     */
+    Character(string, int, int, Dungeon&);
     
     /* Destructor */
     
@@ -96,15 +97,14 @@ public:
     
     /* Interaction with Items - Equipment */
     
-    // void pickupItem(items item);
-    // void dropItem(items item)
-    // void useItem(items item);
+    void pickupItem(string item);
+    void dropItem(string item);
+    void useItem(string item);
     // virtual void swapEquipment(equipments equipment) = 0;
 
     
     /* Interactions with Monsters */
-    // void attack(monsters monster) = 0;
-    void useSpecialAbility();
+    //void useSpecialAbility();
     void attack();
     bool accurateHit();
     
@@ -120,6 +120,7 @@ public:
     void moveSouth();
     void moveEast();
     void moveWest();
+
 };
 
 

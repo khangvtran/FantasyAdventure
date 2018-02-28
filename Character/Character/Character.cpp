@@ -9,6 +9,20 @@
 #include "Character.h"
 #include <cstdlib>
 #include <cmath>
+
+/* Constructor */
+Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
+{
+    setXPos(row-1);
+    setYPos(rand() % col-1);
+    cout << "Character constructor call (Initial Pos) \tX: " << location.xPos << " Y: " << location.yPos << endl;
+    // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
+    currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
+    Item* item = new IronHelmet();
+    itemList.insertStart(item);
+    setInitialAttributes();
+}
+
 /* Accessor */
 
 string Character::getName() const
@@ -147,31 +161,32 @@ void Character::setYPos(int Y)
 
 /* Other operations */
 
-/*
-void Character::pickupItem(items item)
+
+
+ /* Interaction with Items - Equipment */
+void Character::pickupItem(string item)
 {
-    
+    cout << "pickupItem isn't implemented yet" << endl;
 }
-*/
 
+void Character::dropItem(string item)
+{
+    int index = itemList.linearSearch(item);
+    if(index != -1)
+    {
+        itemList.advanceToIndex(index);
+        currentRoom->setItem(itemList.getIterator());
+        //currentRoom->removeItem(item);
+        itemList.removeIterator();
+        cout << "ITEM REMOVED from inventory" << endl; // debugging
+    }
+}
 
+void Character::useItem(string item)
+{
+    cout << "useItem isn't implemented yet" << endl;
+}
 
-/*
- void character::dropItem(items item)
- {
- 
- }
- */
-
-
-
-/*
- void Character::useItem(items item)
- {
- 
- }
- 
- */
 
 /**
  Interaction between character and monster in the room
@@ -253,7 +268,7 @@ void Character::readMap() const
         if (MapPtr)
         {
             MapPtr->check();
-            dungeon->printMap();
+            dungeon->printMap(location.xPos, location.yPos);
         }
         else
         {
@@ -321,9 +336,6 @@ void Character::activateEndgameTreasure() const
 
 
 
-
-
-
 void Character::moveNorth() // throw(exception)
 {
     if(currentRoom->checkNorth())    // Anna: Room class needs checkNorth()
@@ -335,7 +347,7 @@ void Character::moveNorth() // throw(exception)
     else
     {
         // exception, handled by main
-        // throw exception("Player cannot move north)"
+        throw "Player cannot move north";
     }
 }
 
@@ -350,7 +362,7 @@ void Character::moveSouth() // throw(exception)
     else
     {
         // exception, handled by main
-        // throw exception("Player cannot move South)"
+        throw "Player cannot move South";
     }
 }
 
@@ -365,7 +377,7 @@ void Character::moveEast() // throw(exception)
     else
     {
         // exception, handled by main
-        // throw exception("Player cannot move East)"
+        throw "Player cannot move East";
     }
 }
 
@@ -380,19 +392,8 @@ void Character::moveWest() // throw(exception)
     else
     {
         // exception, handled by main
-        // throw exception("Player cannot move West)"
+        throw "Player cannot move West";
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
