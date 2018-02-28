@@ -1,3 +1,24 @@
+#ignore files
+
+Monster.cpp
+RoomObject.txt
+Monster.hpp
+equipment.h
+MonstersTest.cpp	
+item.h
+Dungeon.cpp
+Room.cpp
+items.txt
+Dungeon.hpp
+Room.hpp
+main.cpp
+Exceptions.cpp
+RoomDeploymentTest.cpp
+test_Room_Object.cpp
+Exceptions.hpp
+RoomObject.cpp
+walls.bin
+RoomObject.h
 
 # Created by https://www.gitignore.io/api/macos,c++,xcode
 
