@@ -506,7 +506,7 @@ void List<listdata>::removeIterator()
     {
         iterator->linknext->linkprevious = iterator->linkprevious;
         iterator->linkprevious->linknext = iterator->linknext;
-        delete iterator;       // release memory of the node from the heap
+        //delete iterator;       // release memory of the node from the heap
         iterator = NULL;       // redirect iterator to NULL
         size--;                // enforcing postcondition
     }
