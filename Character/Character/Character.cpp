@@ -9,6 +9,12 @@
 #include "Character.h"
 #include <cstdlib>
 #include <cmath>
+// DRAGON HEALTH : 50
+// TITAN HEALTH : 40
+// DRAGON BOSS HEALTH : 80
+
+
+
 
 /* Constructor */
 Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
@@ -308,7 +314,7 @@ void Character::useFlare() const
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
     {
-        Flares* FlarePtr = dynamic_cast<Flares*>(currentRoomObjectPtr);
+        Flare* FlarePtr = dynamic_cast<Flare*>(currentRoomObjectPtr);
         if (FlarePtr)
         {
             FlarePtr->DisplayAdjacentRoomObject();                     // from RoomObject
