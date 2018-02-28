@@ -54,7 +54,10 @@ private:
 
     Location location; // instantiate an inner object from struct location
     
-
+    void _moveNorth() throw(const char*);
+    void _moveSouth() throw(const char*);
+    void _moveEast() throw(const char*);
+    void _moveWest() throw(const char*);
     
 public:
     
@@ -116,11 +119,7 @@ public:
 
     
     /* Moving */
-    void moveNorth();
-    void moveSouth();
-    void moveEast();
-    void moveWest();
-
+    void move(string direction) throw(const char*);
 };
 
 

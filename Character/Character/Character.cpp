@@ -334,66 +334,67 @@ void Character::activateEndgameTreasure() const
     }
 }
 
-
-
-void Character::moveNorth() // throw(exception)
+void Character::move(string direction) throw(const char*)
 {
-    if(currentRoom->checkNorth())    // Anna: Room class needs checkNorth()
+    try {
+        if(direction == "north")
+            _moveNorth();
+        else if(direction == "south")
+            _moveSouth();
+        else if(direction == "west")
+            _moveWest();
+        else if(direction == "east")
+            _moveEast();
+        else
+            throw string("Invalid move command: " +direction).c_str();
+    } catch (const char*) {
+        throw;
+    }
+    cout << currentRoom->getDescription() << endl << endl;
+}
+
+void Character::_moveNorth() throw(const char*)
+{
+    if(currentRoom->checkNorth())
     {
         setYPos(location.yPos-1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription() << endl << endl;
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
     }
-    else
-    {
-        // exception, handled by main
-        throw "Player cannot move north";
-    }
+    else // exception, handled by main
+        throw "There's a wall in the North direction!";
 }
 
-void Character::moveSouth() // throw(exception)
+void Character::_moveSouth() throw(const char*)
 {
-    if(currentRoom->checkSouth())    // Anna: Room class needs checkNorth()
+    if(currentRoom->checkSouth())
     {
         setYPos(location.yPos+1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription() << endl << endl;
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
     }
-    else
-    {
-        // exception, handled by main
-        throw "Player cannot move South";
-    }
+    else // exception, handled by main
+        throw "There's a wall in the South direction!";;
 }
 
-void Character::moveEast() // throw(exception)
+void Character::_moveEast() throw(const char*)
 {
-    if(currentRoom->checkEast())    // Anna: Room class needs checkNorth()
+    if(currentRoom->checkEast())
     {
         setXPos(location.xPos+1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription() << endl << endl;
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
     }
-    else
-    {
-        // exception, handled by main
-        throw "Player cannot move East";
-    }
+    else // exception, handled by main
+        throw "There's a wall in the East direction!";
 }
 
-void Character::moveWest() // throw(exception)
+void Character::_moveWest() throw(const char*)
 {
-    if(currentRoom->checkWest())    // Anna: Room class needs checkNorth()
+    if(currentRoom->checkWest())
     {
         setXPos(location.xPos-1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription() << endl << endl;
+        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
     }
-    else
-    {
-        // exception, handled by main
-        throw "Player cannot move West";
-    }
+    else // exception, handled by main
+        throw "There's a wall in the West direction!";
 }
 
 
