@@ -21,10 +21,10 @@
 
 using namespace std;
 
-# include "item.h"
-# include "equipment.h"
-# include "Dungeon.hpp"
-# include "Room.hpp"
+# include "Item.h"
+//# include "Equipment.h"
+# include "Dungeon.h"
+# include "Room.h"
 # include "LinkedList.h"
 # include "RoomObject.h"
 

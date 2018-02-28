@@ -20,7 +20,7 @@
  */
 
 #include <iostream>
-#include "Dungeon.hpp"
+#include "Dungeon.h"
 #include "Character.h"
 #include <cstdlib>
 using namespace std;
