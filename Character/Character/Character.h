@@ -121,6 +121,9 @@ public:
     
     /* Moving */
     void move(string direction) throw(const char*);
+    
+    void activate(string thing);
+    
 };
 
 

@@ -21,7 +21,7 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
 {
     health = 100;
     lives = 3;
-    setXPos(row-1);
+    setXPos(row-2);
     setYPos(rand() % col-1);
     cout << "Character constructor call (Initial Pos) \tX: " << location.xPos << " Y: " << location.yPos << endl;
     // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
@@ -423,4 +423,8 @@ void Character::_moveWest() throw(const char*)
         throw "There's a wall in the West direction!";
 }
 
-
+void Character::activate(string thing)
+{
+    if(thing == "map")
+        readMap();
+}
