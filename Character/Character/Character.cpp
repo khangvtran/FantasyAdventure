@@ -271,7 +271,7 @@ void Character::readBook() const
         Book* BookPtr = dynamic_cast<Book*>(currentRoomObjectPtr);
         if (BookPtr)
         {
-            BookPtr->read();
+            BookPtr->use();
         }
         else
         {
@@ -293,7 +293,7 @@ void Character::readMap() const
         Map* MapPtr = dynamic_cast<Map*>(currentRoomObjectPtr);
         if (MapPtr)
         {
-            MapPtr->check();
+            MapPtr->use();
             dungeon->printMap(location.xPos, location.yPos);
         }
         else
@@ -317,7 +317,7 @@ void Character::useFlare() const
         Flare* FlarePtr = dynamic_cast<Flare*>(currentRoomObjectPtr);
         if (FlarePtr)
         {
-            FlarePtr->DisplayAdjacentRoomObject();                     // from RoomObject
+            FlarePtr->use();                     // from RoomObject
             dungeon->printAdjacentRooms(location.xPos, location.yPos); // from dungeon
         }
         else
@@ -347,7 +347,7 @@ void Character::activateEndgameTreasure() const
             //if not (itemList.search(ruby) && itemList.search(sapphire) && itemList.search(emmerald))
             // cout << "You habe to collect the three gem" << endl;
             
-            TreasurePtr->DisplayWinGameMess();
+            TreasurePtr->use();
         }
         else
         {
