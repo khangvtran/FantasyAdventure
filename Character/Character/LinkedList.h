@@ -96,6 +96,8 @@ public:
     //Pre: length != 0
     //Post: The iterator location has not been changed
     
+    int linearSearch(string data) const;
+    
     int binarySearch(listdata data) const;
     //Returns the index where data is located in the List
     //Calls the private helper function binarySearch to perform the search
@@ -327,6 +329,21 @@ int List<listdata>::linearSearch(listdata data) const
     while (temp != NULL)
     {
         if (temp->data == data) return index;
+        index++;
+        temp = temp->linknext;
+    }
+    return -1;
+}
+
+template <class listdata>
+int List<listdata>::linearSearch(string data) const
+{
+    assert(!isEmpty());
+    Node* temp = start;
+    int index = 1;
+    while (temp != NULL)
+    {
+        if (temp->data->name() == data) return index;
         index++;
         temp = temp->linknext;
     }
