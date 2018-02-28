@@ -13,14 +13,19 @@
 /* Constructor */
 Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
 {
+    health = 100;
+    lives = 3;
     setXPos(row-1);
     setYPos(rand() % col-1);
     cout << "Character constructor call (Initial Pos) \tX: " << location.xPos << " Y: " << location.yPos << endl;
     // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
     currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
-    Item* item = new IronHelmet();
-    itemList.insertStart(item);
+    
+    Item* item = new IronHelmet(); // debug
+    itemList.insertStart(item); // debug
+    
     setInitialAttributes();
+    cout << currentRoom->getDescription() << endl << endl;
 }
 
 /* Accessor */
@@ -80,7 +85,7 @@ void Character::setInitialAttributes()
         cout << "Enter number of points to allocate for strength: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
-            cerr << " ERROR" << endl;
+            cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
         else
         {
             setStrength(temp);
@@ -96,7 +101,7 @@ void Character::setInitialAttributes()
         cout << "Enter number of points to allocate for intelligence: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
-            cerr << " ERROR" << endl;
+            cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
         else
         {
             setIntelligence(temp);
@@ -142,19 +147,27 @@ void Character::setLuck(int Luck)
 
 void Character::die()
 {
-    alive = false;
+    cout << "YOU DIED" << endl;
+    lives--;
+    if(lives < 0)
+        alive = false;
+    else
+    {
+        health = 100; // ALSO NEED TO IMPLEMENT EXTRA HEALTH BASED ON EQUIPMENT
+        cout << "You have " << lives << " lives remaining." << endl;
+    }
 }
 
 void Character::setXPos(int X)
 {
-    if(X > 0 && X < location.xBound)
+    if(X >= 0 && X < location.xBound)
         location.xPos = X;
 }
 
 
 void Character::setYPos(int Y)
 {
-    if(Y > 0 && Y < location.yBound)
+    if(Y >= 0 && Y < location.yBound)
         location.yPos = Y;
 }
 
@@ -180,6 +193,8 @@ void Character::dropItem(string item)
         itemList.removeIterator();
         cout << "ITEM REMOVED from inventory" << endl; // debugging
     }
+    else
+        cout << "COULDN'T FIND " << item << " in inventory!" << endl;
 }
 
 void Character::useItem(string item)
@@ -207,13 +222,18 @@ void Character::attack()
     Monster* m = currentRoom->getMonsterPtr();
     if(accurateHit())
     {
+        cout << "DIRECT HIT!" << endl;
+        cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         double damage = strength * 1.5;
-        m->setHealth(m->getHealth() - damage);
+        m->modifyHealth(damage);
+        cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
     bool flag = false; // THIS IS NEW
-    
+    cout << "Health before attack: " << health << endl; // debug
     double monsterDamage = m->attack(luck, flag);
     setHealth(health - monsterDamage);
+    
+    cout << "Health after attack: " << health << endl; // debug
     if(!isAlive())
         ;//throw exception (died);
 }
@@ -346,7 +366,7 @@ void Character::move(string direction) throw(const char*)
         else if(direction == "east")
             _moveEast();
         else
-            throw string("Invalid move command: " +direction).c_str();
+            throw string("Invalid move direction: " +direction).c_str();
     } catch (const char*) {
         throw;
     }

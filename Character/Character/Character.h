@@ -37,6 +37,7 @@ private:
     int intelligence;
     int luck;
     bool alive = true;
+    int lives;
     
     List<Item*> itemList;
     unordered_map<string, Equipment*> equipmentSet;
