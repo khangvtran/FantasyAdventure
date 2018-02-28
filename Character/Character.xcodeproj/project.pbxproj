@@ -10,14 +10,10 @@
 		76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* CharacterTest.cpp */; };
 		76DC51532024E33800A45484 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC51512024E33800A45484 /* Character.cpp */; };
 		B2868A8D20462D7900CB8B84 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A7B20462D7700CB8B84 /* Monster.cpp */; };
-		B2868A8E20462D7900CB8B84 /* MonstersTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A7E20462D7700CB8B84 /* MonstersTest.cpp */; };
-		B2868A8F20462D7900CB8B84 /* test_Room_Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8020462D7800CB8B84 /* test_Room_Object.cpp */; };
 		B2868A9020462D7900CB8B84 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8320462D7800CB8B84 /* Exceptions.cpp */; };
-		B2868A9120462D7900CB8B84 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8420462D7800CB8B84 /* main.cpp */; };
 		B2868A9220462D7900CB8B84 /* RoomObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8520462D7800CB8B84 /* RoomObject.cpp */; };
 		B2868A9320462D7900CB8B84 /* Room.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8720462D7800CB8B84 /* Room.cpp */; };
 		B2868A9420462D7900CB8B84 /* Dungeon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8A20462D7800CB8B84 /* Dungeon.cpp */; };
-		B2868A9520462D7900CB8B84 /* RoomDeploymentTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8B20462D7800CB8B84 /* RoomDeploymentTest.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,25 +34,20 @@
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
 		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
-		B2868A7A20462D7700CB8B84 /* Monster.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Monster.hpp; sourceTree = "<group>"; };
 		B2868A7B20462D7700CB8B84 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		B2868A7C20462D7700CB8B84 /* item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = item.h; sourceTree = "<group>"; };
-		B2868A7D20462D7700CB8B84 /* Room.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Room.hpp; sourceTree = "<group>"; };
-		B2868A7E20462D7700CB8B84 /* MonstersTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonstersTest.cpp; sourceTree = "<group>"; };
-		B2868A7F20462D7800CB8B84 /* equipment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = equipment.h; sourceTree = "<group>"; };
-		B2868A8020462D7800CB8B84 /* test_Room_Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_Room_Object.cpp; sourceTree = "<group>"; };
-		B2868A8120462D7800CB8B84 /* Exceptions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Exceptions.hpp; sourceTree = "<group>"; };
 		B2868A8220462D7800CB8B84 /* items.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = items.txt; sourceTree = "<group>"; };
 		B2868A8320462D7800CB8B84 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exceptions.cpp; sourceTree = "<group>"; };
-		B2868A8420462D7800CB8B84 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B2868A8520462D7800CB8B84 /* RoomObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoomObject.cpp; sourceTree = "<group>"; };
 		B2868A8620462D7800CB8B84 /* RoomObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomObject.h; sourceTree = "<group>"; };
 		B2868A8720462D7800CB8B84 /* Room.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Room.cpp; sourceTree = "<group>"; };
 		B2868A8820462D7800CB8B84 /* RoomObject.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RoomObject.txt; sourceTree = "<group>"; };
-		B2868A8920462D7800CB8B84 /* Dungeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dungeon.hpp; sourceTree = "<group>"; };
 		B2868A8A20462D7800CB8B84 /* Dungeon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dungeon.cpp; sourceTree = "<group>"; };
-		B2868A8B20462D7800CB8B84 /* RoomDeploymentTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoomDeploymentTest.cpp; sourceTree = "<group>"; };
 		B2868A8C20462D7900CB8B84 /* walls.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = walls.bin; sourceTree = "<group>"; };
+		B293064A20474F1200949E2A /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dungeon.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Dungeon.h"; sourceTree = "<group>"; };
+		B293064B20474F1E00949E2A /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Exceptions.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Exceptions.h"; sourceTree = "<group>"; };
+		B293064C20474F4000949E2A /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Monster.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Monster.h"; sourceTree = "<group>"; };
+		B293064D20474F4000949E2A /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Room.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Room.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,23 +85,18 @@
 				76DC51512024E33800A45484 /* Character.cpp */,
 				76DC51522024E33800A45484 /* Character.h */,
 				B2868A8A20462D7800CB8B84 /* Dungeon.cpp */,
-				B2868A8920462D7800CB8B84 /* Dungeon.hpp */,
-				B2868A7F20462D7800CB8B84 /* equipment.h */,
+				B293064A20474F1200949E2A /* Dungeon.h */,
 				B2868A8320462D7800CB8B84 /* Exceptions.cpp */,
-				B2868A8120462D7800CB8B84 /* Exceptions.hpp */,
 				B2868A7C20462D7700CB8B84 /* item.h */,
 				B2868A8220462D7800CB8B84 /* items.txt */,
-				B2868A8420462D7800CB8B84 /* main.cpp */,
 				B2868A7B20462D7700CB8B84 /* Monster.cpp */,
-				B2868A7A20462D7700CB8B84 /* Monster.hpp */,
-				B2868A7E20462D7700CB8B84 /* MonstersTest.cpp */,
 				B2868A8720462D7800CB8B84 /* Room.cpp */,
-				B2868A7D20462D7700CB8B84 /* Room.hpp */,
-				B2868A8B20462D7800CB8B84 /* RoomDeploymentTest.cpp */,
 				B2868A8520462D7800CB8B84 /* RoomObject.cpp */,
+				B293064B20474F1E00949E2A /* Exceptions.h */,
 				B2868A8620462D7800CB8B84 /* RoomObject.h */,
 				B2868A8820462D7800CB8B84 /* RoomObject.txt */,
-				B2868A8020462D7800CB8B84 /* test_Room_Object.cpp */,
+				B293064C20474F4000949E2A /* Monster.h */,
+				B293064D20474F4000949E2A /* Room.h */,
 				B2868A8C20462D7900CB8B84 /* walls.bin */,
 			);
 			path = Character;
@@ -174,16 +160,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2868A9320462D7900CB8B84 /* Room.cpp in Sources */,
-				B2868A8F20462D7900CB8B84 /* test_Room_Object.cpp in Sources */,
 				B2868A9420462D7900CB8B84 /* Dungeon.cpp in Sources */,
-				B2868A8E20462D7900CB8B84 /* MonstersTest.cpp in Sources */,
 				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,
 				B2868A9220462D7900CB8B84 /* RoomObject.cpp in Sources */,
 				B2868A8D20462D7900CB8B84 /* Monster.cpp in Sources */,
-				B2868A9120462D7900CB8B84 /* main.cpp in Sources */,
 				76DC51532024E33800A45484 /* Character.cpp in Sources */,
 				B2868A9020462D7900CB8B84 /* Exceptions.cpp in Sources */,
-				B2868A9520462D7900CB8B84 /* RoomDeploymentTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
