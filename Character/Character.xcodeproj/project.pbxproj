@@ -44,10 +44,10 @@
 		B2868A8820462D7800CB8B84 /* RoomObject.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RoomObject.txt; sourceTree = "<group>"; };
 		B2868A8A20462D7800CB8B84 /* Dungeon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dungeon.cpp; sourceTree = "<group>"; };
 		B2868A8C20462D7900CB8B84 /* walls.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = walls.bin; sourceTree = "<group>"; };
-		B293064A20474F1200949E2A /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dungeon.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Dungeon.h"; sourceTree = "<group>"; };
-		B293064B20474F1E00949E2A /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Exceptions.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Exceptions.h"; sourceTree = "<group>"; };
-		B293064C20474F4000949E2A /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Monster.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Monster.h"; sourceTree = "<group>"; };
-		B293064D20474F4000949E2A /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Room.h; path = "../../../../../../../Downloads/drive-download-20180228T204638Z-001/Room.h"; sourceTree = "<group>"; };
+		B293064A20474F1200949E2A /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dungeon.h; path = Character/Dungeon.h; sourceTree = SOURCE_ROOT; };
+		B293064B20474F1E00949E2A /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exceptions.h; sourceTree = "<group>"; };
+		B293064C20474F4000949E2A /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
+		B293064D20474F4000949E2A /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
