@@ -219,6 +219,9 @@ bool Character::accurateHit()
 
 
 
+
+/* Interactions with RoomObjects*/
+
 void Character::readBook() const
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
@@ -241,10 +244,6 @@ void Character::readBook() const
 }
 
 
-
-
-
-
 void Character::readMap() const
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
@@ -254,6 +253,7 @@ void Character::readMap() const
         if (MapPtr)
         {
             MapPtr->check();
+            dungeon->printMap();
         }
         else
         {
@@ -276,7 +276,8 @@ void Character::useFlare() const
         Flares* FlarePtr = dynamic_cast<Flares*>(currentRoomObjectPtr);
         if (FlarePtr)
         {
-            FlarePtr->DisplayAdjacentRoomObject();
+            FlarePtr->DisplayAdjacentRoomObject();                     // from RoomObject
+            dungeon->printAdjacentRooms(location.xPos, location.yPos); // from dungeon
         }
         else
         {
@@ -288,6 +289,37 @@ void Character::useFlare() const
         cout << "Do you see anything around. I don't" << endl;
     }
 }
+
+void Character::activateEndgameTreasure() const
+{
+    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
+    if (currentRoomObjectPtr)   // there is a room object in the room
+    {
+        Treasure* TreasurePtr = dynamic_cast<Treasure*>(currentRoomObjectPtr);
+        if (TreasurePtr)       // check if the Room Object is a Treasure
+        {
+            // check is monster is alive?
+            // Room -> monster in the room -> ???
+            //  cout << "You hav to kill monster first",
+            // OR
+            // check item if three gems are there.
+            //if not (itemList.search(ruby) && itemList.search(sapphire) && itemList.search(emmerald))
+            // cout << "You habe to collect the three gem" << endl;
+            
+            TreasurePtr->DisplayWinGameMess();
+        }
+        else
+        {
+            cout << "This is not a treasure. Gosh, how can you get this far being so dumb!" << endl;
+        }
+    }
+    else
+    {
+        cout << "Ain't no nothing lying around. Get your eyes checked! " << endl;
+    }
+}
+
+
 
 
 
