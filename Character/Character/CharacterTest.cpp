@@ -33,7 +33,7 @@ const int numCommands = 5;
 const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this\ndark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find useful hints that will guide you toward the room with the treasure as well as maps that will show you your location in relation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal. \n\nYou have 3 lives. Use them wisely!\n\n";
 bool isValidCommand(string &command);
 void doCommand(string &command, Character &c) throw(string);
-
+/*
 int main(void )
 {
     cout << INTRO;
@@ -51,19 +51,22 @@ int main(void )
     //Enter
     string command;
     do {
+        
         cout << "Enter command: ";
         getline(cin, command);
         try {
             if(isValidCommand(command))
                 doCommand(command, c);
-            cout << "X: " << c.getXPos() << " Y: " << c.getYPos() << endl;
+            
+           
+            //cout << "X: " << c.getXPos() << " Y: " << c.getYPos() << endl;
         } catch (string exception) {
             cerr << exception << endl;
         }
     } while(true);
     
     return 0;
-}
+}*/
 
 bool isValidCommand(string &command)
 {

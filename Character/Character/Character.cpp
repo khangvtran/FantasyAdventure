@@ -59,41 +59,42 @@ void Character::setInitialAttributes()
 {
     int temp = -1;
     int totalBaseStat = 18;
-    cout << "You have " << totalBaseStat << " points to allocate into Strength (affecting damage), Intelligence (affecting healing), and Luck (affecting accuracy)" << endl;
+    cout << "You have " << totalBaseStat << " points to allocate into Strength (affecting damage), Intelligence (affecting healing), and Luck (affecting accuracy)" << endl << endl;
     do
     {
+        cout << "Points remaining: " << totalBaseStat << endl;
         cout << "Enter number of points to allocate for strength: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
             cerr << " ERROR" << endl;
-        else break;
+        else
+        {
+            setStrength(temp);
+            totalBaseStat -= temp;
+            break;
+        }
     } while(temp < 0 || totalBaseStat > 0);
-    setStrength(temp);
-    totalBaseStat -= temp;
-    
+    cout << "You allocated " << strength << " points into strength" << endl << endl;
     
     while (temp < 0 || totalBaseStat > 0)
     {
+        cout << "Points remaining: " << totalBaseStat << endl;
         cout << "Enter number of points to allocate for intelligence: ";
         cin >> temp;
         if(temp < 0 || temp > totalBaseStat)
             cerr << " ERROR" << endl;
-        else break;
+        else
+        {
+            setIntelligence(temp);
+            totalBaseStat -= temp;
+            break;
+        }
     }
-    setIntelligence(temp);
-    totalBaseStat -= temp;
+    cout << "You allocated " << intelligence << " points to intelligence" << endl << endl;
+    setLuck(totalBaseStat); // sets remaining
+    cout << luck << " points were automatically allocated into luck" << endl << endl;
     
-    
-    while(temp < 0 || totalBaseStat > 0)
-    {
-        cout << "Enter number of points to allocate for luck: ";
-        cin >> temp;
-        if(temp < 0 || temp > totalBaseStat)
-            cerr << " ERROR" << endl;
-        else break;
-    }
-    setLuck(temp);
-    totalBaseStat -= temp;
+    cin.ignore(10, '\n');
 }
 
 
