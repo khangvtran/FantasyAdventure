@@ -133,13 +133,15 @@ void Character::die()
 
 void Character::setXPos(int X)
 {
-    location.xPos = X;
+    if(X > 0 && X < location.xBound)
+        location.xPos = X;
 }
 
 
 void Character::setYPos(int Y)
 {
-    location.yPos = Y;
+    if(Y > 0 && Y < location.yBound)
+        location.yPos = Y;
 }
 
 
@@ -294,9 +296,9 @@ void Character::moveNorth() // throw(exception)
 {
     if(currentRoom->checkNorth())    // Anna: Room class needs checkNorth()
     {
-        location.yPos--;
+        setYPos(location.yPos-1);
         currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription();
+        cout << currentRoom->getDescription() << endl << endl;
     }
     else
     {
@@ -309,9 +311,9 @@ void Character::moveSouth() // throw(exception)
 {
     if(currentRoom->checkSouth())    // Anna: Room class needs checkNorth()
     {
-        location.yPos++;
+        setYPos(location.yPos+1);
         currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription();
+        cout << currentRoom->getDescription() << endl << endl;
     }
     else
     {
@@ -324,9 +326,9 @@ void Character::moveEast() // throw(exception)
 {
     if(currentRoom->checkEast())    // Anna: Room class needs checkNorth()
     {
-        location.xPos++;
+        setXPos(location.xPos+1);
         currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription();
+        cout << currentRoom->getDescription() << endl << endl;
     }
     else
     {
@@ -339,9 +341,9 @@ void Character::moveWest() // throw(exception)
 {
     if(currentRoom->checkWest())    // Anna: Room class needs checkNorth()
     {
-        location.xPos--;
+        setXPos(location.xPos-1);
         currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));    //Anna: dungeon class needs getRoom(x, y)
-        cout << currentRoom->getDescription();
+        cout << currentRoom->getDescription() << endl << endl;
     }
     else
     {

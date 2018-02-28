@@ -41,8 +41,11 @@ private:
     Room* currentRoom;
     struct Location
     {
+        const int xBound;
+        const int yBound;
         int xPos;
         int yPos;
+        Location(int xb, int yb) : xBound(xb), yBound(yb) {}
     };
     // Khang added comment
     // Josh added comment
@@ -52,11 +55,12 @@ private:
     
 public:
     /* Constructor*/
-    Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon)
+    Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
     {
         // still need to implement math for determining base stats for each subclass
+        //location.xBound = row+1;
         setXPos(row-1);
-        setYPos(rand() % col);
+        setYPos(rand() % col-1);
         cout << "X: " << location.xPos << " Y: " << location.yPos << endl;
         // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
         currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
