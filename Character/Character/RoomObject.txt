@@ -1,0 +1,6 @@
+RoomObject | Contain objects assigned some  room help player to win the 
+Book | A black leader book that contains hints about how to win the game.
+Flares | Using flare to check four adjacent room's object!!!
+Fountain | Play or charactor can drink it to increase he/she health!!!
+Map | A map hanging in the wall. Play or charactor can check which room have treasure!!!
+Treasure | This room has treasure!!! If Play or charactor Ruby, Sapphire,Emerald andslay the Boss Monster, then you win the adventure!!!!
