@@ -101,21 +101,21 @@ public:
     
     /* Interaction with Items - Equipment */
     
-    void pickupItem(string item);
+    void pickupItem(string item);    // CHANGE: swapEquipment is now a part of this
     void dropItem(string item);
-    void useItem(string item);
-    // virtual void swapEquipment(equipments equipment) = 0;
+    void useItem(string item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
 
     
     /* Interactions with Monsters */
     //void useSpecialAbility();
     void attack();
-    bool accurateHit();
+    bool HitOrHeal();
     
     /* Ineraction with RoomObjects */
     void readBook() const;
     void readMap() const;
     void useFlare() const;
+    void drinkFromFountain();
     void activateEndgameTreasure() const;
 
     

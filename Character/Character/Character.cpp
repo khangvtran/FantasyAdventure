@@ -29,7 +29,8 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
     
     Item* item = new IronHelmet(); // debug
     itemList.insertStart(item); // debug
-    
+    item = new HealthPotion;
+    itemList.insertStart(item);
     setInitialAttributes();
     cout << currentRoom->getDescription() << endl << endl;
 }
@@ -185,7 +186,30 @@ void Character::setYPos(int Y)
  /* Interaction with Items - Equipment */
 void Character::pickupItem(string item)
 {
-    cout << "pickupItem isn't implemented yet" << endl;
+    if (currentRoom->contains(item))                    // check if there is an item
+    {
+        Item* newItem = currentRoom->removeItem(item);  // take the item from the room
+        
+        Equipment* newEquipment = dynamic_cast<Equipment*>(newItem); // downcast into equipment
+        
+        if (! newEquipment) // if this is consumable item, do insert
+        {
+            itemList.insertStart(newItem);
+            cout << "Picked up " << item << ". It's now in your inventory" << endl;
+
+        }
+        else               // if this is equipment, do swap
+        {
+            cout << "Swap equipment here" << endl; // Not finished yet
+            cout << "Your equipment has been swapped with" << item << "." << endl;
+        }
+        
+    }
+    else
+    {
+        cout << "No items in the room, friends!" << endl;
+    }
+
 }
 
 void Character::dropItem(string item)
@@ -203,9 +227,47 @@ void Character::dropItem(string item)
         cout << "COULDN'T FIND " << item << " in inventory!" << endl;
 }
 
+
 void Character::useItem(string item)
 {
     cout << "useItem isn't implemented yet" << endl;
+    
+    // check if item in inventory,
+    int index = itemList.linearSearch(item);
+    if (index != -1)
+    {
+        if (item == "Health Potion")
+        {
+            cout << "Use Health Potion" << endl;
+        }
+        else if (item == "Max Health Potion")
+        {
+            cout << "use Max Health Potion" << endl;
+        }
+        else if (item == "Strength Potion")
+        {
+            cout << "Use Max Health Potion" << endl;
+        }
+        else if (item == "Strength Potion")
+        {
+            cout << "Use Strength Potion" << endl;
+        }
+        else if (item == "Luck Potion")
+        {
+            cout << "use Luck Potion" << endl;
+        }
+        else if (item == "Int Potion")
+        {
+            cout << "Use Int Potion" << endl;
+        }
+    }
+    else
+    {
+        cout << "You don't have that item, pal!" << endl;
+    }
+    
+
+    
 }
 
 
@@ -226,7 +288,7 @@ void Character::attack()
     // throw exception?
     
     Monster* m = currentRoom->getMonsterPtr();
-    if(accurateHit())
+    if(HitOrHeal())
     {
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
@@ -249,7 +311,7 @@ void Character::attack()
  Returns true if character's attack will NOT miss
  Returns false if character's attack WILL miss
  */
-bool Character::accurateHit()
+bool Character::HitOrHeal() // CHANGE: AccuracyHit() changed into HitOrHeal()
 {
     double accuracyRange = pow(luck, log10(100)/log10(18/* "MAX LUCK"*/));
     return (rand()%100 <= accuracyRange);
@@ -331,7 +393,39 @@ void Character::useFlare() const
     }
 }
 
-void Character::activateEndgameTreasure() const
+
+void Character::drinkFromFountain()
+{
+    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
+    if (currentRoomObjectPtr)
+    {
+        Fountain* FoutainPtr = dynamic_cast<Fountain*>(currentRoomObjectPtr);
+        if (FoutainPtr)
+        {
+            if (HitOrHeal())
+            {
+                setHealth(getHealth() + 3*getIntelligence());
+            }
+            else
+            {
+                setHealth(getHealth()-10);
+            }
+        }
+        else
+        {
+            cout << "How can you possibly mistake this object for a foutain, fool!" << endl;
+        }
+    }
+    else
+    {
+        cout << "Do you see anything around. I don't" << endl;
+    }
+}
+
+
+
+
+void Character::activateEndgameTreasure() const        // CHANGE: complete
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)   // there is a room object in the room
@@ -339,15 +433,20 @@ void Character::activateEndgameTreasure() const
         Treasure* TreasurePtr = dynamic_cast<Treasure*>(currentRoomObjectPtr);
         if (TreasurePtr)       // check if the Room Object is a Treasure
         {
-            // check is monster is alive?
-            // Room -> monster in the room -> ???
-            //  cout << "You hav to kill monster first",
-            // OR
-            // check item if three gems are there.
-            //if not (itemList.search(ruby) && itemList.search(sapphire) && itemList.search(emmerald))
-            // cout << "You habe to collect the three gem" << endl;
+            // check if boss is dead
+            if (currentRoom->getMonsterPtr()->isAlive())
+            {
+                cout << "May be it just me but do you see that colossal monster guarding the treasure there, mate????" << endl;
+                return;
+            }
+            // check if all gems are in itemList
+            if (itemList.linearSearch("Ruby") == -1 || itemList.linearSearch("Saphhire") == -1 || itemList.linearSearch("Emmerald") == -1)
+            {
+                cout << "You still have to acquire all three gems: Ruby, Sapphire, and Emmerald" << endl;
+                return;
+            }
             
-            TreasurePtr->use();
+            TreasurePtr->use();   // display winning message. Game keeps going on.
         }
         else
         {
@@ -359,6 +458,12 @@ void Character::activateEndgameTreasure() const
         cout << "Ain't no nothing lying around. Get your eyes checked! " << endl;
     }
 }
+
+
+
+
+
+/* Navigating */
 
 void Character::move(string direction) throw(const char*)
 {
