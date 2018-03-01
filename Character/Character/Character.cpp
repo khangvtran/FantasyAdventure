@@ -23,7 +23,10 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
                     {"Armor", new IronArmor},
                     {"Greaves", new IronGreaves}};
     
-    health = 100;
+    
+    health = maxHealth = 100 + equipmentHealth();
+    
+    cout << "health is : " << health << endl;
     lives = 3;
     setXPos(row-2);
     setYPos(rand() % col-1);
@@ -34,7 +37,7 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
     
     
 
-    Item* item = new IronHelmet(); // debug
+    Item* item = new MithrilArmor(); // debug
     itemList.insertStart(item); // debug
     item = new HealthPotion;
     itemList.insertStart(item);
@@ -203,10 +206,29 @@ void Character::pickupItem(string item)
         {
             itemList.insertStart(newItem);
             cout << "Picked up " << item << ". It's now in your inventory" << endl;
-
+            return;
         }
         else               // if this is equipment, do swap
         {
+            Helmet* helmet = dynamic_cast<Helmet*>(newEquipment);
+            if(helmet)
+            {
+                
+                return;
+            }
+            Armor* armor = dynamic_cast<Armor*>(newEquipment);
+            if(armor)
+            {
+                dropItem("armor");
+                equipmentSet["Armor"] = armor;
+                return;
+            }
+            
+            Greaves* greaves = dynamic_cast<Greaves*>(newEquipment);
+            if(greaves)
+            {
+                return;
+            }
             cout << "Swap equipment here" << endl; // Not finished yet
             cout << "Your equipment has been swapped with" << item << "." << endl;
         }
@@ -221,6 +243,11 @@ void Character::pickupItem(string item)
 
 void Character::dropItem(string item)
 {
+    if(item == "armor")
+    {
+        currentRoom->setItem(equipmentSet["Armor"]);
+        equipmentSet["Armor"] = nullptr;
+    }
     int index = itemList.linearSearch(item);
     if(index != -1)
     {
@@ -279,7 +306,17 @@ void Character::useItem(string item)
 
 int Character::equipmentHealth()
 {
-    return 0;
+    int sum = 0;
+    if(equipmentSet["Helmet"] != nullptr)
+        sum += equipmentSet["Helmet"]->getvalue();
+    
+    if(equipmentSet["Armor"] != nullptr)
+        sum+=equipmentSet["Armor"]->getvalue();
+    
+    if(equipmentSet["Greaves"] != nullptr)
+        sum+=equipmentSet["Greaves"]->getvalue();
+    
+    return sum;
 }
 /**
  Interaction between character and monster in the room
