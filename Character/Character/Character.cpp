@@ -277,7 +277,10 @@ void Character::useItem(string item)
     
 }
 
-
+int Character::equipmentHealth()
+{
+    return 0;
+}
 /**
  Interaction between character and monster in the room
  Precondition: There is a monster alive in the room AND character is not dead

@@ -32,6 +32,7 @@ class Character
 {
 private:
     string name;
+    int maxHealth;
     int health;
     int strength;
     int intelligence;
@@ -104,7 +105,9 @@ public:
     void pickupItem(string item);    // CHANGE: swapEquipment is now a part of this
     void dropItem(string item);
     void useItem(string item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
-
+    int equipmentHealth();
+    
+    
     
     /* Interactions with Monsters */
     //void useSpecialAbility();
