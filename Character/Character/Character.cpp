@@ -19,6 +19,10 @@
 /* Constructor */
 Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
 {
+    equipmentSet = {{"Helmet", new IronHelmet},
+                    {"Armor", new IronArmor},
+                    {"Greaves", new IronGreaves}};
+    
     health = 100;
     lives = 3;
     setXPos(row-2);
@@ -27,6 +31,9 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
     // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
     currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
     
+    
+    
+
     Item* item = new IronHelmet(); // debug
     itemList.insertStart(item); // debug
     item = new HealthPotion;
@@ -293,7 +300,7 @@ void Character::attack()
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         double damage = strength * 1.5;
-        m->modifyHealth(damage);
+        m->modifyHealth(damage); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
     bool flag = false; // THIS IS NEW
