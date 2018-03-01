@@ -19,7 +19,9 @@
 /* Constructor */
 Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
 {
-    health = 100;
+    
+    
+    health = maxHealth = 100 + equipmentHealth();
     lives = 3;
     setXPos(row-2);
     setYPos(rand() % col-1);
@@ -270,7 +272,10 @@ void Character::useItem(string item)
     
 }
 
-
+int Character::equipmentHealth()
+{
+    return 0;
+}
 /**
  Interaction between character and monster in the room
  Precondition: There is a monster alive in the room AND character is not dead
