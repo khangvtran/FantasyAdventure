@@ -644,8 +644,13 @@ void Character::cheat(string cmd, string cmd2)
     else if(cmd == "spawn")
     {
         Generation spawner;
-        Item* thing = spawner.generateItem(spawner.itemContainer[cmd2]);
-        currentRoom->setItem(thing);
-        pickupItem(thing->name());
+        try {
+            Item* thing = spawner.generateItem(spawner.itemContainer.at(cmd2));
+            currentRoom->setItem(thing);
+            pickupItem(thing->name());
+        } catch (out_of_range &err) {
+            cerr << "Invalid type " << cmd2 << "." << endl << endl;
+        }
+        
     }
 }
