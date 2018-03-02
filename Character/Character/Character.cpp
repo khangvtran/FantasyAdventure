@@ -227,7 +227,7 @@ void Character::pickupItem(const string& item)
             {
                 dropItem("Helmet");
                 equipmentSet["Helmet"] = helmet;
-                cout << "You picked up " << helmet->name() << "and put it on!" << endl;
+                cout << "You picked up " << helmet->name() << " and put it on!" << endl;
                 return;
             }
             Armor* armor = dynamic_cast<Armor*>(newEquipment);
@@ -235,16 +235,16 @@ void Character::pickupItem(const string& item)
             {
                 dropItem("Armor");
                 equipmentSet["Armor"] = armor;
-                cout << "You picked up " << armor->name() << "and put it on!" << endl;
+                cout << "You picked up " << armor->name() << " and put it on!" << endl;
                 return;
             }
             
             Greaves* greaves = dynamic_cast<Greaves*>(newEquipment);
             if(greaves)
             {
-                dropItem("Hreaves");
+                dropItem("Greaves");
                 equipmentSet["Greaves"] = greaves;
-                cout << "You picked up " << greaves->name() << "and put it on!" << endl;
+                cout << "You picked up " << greaves->name() << " and put it on!" << endl;
                 return;
             }
         }
@@ -258,17 +258,19 @@ void Character::pickupItem(const string& item)
 
 void Character::dropItem(const string& item)
 {
-    if(item == "Armor")
+    cout << "tried to drop " << item << endl;
+    string secondWord = item.substr(item.find(" ")+1);
+    if(secondWord == "Armor")
     {
         currentRoom->setItem(equipmentSet["Armor"]);
         equipmentSet["Armor"] = nullptr;
     }
-    else if(item == "Helmet")
+    else if(secondWord == "Helmet")
     {
         currentRoom->setItem(equipmentSet["Helmet"]);
         equipmentSet["Helmet"] = nullptr;
     }
-    else if(item == "Greaves")
+    else if(secondWord == "Greaves")
     {
         currentRoom->setItem(equipmentSet["Greaves"]);
         equipmentSet["Greaves"] = nullptr;
@@ -663,7 +665,6 @@ void Character::cheat(const string& cmd, const string& cmd2)
     }
     else if(cmd == "tp")
     {
-        cout << "here" << endl;
         std::istringstream is(cmd2);
         int row,col;
         is >> row >> col;
