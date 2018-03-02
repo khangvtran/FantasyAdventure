@@ -9,6 +9,8 @@
 #include "Character.h"
 #include <cstdlib>
 #include <cmath>
+#include <sstream>
+
 // DRAGON HEALTH : 50
 // TITAN HEALTH : 40
 // DRAGON BOSS HEALTH : 80
@@ -28,11 +30,11 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
     
     cout << "health is : " << health << endl;
     lives = 3;
-    setXPos(row-2);
-    setYPos(rand() % col-1);
-    cout << "Character constructor call (Initial Pos) \tX: " << location.xPos << " Y: " << location.yPos << endl;
-    // dungeon->getRoom(x, y) will return a pointer to the room at row x, column y of the 2D array
-    currentRoom = &(this->dungeon->getRoom(location.xPos, location.yPos));
+    setRowPos(rand() % row-1);
+    setColPos(rand() % col-1);
+    cout << "Character constructor call (Initial Pos) \tX: " << location.row << " Y: " << location.col << endl;
+    // dungeon->getRoom(x, y) will return a pointer to the room at row y, column x of the 2D array
+    currentRoom = &(this->dungeon->getRoom(location.row, location.col));
     
     
     
@@ -50,6 +52,10 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
 string Character::getName() const
 {
     return name;
+}
+int Character::getMaxHealth() const
+{
+    return maxHealth;
 }
 
 int Character::getHealth() const
@@ -77,14 +83,14 @@ bool Character::isAlive() const
     return alive;
 }
 
-int Character::getXPos() const
+int Character::getColPos() const
 {
-    return location.xPos;
+    return location.col;
 }
 
-int Character::getYPos() const
+int Character::getRowPos() const
 {
-    return location.yPos;
+    return location.row;
 }
 
 
@@ -141,11 +147,15 @@ void Character::setName(string Name)
 
 void Character::setHealth(int Health)
 {
-    health = Health;
+    if(health <= maxHealth)
+        health = Health;
     if(health < 0)
-        die();
+        _die();
 }
-
+void Character::setMaxHealth(int MaxHealth)
+{
+    maxHealth = MaxHealth;
+}
 void Character::setStrength(int Strength)
 {
     strength = Strength;
@@ -162,7 +172,7 @@ void Character::setLuck(int Luck)
     luck = Luck;
 }
 
-void Character::die()
+void Character::_die()
 {
     cout << "YOU DIED" << endl;
     lives--;
@@ -175,17 +185,16 @@ void Character::die()
     }
 }
 
-void Character::setXPos(int X)
+void Character::setColPos(int X)
 {
     if(X >= 0 && X < location.xBound)
-        location.xPos = X;
+        location.col = X;
 }
 
-
-void Character::setYPos(int Y)
+void Character::setRowPos(int Y)
 {
     if(Y >= 0 && Y < location.yBound)
-        location.yPos = Y;
+        location.row = Y;
 }
 
 
@@ -213,26 +222,29 @@ void Character::pickupItem(string item)
             Helmet* helmet = dynamic_cast<Helmet*>(newEquipment);
             if(helmet)
             {
-                
+                dropItem("Helmet");
+                equipmentSet["Helmet"] = helmet;
+                cout << "You picked up " << helmet->name() << "and put it on!" << endl;
                 return;
             }
             Armor* armor = dynamic_cast<Armor*>(newEquipment);
             if(armor)
             {
-                dropItem("armor");
+                dropItem("Armor");
                 equipmentSet["Armor"] = armor;
+                cout << "You picked up " << armor->name() << "and put it on!" << endl;
                 return;
             }
             
             Greaves* greaves = dynamic_cast<Greaves*>(newEquipment);
             if(greaves)
             {
+                dropItem("Hreaves");
+                equipmentSet["Greaves"] = greaves;
+                cout << "You picked up " << greaves->name() << "and put it on!" << endl;
                 return;
             }
-            cout << "Swap equipment here" << endl; // Not finished yet
-            cout << "Your equipment has been swapped with" << item << "." << endl;
         }
-        
     }
     else
     {
@@ -243,22 +255,35 @@ void Character::pickupItem(string item)
 
 void Character::dropItem(string item)
 {
-    if(item == "armor")
+    if(item == "Armor")
     {
         currentRoom->setItem(equipmentSet["Armor"]);
         equipmentSet["Armor"] = nullptr;
     }
-    int index = itemList.linearSearch(item);
-    if(index != -1)
+    else if(item == "Helmet")
     {
-        itemList.advanceToIndex(index);
-        currentRoom->setItem(itemList.getIterator());
-        //currentRoom->removeItem(item);
-        itemList.removeIterator();
-        cout << "ITEM REMOVED from inventory" << endl; // debugging
+        currentRoom->setItem(equipmentSet["Helmet"]);
+        equipmentSet["Helmet"] = nullptr;
+    }
+    else if(item == "Greaves")
+    {
+        currentRoom->setItem(equipmentSet["Greaves"]);
+        equipmentSet["Greaves"] = nullptr;
     }
     else
-        cout << "COULDN'T FIND " << item << " in inventory!" << endl;
+    {
+        int index = itemList.linearSearch(item);
+        if(index != -1)
+        {
+            itemList.advanceToIndex(index);
+            currentRoom->setItem(itemList.getIterator());
+            //currentRoom->removeItem(item);
+            itemList.removeIterator();
+            cout << "ITEM REMOVED from inventory" << endl; // debugging
+        }
+        else
+            cout << "COULDN'T FIND " << item << " in inventory!" << endl;
+    }
 }
 
 
@@ -335,7 +360,7 @@ void Character::attack()
     // throw exception?
     
     Monster* m = currentRoom->getMonsterPtr();
-    if(HitOrHeal())
+    if(_HitOrHeal())
     {
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
@@ -358,7 +383,7 @@ void Character::attack()
  Returns true if character's attack will NOT miss
  Returns false if character's attack WILL miss
  */
-bool Character::HitOrHeal() // CHANGE: AccuracyHit() changed into HitOrHeal()
+bool Character::_HitOrHeal() const // CHANGE: AccuracyHit() changed into HitOrHeal()
 {
     double accuracyRange = pow(luck, log10(100)/log10(18/* "MAX LUCK"*/));
     return (rand()%100 <= accuracyRange);
@@ -366,13 +391,9 @@ bool Character::HitOrHeal() // CHANGE: AccuracyHit() changed into HitOrHeal()
 
 
 
-
-
-
-
 /* Interactions with RoomObjects*/
 
-void Character::readBook() const
+void Character::_readBook() const
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
@@ -394,7 +415,7 @@ void Character::readBook() const
 }
 
 
-void Character::readMap() const
+void Character::_readMap() const
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
@@ -403,7 +424,7 @@ void Character::readMap() const
         if (MapPtr)
         {
             MapPtr->use();
-            dungeon->printMap(location.xPos, location.yPos);
+            dungeon->printMap(location.row, location.col);
         }
         else
         {
@@ -418,7 +439,7 @@ void Character::readMap() const
 
 
 
-void Character::useFlare() const
+void Character::_useFlare() const
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
@@ -427,7 +448,7 @@ void Character::useFlare() const
         if (FlarePtr)
         {
             FlarePtr->use();                     // from RoomObject
-            dungeon->printAdjacentRooms(location.xPos, location.yPos); // from dungeon
+            dungeon->printAdjacentRooms(location.row, location.col); // from dungeon
         }
         else
         {
@@ -441,7 +462,7 @@ void Character::useFlare() const
 }
 
 
-void Character::drinkFromFountain()
+void Character::_drinkFromFountain()
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)
@@ -449,12 +470,15 @@ void Character::drinkFromFountain()
         Fountain* FoutainPtr = dynamic_cast<Fountain*>(currentRoomObjectPtr);
         if (FoutainPtr)
         {
-            if (HitOrHeal())
+            if (_HitOrHeal())
             {
-                setHealth(getHealth() + 3*getIntelligence());
+                cout << "You were lucky this time! Your health increased from " << getHealth() << " to ";
+                setHealth(getHealth() + 3 * getIntelligence());
+                cout << getHealth() << "." << endl << endl;
             }
             else
             {
+                cout << "Ouch! That water might have been slightly poisonous. Lost 10 health." << endl << endl;
                 setHealth(getHealth()-10);
             }
         }
@@ -472,7 +496,7 @@ void Character::drinkFromFountain()
 
 
 
-void Character::activateEndgameTreasure() const        // CHANGE: complete
+void Character::_activateEndgameTreasure() const        // CHANGE: complete
 {
     RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
     if (currentRoomObjectPtr)   // there is a room object in the room
@@ -535,8 +559,8 @@ void Character::_moveNorth() throw(const char*)
 {
     if(currentRoom->checkNorth())
     {
-        setYPos(location.yPos-1);
-        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
+        setRowPos(location.row-1);
+        currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
         throw "There's a wall in the North direction!";
@@ -546,8 +570,8 @@ void Character::_moveSouth() throw(const char*)
 {
     if(currentRoom->checkSouth())
     {
-        setYPos(location.yPos+1);
-        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
+        setRowPos(location.row+1);
+        currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
         throw "There's a wall in the South direction!";;
@@ -557,8 +581,8 @@ void Character::_moveEast() throw(const char*)
 {
     if(currentRoom->checkEast())
     {
-        setXPos(location.xPos+1);
-        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
+        setColPos(location.col+1);
+        currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
         throw "There's a wall in the East direction!";
@@ -568,8 +592,8 @@ void Character::_moveWest() throw(const char*)
 {
     if(currentRoom->checkWest())
     {
-        setXPos(location.xPos-1);
-        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
+        setColPos(location.col-1);
+        currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
         throw "There's a wall in the West direction!";
@@ -578,5 +602,40 @@ void Character::_moveWest() throw(const char*)
 void Character::activate(string thing)
 {
     if(thing == "map")
-        readMap();
+        _readMap();
+    else if(thing == "book")
+        _readBook();
+    else if(thing == "fountain")
+        _drinkFromFountain();
+    else if(thing == "treasure")
+        _activateEndgameTreasure();
+    else if(thing == "flare")
+        _useFlare();
+}
+
+
+void Character::cheat(string cmd, string cmd2)
+{
+    if(cmd == "god")
+    {
+        setMaxHealth(15000);
+        setHealth(15000);
+        setStrength(90);
+        setIntelligence(90);
+        setLuck(90);
+        cout << "God mode activated. You suck." << endl;
+        return;
+    }
+    if(cmd == "tp")
+    {
+        cout << "here" << endl;
+        std::istringstream is(cmd2);
+        int row,col;
+        is >> row >> col;
+        setRowPos(row);
+        setColPos(col);
+        cout << "Teleported to (" << row << "," << col << ")." << endl;
+        currentRoom = &(this->dungeon->getRoom(location.row, location.col));
+        cout << currentRoom->getDescription() << endl << endl;
+    }
 }

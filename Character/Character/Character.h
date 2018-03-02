@@ -49,18 +49,30 @@ private:
     {
         const int xBound;
         const int yBound;
-        int xPos;
-        int yPos;
-        Location(int xb, int yb) : xBound(xb), yBound(yb) {}
+        int row; // y coord
+        int col; // x coord
+        Location(int yb, int xb) : yBound(yb), xBound(xb) {}
     };
 
     Location location; // instantiate an inner object from struct location
     
+    /** Private Helper Functions **/
+    
+    void _die();
+    bool _HitOrHeal() const;
+    
+    /* Helper move functions */
     void _moveNorth() throw(const char*);
     void _moveSouth() throw(const char*);
     void _moveEast() throw(const char*);
     void _moveWest() throw(const char*);
     
+    /* Interaction with RoomObjects */
+    void _readBook() const;
+    void _readMap() const;
+    void _useFlare() const;
+    void _drinkFromFountain();
+    void _activateEndgameTreasure() const;
 public:
     
     
@@ -79,25 +91,29 @@ public:
     
     /* Accessor */
     string getName() const;
+    
     int getHealth() const;
+    int getMaxHealth() const;
     int getStrength() const;
     int getIntelligence() const;
     int getLuck() const;
     bool isAlive() const;
-    int getXPos() const;
-    int getYPos() const;
+    
+    int getRowPos() const;
+    int getColPos() const;
     
     
     /* Manipulator */
     void setInitialAttributes();
     void setName(string Name);
+    void setMaxHealth(int MaxHealth);
     void setHealth(int Health);
     void setStrength(int Strength);
     void setIntelligence(int Intelligence);
     void setLuck(int Luck);
-    void die();
-    void setXPos(int X);
-    void setYPos(int Y);
+
+    void setRowPos(int Y);
+    void setColPos(int X);
     
     
     /* Interaction with Items - Equipment */
@@ -112,14 +128,8 @@ public:
     /* Interactions with Monsters */
     //void useSpecialAbility();
     void attack();
-    bool HitOrHeal();
+
     
-    /* Ineraction with RoomObjects */
-    void readBook() const;
-    void readMap() const;
-    void useFlare() const;
-    void drinkFromFountain();
-    void activateEndgameTreasure() const;
 
     
     /* Moving */
@@ -127,6 +137,9 @@ public:
     
     void activate(string thing);
     
+    
+    /* Cheat */
+    void cheat(string cmd, string cmd2 = "");
 };
 
 
