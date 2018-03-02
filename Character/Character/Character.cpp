@@ -337,6 +337,8 @@ void Character::useItem(const string& item)
                 cout << "use Luck Potion" << endl;
                 setLuck(getLuck() + potionValue);
             }
+            
+            itemList.removeIterator();
             return;
         }
         
@@ -344,6 +346,9 @@ void Character::useItem(const string& item)
         if (killScrollPtr)
         {
             cout << "use Kill Scroll" << endl;
+            
+            
+            itemList.removeIterator();
             return;
         }
         else
@@ -352,8 +357,6 @@ void Character::useItem(const string& item)
             return;
         }
         
-        
-
     }
     else
     {
@@ -363,6 +366,11 @@ void Character::useItem(const string& item)
 
     
 }
+
+
+
+
+
 
 int Character::equipmentHealth()
 {
@@ -378,6 +386,11 @@ int Character::equipmentHealth()
     
     return sum;
 }
+
+
+
+
+
 /**
  Interaction between character and monster in the room
  Precondition: There is a monster alive in the room AND character is not dead
