@@ -536,7 +536,7 @@ void Character::_moveNorth() throw(const char*)
     if(currentRoom->checkNorth())
     {
         setYPos(location.yPos-1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
+        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
     }
     else // exception, handled by main
         throw "There's a wall in the North direction!";
@@ -547,7 +547,7 @@ void Character::_moveSouth() throw(const char*)
     if(currentRoom->checkSouth())
     {
         setYPos(location.yPos+1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
+        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
     }
     else // exception, handled by main
         throw "There's a wall in the South direction!";;
@@ -558,7 +558,7 @@ void Character::_moveEast() throw(const char*)
     if(currentRoom->checkEast())
     {
         setXPos(location.xPos+1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
+        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
     }
     else // exception, handled by main
         throw "There's a wall in the East direction!";
@@ -569,7 +569,7 @@ void Character::_moveWest() throw(const char*)
     if(currentRoom->checkWest())
     {
         setXPos(location.xPos-1);
-        currentRoom = &(dungeon->getRoom(location.xPos, location.yPos));
+        currentRoom = &(dungeon->getRoom(location.yPos, location.xPos));
     }
     else // exception, handled by main
         throw "There's a wall in the West direction!";
