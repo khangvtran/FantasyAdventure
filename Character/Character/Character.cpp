@@ -206,7 +206,7 @@ void Character::setRowPos(int Y)
 
 
  /* Interaction with Items - Equipment */
-void Character::pickupItem(string item)
+void Character::pickupItem(const string& item)
 {
     if (currentRoom->contains(item))                    // check if there is an item
     {
@@ -256,7 +256,7 @@ void Character::pickupItem(string item)
 
 }
 
-void Character::dropItem(string item)
+void Character::dropItem(const string& item)
 {
     if(item == "Armor")
     {
@@ -290,7 +290,7 @@ void Character::dropItem(string item)
 }
 
 
-void Character::useItem(string item)
+void Character::useItem(const string& item)
 {
    // cout << "useItem isn't implemented yet" << endl;
     
@@ -571,7 +571,7 @@ void Character::_activateEndgameTreasure() const        // CHANGE: complete
 
 /* Navigating */
 
-void Character::move(string direction) throw(const char*)
+void Character::move(const string& direction) throw(const char*)
 {
     try {
         if(direction == "north")
@@ -634,7 +634,7 @@ void Character::_moveWest() throw(const char*)
         throw "There's a wall in the West direction!";
 }
 
-void Character::activate(string thing)
+void Character::activate(const string& thing)
 {
     if(thing == "map")
         _readMap();
@@ -649,7 +649,7 @@ void Character::activate(string thing)
 }
 
 
-void Character::cheat(string cmd, string cmd2)
+void Character::cheat(const string& cmd, const string& cmd2)
 {
     if(cmd == "god")
     {

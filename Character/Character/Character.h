@@ -118,9 +118,9 @@ public:
     
     /* Interaction with Items - Equipment */
     
-    void pickupItem(string item);    // CHANGE: swapEquipment is now a part of this
-    void dropItem(string item);
-    void useItem(string item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
+    void pickupItem(const string& item);    // CHANGE: swapEquipment is now a part of this
+    void dropItem(const string& item);
+    void useItem(const string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
     int equipmentHealth();
     
     
@@ -133,13 +133,13 @@ public:
 
     
     /* Moving */
-    void move(string direction) throw(const char*);
+    void move(const string& direction) throw(const char*);
     
-    void activate(string thing);
+    void activate(const string& thing);
     
     
     /* Cheat */
-    void cheat(string cmd, string cmd2 = "");
+    void cheat(const string&, const string& = "");
 };
 
 
