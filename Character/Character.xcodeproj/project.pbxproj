@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* CharacterTest.cpp */; };
 		76DC51532024E33800A45484 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC51512024E33800A45484 /* Character.cpp */; };
+		B258B3022049C192008F0B35 /* Generation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B258B3002049C192008F0B35 /* Generation.cpp */; };
 		B2868A8D20462D7900CB8B84 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A7B20462D7700CB8B84 /* Monster.cpp */; };
 		B2868A9020462D7900CB8B84 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8320462D7800CB8B84 /* Exceptions.cpp */; };
 		B2868A9220462D7900CB8B84 /* RoomObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8520462D7800CB8B84 /* RoomObject.cpp */; };
@@ -34,6 +35,8 @@
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
 		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
+		B258B3002049C192008F0B35 /* Generation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Generation.cpp; sourceTree = "<group>"; };
+		B258B3012049C192008F0B35 /* Generation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Generation.h; sourceTree = "<group>"; };
 		B2868A7B20462D7700CB8B84 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		B2868A7C20462D7700CB8B84 /* item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = item.h; sourceTree = "<group>"; };
 		B2868A8220462D7800CB8B84 /* items.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = items.txt; sourceTree = "<group>"; };
@@ -85,6 +88,8 @@
 				76DC51512024E33800A45484 /* Character.cpp */,
 				76DC51522024E33800A45484 /* Character.h */,
 				B2868A8A20462D7800CB8B84 /* Dungeon.cpp */,
+				B258B3002049C192008F0B35 /* Generation.cpp */,
+				B258B3012049C192008F0B35 /* Generation.h */,
 				B293064A20474F1200949E2A /* Dungeon.h */,
 				B2868A8320462D7800CB8B84 /* Exceptions.cpp */,
 				B293064B20474F1E00949E2A /* Exceptions.h */,
@@ -162,6 +167,7 @@
 				B2868A9320462D7900CB8B84 /* Room.cpp in Sources */,
 				B2868A9420462D7900CB8B84 /* Dungeon.cpp in Sources */,
 				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,
+				B258B3022049C192008F0B35 /* Generation.cpp in Sources */,
 				B2868A9220462D7900CB8B84 /* RoomObject.cpp in Sources */,
 				B2868A8D20462D7900CB8B84 /* Monster.cpp in Sources */,
 				76DC51532024E33800A45484 /* Character.cpp in Sources */,

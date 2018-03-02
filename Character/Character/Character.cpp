@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <sstream>
+#include "Generation.h"
 
 // DRAGON HEALTH : 50
 // TITAN HEALTH : 40
@@ -626,7 +627,7 @@ void Character::cheat(string cmd, string cmd2)
         cout << "God mode activated. You suck." << endl;
         return;
     }
-    if(cmd == "tp")
+    else if(cmd == "tp")
     {
         cout << "here" << endl;
         std::istringstream is(cmd2);
@@ -637,5 +638,12 @@ void Character::cheat(string cmd, string cmd2)
         cout << "Teleported to (" << row << "," << col << ")." << endl;
         currentRoom = &(this->dungeon->getRoom(location.row, location.col));
         cout << currentRoom->getDescription() << endl << endl;
+    }
+    else if(cmd == "spawn")
+    {
+        Generation spawner;
+        Item* thing = spawner.generateItem(spawner.IRONSWORD);
+        currentRoom->setItem(thing);
+        pickupItem(thing->name());
     }
 }
