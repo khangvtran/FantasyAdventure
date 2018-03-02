@@ -152,6 +152,8 @@ void Character::setHealth(int Health)
         health = Health;
     if(health < 0)
         _die();
+    if (Health > maxHealth)
+        health = maxHealth;
 }
 void Character::setMaxHealth(int MaxHealth)
 {
@@ -290,36 +292,66 @@ void Character::dropItem(string item)
 
 void Character::useItem(string item)
 {
-    cout << "useItem isn't implemented yet" << endl;
+   // cout << "useItem isn't implemented yet" << endl;
     
     // check if item in inventory,
     int index = itemList.linearSearch(item);
+
     if (index != -1)
     {
-        if (item == "Health Potion")
+        itemList.advanceToIndex(index);
+        Item* itemPtr = itemList.getIterator();
+        
+        Potion* potionPtr = dynamic_cast<Potion*>(itemPtr);
+        if (potionPtr)
         {
-            cout << "Use Health Potion" << endl;
+            int potionValue = potionPtr->getValue();
+            string potionName = potionPtr->name();
+            
+            
+            if (potionName == "Health Potion")
+            {
+                cout << "use Health Potion" << endl;
+                setHealth(getHealth() + potionValue + getIntelligence()*3);
+
+            }
+            else if (potionName == "Max Health Potion")
+            {
+                cout << "use Max Health Potion" << endl;
+                setMaxHealth(getMaxHealth() + potionValue);
+            }
+            else if (potionName == "Strength Potion")
+            {
+                cout << "use Strength Potion" << endl;
+                setStrength(getStrength() + potionValue);
+            }
+            else if (potionName == "Intelligence Potion")
+            {
+                cout << "use Intelligence Potion" << endl;
+                setIntelligence(getIntelligence() + potionValue);
+            }
+            else if (potionName == "Luck Potion")
+            {
+                cout << "use Luck Potion" << endl;
+                setLuck(getLuck() + potionValue);
+            }
+            return;
         }
-        else if (item == "Max Health Potion")
+        
+        KillScroll* killScrollPtr = dynamic_cast<KillScroll*>(itemPtr);
+        if (killScrollPtr)
         {
-            cout << "use Max Health Potion" << endl;
+            cout << "use Kill Scroll" << endl;
+            return;
         }
-        else if (item == "Strength Potion")
+        else
         {
-            cout << "Use Max Health Potion" << endl;
+            cout << "You can not use that item directly." << endl;
+            return;
         }
-        else if (item == "Strength Potion")
-        {
-            cout << "Use Strength Potion" << endl;
-        }
-        else if (item == "Luck Potion")
-        {
-            cout << "use Luck Potion" << endl;
-        }
-        else if (item == "Int Potion")
-        {
-            cout << "Use Int Potion" << endl;
-        }
+        
+        
+
     }
     else
     {
