@@ -8,18 +8,18 @@
  Dungeon's layout:
  
  
- 0 1 2 3 4 5 6 7 8 9
- _ _ _ _ _ _ _ _ _ _
- 0 |   |   | T |   |   |
- 1 | | | | | | | | | | |
- 2 | | | | | | | | | | |
- 3 | |G _|_ _ _ _|_ _| |
- 4 |_ _           G _ _|
- 5 |   | |  _ _  | |   |
- 6 | | | | |   | | | | |
- 7 | | | | |   | | | | |
- 8 | |G _| |   | |_ _| |
- 9 |_ _ _ _ _ _ _ _ _ _|
+                                                        0 1 2 3 4 5 6 7 8 9
+                                                        _ _ _ _ _ _ _ _ _ _
+                                                     0 |   |   | T |   |   |
+                                                     1 | | | | | | | | | | |
+                                                     2 | | | | | | | | | | |
+                                                     3 | |G _|_ _ _ _|_ _| |
+                                                     4 |_ _           G _ _|
+                                                     5 |   | |  _ _  | |   |
+                                                     6 | | | | |   | | | | |
+                                                     7 | | | | |   | | | | |
+                                                     8 | |G _| |   | |_ _| |
+                                                     9 |_ _ _ _ _ _ _ _ _ _|
  
  
  T - room with the treasure
@@ -56,7 +56,9 @@
 #include <iostream>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include <vector>
+#include <string>
 #include <new>
 #include "Room.h"
 #include "Exceptions.h"
@@ -75,9 +77,9 @@ private:
     vector<Monster*> monsters;                      //vector of pointers to all monsters in the dungeon
     vector<Item*> items;                            //vector of pointers to all items in the dungeon
     vector<RoomObject*> roomObjects;                //vector of pointers to all room objects in the dungeon
-    Item* ruby;                                     //pointer to a gem that must be alocated in a specific room
-    Item* sapphire;                                 //pointer to a gem that must be alocated in a specific room
-    Item* emerald;                                  //pointer to a gem that must be alocated in a specific room
+    Item* ruby;                                     //pointer to a ruby that must be alocated in a specific room
+    Item* sapphire;                                 //pointer to a sapphire that must be alocated in a specific room
+    Item* emerald;                                  //pointer to a emerald that must be alocated in a specific room
     RoomObject* treasure;                           //pointer to a treasure that must be allocated in a specific room
     Monster* dragonBoss;                            //pointer to a dragonBoss that must be allocated in a specific room
     
@@ -96,16 +98,16 @@ private:
 public:
     //Constructor
     /* Allocates memory for the dungeon matrix and intializes each room with data */
-    Dungeon(int r, int c);
+    Dungeon(int r, int c) throw(FileOpenError);
     
     //Destructor
     /* Deallocates memory used by the dungeon matrix */
     ~Dungeon();
     
     //Accessors
-    /* Prints dungeon map and character's position */
+    /* Prints dungeon map and character's position inside the dungeon */
     void printMap(int characterX, int characterY) const;
-    /* Prints the contents of 4 adjacent rooms */
+    /* Prints the contents of 4 rooms  adjacent to the room at x, y */
     void printAdjacentRooms(int characterX, int characterY) const throw (BoundaryError);
     /* Returns a reference to a room at coordinates represented by row and col */
     Room& getRoom(const int row, const int col)

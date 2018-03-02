@@ -25,7 +25,6 @@ void Dungeon::alloc() throw(bad_alloc)
         cout << "Insufficient memory." << endl;
     }
 }
-
 /********************************************************************************************
  release
  Frees the heap space used by the matrix.
@@ -45,7 +44,7 @@ void Dungeon::release()
  Initializes vectors of all room contents (monsters, items, room objects) and sets room data
  for each room.
  *******************************************************************************************/
-Dungeon::Dungeon(int r, int c) : rows(r), cols(c), numPopulatedRooms(0)
+Dungeon::Dungeon(int r, int c) throw(FileOpenError) : rows(r), cols(c), numPopulatedRooms(0)
 {
     //Allocate memory for the dungeon
     alloc();
@@ -54,14 +53,31 @@ Dungeon::Dungeon(int r, int c) : rows(r), cols(c), numPopulatedRooms(0)
     addRoomContents();
     
     //Set room coordinates and wall data
-    const char fileName[] = "walls.bin";
+    const char fileName[] = "/Users/Agnieszka Rynkiewicz/Desktop/Computer Science/1.7 C++/1.1 C++ Courses/1.3 Advanced C++/1.0 Group Project/3.0 Code/walls.bin";
     
     //Open file with room data
     fstream file;
-    file.open(fileName, ios::in | ios::binary);
-    if (!file)
+    try
     {
-        cout << "File Open Error" << endl;
+        file.open(fileName, ios::in | ios::binary);
+        if (!file)
+        {
+            throw FileOpenError(fileName);
+        }
+    }
+    catch (const FileOpenError& e)
+    {
+        string newFile;
+        cout << e.what() << endl;
+        file.clear();
+        cout << "Enter another file: ";
+        getline(cin, newFile);
+        file.open(newFile.c_str());
+        if (!file)
+        {
+            cout << "File Open Error" << endl;
+            exit(EXIT_FAILURE);
+        }
     }
     
     struct Room
@@ -74,6 +90,8 @@ Dungeon::Dungeon(int r, int c) : rows(r), cols(c), numPopulatedRooms(0)
     
     //Take the first read
     file.read(reinterpret_cast<char*>(&newRoom), sizeof(Room));
+    //cout << "ROW:  " << newRoom.row << " " << "COL:  " << newRoom.col << " WALL: " << static_cast<int>(newRoom.wall) << endl;
+
     
     //Read room data until EOF
     while (!file.eof())
@@ -83,6 +101,7 @@ Dungeon::Dungeon(int r, int c) : rows(r), cols(c), numPopulatedRooms(0)
         
         //Take a subsequent read to check for EOF bit
         file.read(reinterpret_cast<char*>(&newRoom), sizeof(Room));
+        //cout << "ROW:  " << newRoom.row << " " << "COL:  " << newRoom.col << " WALL: " << static_cast<int>(newRoom.wall) << endl;
     }
     
     //Close file
@@ -99,11 +118,11 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
     try
     {
         //Initialize vector with all monsters in the dungeon
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 25; i++)
         {
             switch (i % 2)
             {
-                    //Allocate a dragon
+                //Allocate a dragon
                 case 0:
                 {
                     monsters.push_back(new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating. If he's really angry, he'll throw fireballs at you! Watch out!"));
@@ -113,7 +132,7 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
                     //cout << "MONSTER DESC: " << ptr->getDescription() << endl;
                     break;
                 }
-                    //Allocate a titan
+                //Allocate a titan
                 case 1:
                 {
                     monsters.push_back(new Titan("Titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can knock down your equipment."));
@@ -125,7 +144,7 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
                 }
                 default:
                 {
-                    //To account for first loop iteration resulting in 0 % 2 = 2
+                    //To account for the first loop iteration resulting in 0 % 2 = 2
                     monsters.push_back(new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating. If he's really angry, he'll throw fireballs at you! Watch out!"));
                     //cout << "NO: " << i << endl;
                     //Monster* ptr = monsters[monsters.size() - 1];
@@ -142,7 +161,7 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
         //cout << "MONSTER DESC: " << dragonBoss->getDescription() << endl;
         
         //Initialize items vector
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 25; i++)
         {
             switch(i % 26)
             {
@@ -407,13 +426,13 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
         
         
         //Initialize room objects vector
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 25; i++)
         {
             switch (i % 4)
             {
                 case 0:
                 {
-                    roomObjects.push_back(new Book("book", "This black leader book contains hints about how to win the game"));
+                    roomObjects.push_back(new Book("book", "This black leather book contains hints about how to win the game"));
                     //cout << "NO: " << i << endl;
                     //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
                     //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
@@ -483,12 +502,15 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
     dungeonPtr[r][c].setCoordinates(r, c);
     dungeonPtr[r][c].setWalls(w);
     
+    cout << "ROW OF THIS ROOM: " << dungeonPtr[r][c].getRow() << endl;
+    cout << "COL OF THIS ROOM: " << dungeonPtr[r][c].getCol() << endl;
+    
     //Set treasure
-    if (r == 0 && c == 0)
+    if (r == 0 && c == 4)
     {
         dungeonPtr[r][c].setRoomObjectPtr(treasure);
         dungeonPtr[r][c].setMonsterPtr(dragonBoss);
-        /*
+        
         if (dungeonPtr[r][c].getMonsterPtr())
         {
             cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
@@ -497,30 +519,29 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
         {
             cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
         }
-         */
         
     }
     //Set ruby, sapphire and emerald
-    else if (r == 0 && c == 1)
+    else if (r == 3 && c == 1)
     {
         dungeonPtr[r][c].setItem(ruby);
-        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
+        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
+        cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
+        cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
     }
-    else if (r == 0 && c == 2)
+    else if (r == 4 && c == 7)
     {
         dungeonPtr[r][c].setItem(sapphire);
-        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
+        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
+        cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
+        cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
     }
-    else if (r == 1 && c == 0)
+    else if (r == 8 && c == 1)
     {
         dungeonPtr[r][c].setItem(emerald);
-        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
+        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
+        cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
+        cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
     }
     //Set monster, room object, and item data
     else
@@ -529,10 +550,11 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
         while (!ptrWasSet)
         {
             //Generate a random number
-            int i = rand()% 3 + 1;
+            int i = rand()% 4 + 1;
+            //cout << "i: " << i << endl;
             switch(i)
             {
-                    //Set monster data
+                //Set monster data
                 case 1:
                 {
                     if ((!monsters.empty()))
@@ -540,12 +562,12 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                         //Set monster Ptr in the room to monster Ptr stored as last element in monster vector
                         dungeonPtr[r][c].setMonsterPtr(monsters[monsters.size() - 1]);
                         monsters.pop_back();
-                        //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
+                        cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
                         ptrWasSet = true;
                     }
                     break;
                 }
-                    //Set room object data
+                //Set room object data
                 case 2:
                 {
                     if (!roomObjects.empty())
@@ -553,12 +575,12 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                         //Set room object Ptr in the room to room object Ptr stored as last element in room object vector
                         dungeonPtr[r][c].setRoomObjectPtr(roomObjects[roomObjects.size() - 1]);
                         roomObjects.pop_back();
-                        //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
+                        cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
                         ptrWasSet = true;
                     }
                     break;
                 }
-                    //Set item data
+                //Set item data
                 case 3:
                 {
                     if (!items.empty())
@@ -566,22 +588,22 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                         //Set item Ptr in the room to item Ptr stored as last element in items vector
                         dungeonPtr[r][c].setItem(items[items.size() - 1]);
                         items.pop_back();
-                        /*
+                        
                         vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
                         for (int i = 0; i < newItemVect.size(); i++)
                         {
-                            cout << "i: " << i << endl;
+                            //cout << "i: " << i << endl;
                             cout << "r: " << r << "c" << c << " " << newItemVect[i]->name() << endl;
-                            cout << "r: " << r << "c" << c << " " << newItemVect[i]->description() << endl;
                         }
-                         */
+                        
                         ptrWasSet = true;
                     }
                     break;
                 }
-                    //Set an empty room
+                //Set an empty room
                 case 4:
                 {
+                    cout << "Empty" << endl;
                     ptrWasSet = true;
                     break;
                 }

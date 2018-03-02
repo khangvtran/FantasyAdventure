@@ -4,13 +4,13 @@
  
  Here is the hierarchy for the Monster calss:
  
- Monster
- /    \
- /      \
- Dragon    Titan
- \        /
- \      /
- DragonBoss
+                                            Monster
+                                            /    \
+                                           /      \
+                                        Dragon    Titan
+                                          \        /
+                                           \      /
+                                          DragonBoss
  
  Class Monster is an abstract base class that has two derived clases: Dragon and Titan.
  All monsters have a name, description, strength, health, luck and an indicator whether they are dead or alive
@@ -124,15 +124,18 @@ public:
     {
         alive = mAlive;
     }
-    /* Modifies monster's health by subtracting the amount of damage */
-    void modifyHealth(double mDamage)
+    /* Modifies monster's health by subtracting the amount of damage.
+       Returns true if the monster is still alive and false if he is dead. */
+    bool modifyHealth(double mDamage)
     {
         health -= mDamage;
         if (health <= 0)
         {
             alive = false;
         }
+        return alive;
     }
+    
     //Getters
     /* Returns monster name */
     string getName() const

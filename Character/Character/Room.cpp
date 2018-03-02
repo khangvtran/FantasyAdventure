@@ -16,14 +16,9 @@ Room::Room(int row, int col, unsigned char wall)
     setCoordinates(row, col);
     setWalls(wall);
     
-    //Set Monster, RoomObject and Item data to NULL
+    //Set Monster and RoomObject pointers to NULL
     setMonsterPtr();
     setRoomObjectPtr();
-    for (auto i = items.begin(); i < items.end(); i++)
-    {
-        Item* ptr = nullptr;
-        items.push_back(ptr);
-    }
 }
 
 /********************************************************************************************
@@ -60,7 +55,7 @@ Room::~Room()
  checkNorth
  Returns true if movement north is possible. (i.e. no wall exists to the north of player's
  position) Wall data is stored in the last nibble of an unsigned char in the following bit
- pattern: 0000 _ _ _ _ W E S N
+ pattern: 0000 W E S N
  *******************************************************************************************/
 bool Room::checkNorth() const
 {
@@ -68,8 +63,14 @@ bool Room::checkNorth() const
     const unsigned char MASK = 1;
     
     if (walls & MASK)
+    {
+        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
+        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
+        //Wall -> character cannot move north
         return false;
+    }
     
+    //No wall -> character can move north
     return true;
 }
 
@@ -77,7 +78,7 @@ bool Room::checkNorth() const
  checkSouth
  Returns true if movement south is possible. (i.e. no wall exists to the north of player's
  position) Wall data is stored in the last nibble of an unsigned char in the following bit
- pattern: 0000 _ _ _ _ W E S N
+ pattern: 0000 W E S N
  *******************************************************************************************/
 bool Room::checkSouth() const
 {
@@ -85,8 +86,14 @@ bool Room::checkSouth() const
     const unsigned char MASK = 2;
     
     if (walls & MASK)
+    {
+        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
+        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
+        //Wall -> character cannot move north
         return false;
+    }
     
+    //No wall -> character can move north
     return true;
 }
 
@@ -94,7 +101,7 @@ bool Room::checkSouth() const
  checkEast
  Returns true if movement west is possible. (i.e. no wall exists to the north of player's
  position) Wall data is stored in the last nibble of an unsigned char in the following bit
- pattern: 0000 _ _ _ _ W E S N
+ pattern: 0000 W E S N
  *******************************************************************************************/
 bool Room::checkEast() const
 {
@@ -102,8 +109,14 @@ bool Room::checkEast() const
     const unsigned char MASK = 4;
     
     if (walls & MASK)
+    {
+        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
+        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
+        //Wall -> character cannot move north
         return false;
+    }
     
+    //No wall -> character can move north
     return true;
 }
 
@@ -111,7 +124,7 @@ bool Room::checkEast() const
  checkWest
  Returns true if movement west is possible. (i.e. no wall exists to the north of player's
  position) Wall data is stored in the last nibble of an unsigned char in the following bit
- pattern: 0000 _ _ _ _ W E S N
+ pattern: 0000 W E S N
  *******************************************************************************************/
 bool Room::checkWest() const
 {
@@ -119,8 +132,14 @@ bool Room::checkWest() const
     const unsigned char MASK = 8;
     
     if (walls & MASK)
+    {
+        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
+        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
+        //Wall -> character cannot move north
         return false;
+    }
     
+    //No wall -> character can move north
     return true;
 }
 
@@ -150,7 +169,7 @@ void Room::print(bool eastSet) const
 
 /********************************************************************************************
  contains
- Searches Item vector for a specific item. Returns true if the item is found
+ Searches items vector for a specific item. Returns true if the item is found.
  *******************************************************************************************/
 bool Room::contains(string s)
 {
@@ -159,7 +178,7 @@ bool Room::contains(string s)
         for (int i = 0; i < items.size(); i++)
         {
             Item* temp = items[i];
-            if (temp != nullptr && temp->name() == s)
+            if (temp->name() == s)
             {
                 return true;
             }
@@ -182,15 +201,14 @@ Item* Room::removeItem(string anItem)
         for (int i = 0; i < items.size(); i++)
         {
             Item* temp = items[i];
-            if (temp != nullptr && temp->name() == anItem)
+            if (temp->name() == anItem)
             {
-                //If you found the item, set it to nullptr and return temp
-                items[i] = nullptr;
+                //If you found the item erase it from the items vector
+                items.erase (items.begin()+ i);
                 return temp;
             }
         }
     }
-    
     //If item is not found, return nullptr
     return nullptr;
 }

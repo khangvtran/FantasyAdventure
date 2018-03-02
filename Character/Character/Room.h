@@ -91,6 +91,18 @@ public:
         coordinates.col = c;
     }
     
+    /* Returns row coordinates */
+    int getRow() const
+    {
+        return coordinates.row;
+    }
+    
+    /* Returns col coordinates */
+    int getCol() const
+    {
+        return coordinates.col;
+    }
+    
     /* Sets room's wall data stored as an unsigned char */
     void setWalls(unsigned char w)
     {
@@ -103,16 +115,23 @@ public:
         monsterPtr = mptr;
     }
     
-    /* Initializes RoomObjectPtr with an address of a RoomObject object */
+    /* Removes a monster from the room by deleting the monster object and setting MonsterPtr to NULL */
+    void removeMonster()
+    {
+        delete monsterPtr;
+        monsterPtr = nullptr;
+    }
+    
+    /* Ini tializes RoomObjectPtr with an address of a RoomObject object */
     void setRoomObjectPtr(RoomObject* roptr = nullptr)
     {
         roomObjectPtr = roptr;
     }
     
     /* Initializes a vector of Item pointers with an address of a single Item object */
-    void setItem(Item* iptr = nullptr)    // nullptr is a C++ 11 feature
+    void setItem(Item* iptr = nullptr)
     {
-        if (iptr != nullptr)  // CHANGE : !iptr   DOES NOT WORK
+        if (iptr != nullptr)
         {
             items.push_back(iptr);
         }
@@ -121,30 +140,33 @@ public:
     /* Displays a room description generated based on intialized pointers */
     void setDescription()
     {
-        if (getMonsterPtr())
+        //cout << "WALLS: " << static_cast<unsigned>(walls) << endl;
+        if (getMonsterPtr() || getRoomObjectPtr() || (!items.empty()))
         {
-            description = "In this room you find a(n) " + getMonsterPtr()->getName() + "\n" + getMonsterPtr()->getDescription();
-        }
-        else if (getRoomObjectPtr())
-        {
-            description = "In this room you find a(n) " + getRoomObjectPtr()->getName() + "\n" + getRoomObjectPtr()->getDescription();
-        }
-        else if (!items.empty())
-        {
-            description = "In this room you find a(n) ";
-            for (int i = 0; i < items.size(); i++)
+            if (getMonsterPtr())
             {
-                Item* temp = items[i];
-                if (temp != nullptr)
+                description = "In this room you find a(n) " + getMonsterPtr()->getName() + ".\n" + getMonsterPtr()->getDescription() + "\n";
+            }
+            if (getRoomObjectPtr())
+            {
+                description = "In this room you find a(n) " + getRoomObjectPtr()->getName() + ".\n" + getRoomObjectPtr()->getDescription() + "\n";
+            }
+            if (!items.empty())
+            {
+                description = "In this room you find a(n) ";
+                for (int i = 0; i < items.size(); i++)
                 {
-                    description += temp->name() + " ";
-                    description += temp->description();
+                    Item* temp = items[i];
+                    {
+                        description += temp->name() + " ";
+                        description += temp->description() + "\n";
+                    }
                 }
             }
         }
         else
         {
-            description = "This room is empty";
+            description = "This room is empty.\n";
         }
     }
     
