@@ -117,6 +117,18 @@ Item* Generation::generateItem(ITEMS type)
         {
             return new AdamantineDagger();
         }
+        case RUBY:
+        {
+            return new Ruby();
+        }
+        case EMERALD:
+        {
+            return new Emerald();
+        }
+        case SAPPHIRE:
+        {
+            return new Sapphire();
+        }
         default:
         {
             cerr << "this shouldn't happen" << endl;

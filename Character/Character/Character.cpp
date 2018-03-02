@@ -361,6 +361,8 @@ void Character::attack()
     // throw exception?
     
     Monster* m = currentRoom->getMonsterPtr();
+    if( m!= nullptr)
+        
     if(_HitOrHeal())
     {
         cout << "DIRECT HIT!" << endl;
@@ -642,7 +644,7 @@ void Character::cheat(string cmd, string cmd2)
     else if(cmd == "spawn")
     {
         Generation spawner;
-        Item* thing = spawner.generateItem(spawner.IRONSWORD);
+        Item* thing = spawner.generateItem(spawner.itemContainer[cmd2]);
         currentRoom->setItem(thing);
         pickupItem(thing->name());
     }
