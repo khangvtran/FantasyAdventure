@@ -41,11 +41,7 @@ Room::~Room()
     {
         for (int i = 0; i < items.size(); i++)
         {
-            Item* temp = items[i];
-            if (temp != nullptr)
-            {
-                delete items[i];
-            }
+            delete items[i];
         }
         items.erase(items.begin());
     }
@@ -144,30 +140,6 @@ bool Room::checkWest() const
 }
 
 /********************************************************************************************
- print
- Prints room walls.
- *******************************************************************************************/
-void Room::print(bool eastSet) const
-{
-    if (!checkWest() && !eastSet)
-    {
-        cout << "|";
-    }
-    if (!checkSouth())
-    {
-        cout << "_";
-    }
-    else
-    {
-        cout << "  ";
-    }
-    if (!checkEast())
-    {
-        cout << "|";
-    }
-}
-
-/********************************************************************************************
  contains
  Searches items vector for a specific item. Returns true if the item is found.
  *******************************************************************************************/
@@ -211,6 +183,42 @@ Item* Room::removeItem(string anItem)
     }
     //If item is not found, return nullptr
     return nullptr;
+}
+
+/********************************************************************************************
+ setDescription
+ Generates room description based on intialized pointers.
+ *******************************************************************************************/
+void Room::setDescription()
+{
+    //cout << "WALLS: " << static_cast<unsigned>(walls) << endl;
+    if (getMonsterPtr() || getRoomObjectPtr() || (!items.empty()))
+    {
+        if (getMonsterPtr())
+        {
+            description = "In this room you find a(n) " + getMonsterPtr()->getName() + ".\n" + getMonsterPtr()->getDescription() + "\n";
+        }
+        if (getRoomObjectPtr())
+        {
+            description = "In this room you find a(n) " + getRoomObjectPtr()->getName() + ".\n" + getRoomObjectPtr()->getDescription() + "\n";
+        }
+        if (!items.empty())
+        {
+            description = "In this room you find a(n) ";
+            for (int i = 0; i < items.size(); i++)
+            {
+                Item* temp = items[i];
+                {
+                    description += temp->name() + " ";
+                    description += temp->description() + "\n";
+                }
+            }
+        }
+    }
+    else
+    {
+        description = "This room is empty.\n";
+    }
 }
 
 /********************************************************************************************

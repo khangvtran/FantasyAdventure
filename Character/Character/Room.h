@@ -137,38 +137,8 @@ public:
         }
     }
     
-    /* Displays a room description generated based on intialized pointers */
-    void setDescription()
-    {
-        //cout << "WALLS: " << static_cast<unsigned>(walls) << endl;
-        if (getMonsterPtr() || getRoomObjectPtr() || (!items.empty()))
-        {
-            if (getMonsterPtr())
-            {
-                description = "In this room you find a(n) " + getMonsterPtr()->getName() + ".\n" + getMonsterPtr()->getDescription() + "\n";
-            }
-            if (getRoomObjectPtr())
-            {
-                description = "In this room you find a(n) " + getRoomObjectPtr()->getName() + ".\n" + getRoomObjectPtr()->getDescription() + "\n";
-            }
-            if (!items.empty())
-            {
-                description = "In this room you find a(n) ";
-                for (int i = 0; i < items.size(); i++)
-                {
-                    Item* temp = items[i];
-                    {
-                        description += temp->name() + " ";
-                        description += temp->description() + "\n";
-                    }
-                }
-            }
-        }
-        else
-        {
-            description = "This room is empty.\n";
-        }
-    }
+    /* Generates room description based on intialized pointers */
+    void setDescription();
     
     //Accessors
     /* Returns a reference to a struct with room coordinates */
@@ -226,8 +196,6 @@ public:
     bool checkEast() const;
     /* Returns true if movement west is possible */
     bool checkWest() const;
-    /* Prints room walls */
-    void print(bool westSet) const;
     
     //Item Transfer Functions
     /* Searches Item vector for a specific item. Returns true if the item is found.*/

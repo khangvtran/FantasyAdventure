@@ -432,7 +432,7 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
             {
                 case 0:
                 {
-                    roomObjects.push_back(new Book("book", "This black leather book contains hints about how to win the game"));
+                    roomObjects.push_back(new Book("book", "This black leather book contains hints about how to win the game."));
                     //cout << "NO: " << i << endl;
                     //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
                     //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
@@ -469,7 +469,7 @@ bool Dungeon::addRoomContents() throw(bad_alloc)
                 default:
                 {
                     //To account for first loop iteration resulting in 0 % 4 = 4
-                    roomObjects.push_back(new Book("book", "This black leader book contains hints about how to win the game"));
+                    roomObjects.push_back(new Book("book", "This black leader book contains hints about how to win the game."));
                     //cout << "NO: " << i << endl;
                     //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
                     //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
@@ -502,8 +502,8 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
     dungeonPtr[r][c].setCoordinates(r, c);
     dungeonPtr[r][c].setWalls(w);
     
-    cout << "ROW OF THIS ROOM: " << dungeonPtr[r][c].getRow() << endl;
-    cout << "COL OF THIS ROOM: " << dungeonPtr[r][c].getCol() << endl;
+    //cout << "ROW OF THIS ROOM: " << dungeonPtr[r][c].getRow() << endl;
+    //cout << "COL OF THIS ROOM: " << dungeonPtr[r][c].getCol() << endl;
     
     //Set treasure
     if (r == 0 && c == 4)
@@ -513,11 +513,11 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
         
         if (dungeonPtr[r][c].getMonsterPtr())
         {
-            cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
+            //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
         }
         if (dungeonPtr[r][c].getRoomObjectPtr())
         {
-            cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
+            //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
         }
         
     }
@@ -525,23 +525,23 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
     else if (r == 3 && c == 1)
     {
         dungeonPtr[r][c].setItem(ruby);
-        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
+        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
+        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
+        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
     }
     else if (r == 4 && c == 7)
     {
         dungeonPtr[r][c].setItem(sapphire);
-        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
+        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
+        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
+        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
     }
     else if (r == 8 && c == 1)
     {
         dungeonPtr[r][c].setItem(emerald);
-        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
+        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
+        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
+        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
     }
     //Set monster, room object, and item data
     else
@@ -562,7 +562,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                         //Set monster Ptr in the room to monster Ptr stored as last element in monster vector
                         dungeonPtr[r][c].setMonsterPtr(monsters[monsters.size() - 1]);
                         monsters.pop_back();
-                        cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
+                        //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
                         ptrWasSet = true;
                     }
                     break;
@@ -575,7 +575,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                         //Set room object Ptr in the room to room object Ptr stored as last element in room object vector
                         dungeonPtr[r][c].setRoomObjectPtr(roomObjects[roomObjects.size() - 1]);
                         roomObjects.pop_back();
-                        cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
+                        //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
                         ptrWasSet = true;
                     }
                     break;
@@ -589,12 +589,14 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                         dungeonPtr[r][c].setItem(items[items.size() - 1]);
                         items.pop_back();
                         
+                        /*
                         vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
                         for (int i = 0; i < newItemVect.size(); i++)
                         {
                             //cout << "i: " << i << endl;
                             cout << "r: " << r << "c" << c << " " << newItemVect[i]->name() << endl;
                         }
+                         */
                         
                         ptrWasSet = true;
                     }
@@ -603,7 +605,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                 //Set an empty room
                 case 4:
                 {
-                    cout << "Empty" << endl;
+                    //cout << "Empty" << endl;
                     ptrWasSet = true;
                     break;
                 }
@@ -627,41 +629,100 @@ Dungeon::~Dungeon()
 
 /********************************************************************************************
  printMap
- Prints the layout of the dungeon with character's current position marked with an x.
+ Prints the layout of the dungeon with character's current position marked with a star "*".
+ Prints the location of treasure, the three gems (ruby, sapphire, emerald) and all
+ monsters in the dungeon.
  *******************************************************************************************/
-void Dungeon::printMap(int characterX, int characterY) const
+void Dungeon::printMap(int characterRow, int characterCol) const
 {
-    bool eastSet;
-    cout << " _ _ _ " << endl;
-    cout << "You are at " << characterX << " " << characterY << endl; //ADDED
-    for (auto i = 0; i < rows; i++)
+    cout << "\n\n\n" << endl;
+    cout << setw(96) << "               ~~***   MAP   ***~~               \n" << endl;
+    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+
+    //Check for room object
+    for (int r = 0; r < 10; r++)
     {
-        for (auto j = 0; j < cols; j++)
+        cout << right << setw(55) << r;
+        for (int c = 0; c < 10; c++)
         {
-            eastSet = false;
-            //Check if eastern wall was set for the previous room
-            if (j > 0)
+            //Print Character's location
+            if (r == characterRow && c == characterCol)
             {
-                eastSet = !dungeonPtr[i][j - 1].checkEast();
+                cout << " * ";
             }
-            dungeonPtr[i][j].print(eastSet);
+            //Print treasure's location
+            else if (dungeonPtr[r][c].getRoomObjectPtr())
+            {
+                RoomObject* temp = dungeonPtr[r][c].getRoomObjectPtr();
+                Treasure* tPtr = dynamic_cast<Treasure*>(temp);
+                if (tPtr)
+                {
+                    cout << " T ";
+                }
+                else
+                {
+                    cout << "   ";
+                }
+            }
+           
+            //Print monster's location
+            else if (dungeonPtr[r][c].getMonsterPtr())
+            {
+                cout << " M ";
+            }
+            else if (!dungeonPtr[r][c].getItems().empty())
+            {
+                vector<Item*> temp = dungeonPtr[r][c].getItems();
+                Ruby* rPtr =  dynamic_cast<Ruby*>(temp[0]);
+                Sapphire* sPtr =  dynamic_cast<Sapphire*>(temp[0]);
+                Emerald* ePtr = dynamic_cast<Emerald*>(temp[0]);
+                
+                if (rPtr || sPtr || ePtr)
+                {
+                    cout << " G ";
+                }
+                else
+                {
+                    cout << "   ";
+                }
+            }
+            else
+            {
+                cout << "   ";
+            }
         }
+        cout << left << r;
+        cout << "\n";  //Remove this newline to make the map more compact
         cout << endl;
     }
+    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    cout << left << "\n" << endl;
+    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
+    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    cout << right << setw(55) << " " << left << "T - Treasure " << endl;
+    cout << right << setw(55) << " " << left << "M - Monster " << endl;
+    cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)\n" << endl;
+    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    
+    cout << "\n\n\n" << endl;
 }
 
 /********************************************************************************************
  printMap
  Takes room coordinates as arguments and prints room contents of 4 adjacent rooms.
  *******************************************************************************************/
-void Dungeon::printAdjacentRooms(int r, int c) const throw (BoundaryError)
+void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (BoundaryError)
 {
+    //Stores pointer to a dynamic array of room contents returned by the _printContents function
+    char roomContents[10];
+    int count = 0;
+    
     //Check for dungeon boundaries
     try
     {
-        if (r < 0 || r > (rows - 1) || c < 0 || c > (cols - 1))
+        if (characterRow < 0 || characterRow > (rows - 1) || characterCol < 0 || characterCol > (cols - 1))
         {
-            throw BoundaryError("Error: These coordinates are outsie the dungeon's boundaries");
+            throw BoundaryError("That's outside the dungeon's boundaries");
         }
     }
     catch (const BoundaryError& e)
@@ -669,144 +730,121 @@ void Dungeon::printAdjacentRooms(int r, int c) const throw (BoundaryError)
         cout << e.what() << endl;
     }
     
-    //Print Room contents for the room NORTH
-    if (r == 0)
+    cout << "\n\n\n" << endl;
+    cout << setw(96) << "               ~~***   ***   ***~~               \n" << endl;
+    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    
+    //Check for room object
+    for (int r = 0; r < 10; r++)
     {
-        cout << "There is no room NORTH of you.\n" << endl;
-    }
-    else
-    {
-        cout << "In the room NORTH of you there is a(n): ";
-        if (dungeonPtr[r - 1][c].getMonsterPtr())
+        cout << right << setw(55) << r;
+        for (int c = 0; c < 10; c++)
         {
-            cout << dungeonPtr[r - 1][c].getMonsterPtr()->getName() << endl;
-        }
-        else if (dungeonPtr[r - 1][c].getRoomObjectPtr())
-        {
-            cout << dungeonPtr[r - 1][c].getRoomObjectPtr()->getName() << endl;
-        }
-        else if (!dungeonPtr[r - 1][c].getItems().empty())
-        {
-            for (int i = 0; i < items.size(); i++)
+            //Print Room to the NORTH
+            if (r == characterRow - 1 && c == characterCol)
             {
-                Item* temp = items[i];
-                if (temp != nullptr)
-                {
-                    cout << temp->name() << " ";
-                }
+                roomContents[count] = _printContents(r, c);
+                count++;
             }
-            cout << endl;
-        }
-        else
-        {
-            cout << "The room NORTH of you is empty.\n" << endl;
-        }
-        cout << endl;
-    }
-    
-    
-    //Print Room contents for the room SOUTH
-    if (r == (rows - 1))
-    {
-        cout << "There is no room SOUTH of you.\n" << endl;
-    }
-    else
-    {
-        cout << "In the room SOUTH of you there is a(n): ";
-        if (dungeonPtr[r + 1][c].getMonsterPtr())
-        {
-            cout << dungeonPtr[r + 1][c].getMonsterPtr()->getName() << endl;
-        }
-        else if (dungeonPtr[r + 1][c].getRoomObjectPtr())
-        {
-            cout << dungeonPtr[r + 1][c].getRoomObjectPtr()->getName() << endl;
-        }
-        else if (!dungeonPtr[r + 1][c].getItems().empty())
-        {
-            for (int i = 0; i < items.size(); i++)
+            
+            //Print Room to the WEST
+            else if (r == characterRow && c == characterCol - 1)
             {
-                Item* temp = items[i];
-                if (temp != nullptr)
-                {
-                    cout << temp->name() << " ";
-                }
+                roomContents[count] =  _printContents(r, c);
+                count++;
+            }
+            //Print Character's location
+            else if (r == characterRow && c == characterCol)
+            {
+                cout << " * ";
+            }
+            //Print Room to the EAST
+            else if (r == characterRow && c == characterCol + 1)
+            {
+               roomContents[count] = _printContents(r, c);
+            count++;
+            }
+            
+            //Print Room to the SOUTH
+            else if (r == characterRow + 1 && c == characterCol)
+            {
+                roomContents[count] = _printContents(r, c);
+                count++;
+            }
+            else
+            {
+                cout << "   ";
             }
         }
-        else
-        {
-            cout << "The room SOUTH of you is empty.\n" << endl;
-        }
+        
+        cout << left << r;
+        cout << "\n";  //Remove this newline to make the map more compact
         cout << endl;
     }
+    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    cout << left << "\n\n" << endl;
     
-    //Print Room contents for the room EAST
-    if (c == (cols - 1))
-    {
-        cout << "There is no room EAST of you.\n" << endl;
-    }
-    else
-    {
-        cout << "In the room EAST of you there is a(n): ";
-        if (dungeonPtr[r][c + 1].getMonsterPtr())
-        {
-            cout << dungeonPtr[r][c + 1].getMonsterPtr()->getName() << endl;
-        }
-        else if (dungeonPtr[r][c + 1].getRoomObjectPtr())
-        {
-            cout << dungeonPtr[r][c + 1].getRoomObjectPtr()->getName() << endl;
-        }
-        else if (!dungeonPtr[r][c + 1].getItems().empty())
-        {
-            for (int i = 0; i < items.size(); i++)
-            {
-                Item* temp = items[i];
-                if (temp != nullptr)
-                {
-                    cout << temp->name() << " ";
-                }
-            }
-        }
-        else
-        {
-            cout << "The room EAST of you is empty.\n" << endl;
-        }
-        cout << endl;
-    }
+    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
+    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    bool bookused = false;
+    bool flareUsed = false;
+    bool fountainUsed = false;
+    bool mapUsed = false;
+    bool monsterUsed = false;
+    bool equipUsed = false;
+    bool consUsed = false;
     
-    //Print Room contents for the room WEST
-    if (c == 0)
+    for (int i = 0; i < count; i++)
     {
-        cout << "There is no room WEST of you.\n" << endl;
-    }
-    else
-    {
-        cout << "In the room WEST of you there is a(n): " << " ";
-        if (dungeonPtr[r][c - 1].getMonsterPtr())
+        if (toupper(roomContents[i]) == 'T')
         {
-            cout << dungeonPtr[r][c - 1].getMonsterPtr()->getName() << endl;
+            cout << right << setw(55) << " " << left << "T - Treasure " << endl;
         }
-        else if (dungeonPtr[r][c - 1].getRoomObjectPtr())
+        else if (toupper(roomContents[i]) == 'B' && !bookused)
         {
-            cout << dungeonPtr[r][c - 1].getRoomObjectPtr()->getName() << endl;
+            cout << right << setw(55) << " " << left << "B - Book " << endl;
+            bookused = false;
         }
-        else if (!dungeonPtr[r][c - 1].getItems().empty())
+        else if (toupper(roomContents[i]) == 'F' && !flareUsed)
         {
-            for (int i = 0; i < items.size(); i++)
-            {
-                Item* temp = items[i];
-                if (temp != nullptr)
-                {
-                    cout << temp->name() << " ";
-                }
-            }
+            cout << right << setw(55) << " " << left << "F - Flare " << endl;
+            flareUsed = true;
         }
-        else
+        else if (toupper(roomContents[i]) == 'R' && !fountainUsed)
         {
-            cout << "The room WEST of you is empty.\n" << endl;
+            cout << right << setw(55) << " " << left << "R - Fountain " << endl;
+            fountainUsed = true;
+            
         }
-        cout << endl;
+        else if (toupper(roomContents[i]) == 'P' && !mapUsed)
+        {
+            cout << right << setw(55) << " " << left << "P - Map " << endl;
+            mapUsed = true;
+        }
+        else if (toupper(roomContents[i]) == 'M' && !monsterUsed)
+        {
+            cout << right << setw(55) << " " << left << "M - Monster " << endl;
+            monsterUsed = true;
+        }
+        else if (toupper(roomContents[i]) == 'G')
+        {
+            cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)" << endl;
+        }
+        else if (toupper(roomContents[i]) == 'Q' && !equipUsed)
+        {
+            cout << right << setw(55) << " " << left << "Q - Equipment" << endl;
+            equipUsed = true;
+        }
+        else if (toupper(roomContents[i]) == 'C' && !consUsed)
+        {
+            cout << right << setw(55) << " " << left << "C - Consummable\n" << endl;
+            consUsed = true;
+        }
     }
     cout << endl;
+    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    cout << "\n\n\n" << endl;
+    
 }
 /********************************************************************************************
  Overloaded ostream Operator<<
@@ -824,4 +862,90 @@ ostream& operator<<(ostream& strm, const Dungeon& dungeon)
     
     return strm;
 }
+
+/********************************************************************************************
+ _printContents
+ Prints room contents of a room at row, col.
+ Returns a char representing specific room contents.
+ *******************************************************************************************/
+char Dungeon::_printContents(int r, int c)
+{
+    
+    //Check for RoomObjects
+    if (dungeonPtr[r][c].getRoomObjectPtr())
+    {
+        RoomObject* temp = dungeonPtr[r][c].getRoomObjectPtr();
+        Treasure* tPtr = dynamic_cast<Treasure*>(temp);
+        Book* bPtr = dynamic_cast<Book*>(temp);
+        Flare* fPtr = dynamic_cast<Flare*>(temp);
+        Fountain* ftPtr = dynamic_cast<Fountain*>(temp);
+        Map* mPtr = dynamic_cast<Map*>(temp);
+        
+        if (tPtr)
+        {
+            cout << " T ";
+            return 'T';
+        }
+        else if (bPtr)
+        {
+            cout << " B ";
+            return 'B';
+        }
+        else if (fPtr)
+        {
+            cout << " F ";
+            return 'F';
+        }
+        else if (ftPtr)
+        {
+            cout << " R ";
+            return 'R';
+        }
+        else if (mPtr)
+        {
+            cout << " P ";
+            return 'P';
+        }
+    }
+    
+    //Check for Monsters
+    else if (dungeonPtr[r][c].getMonsterPtr())
+    {
+        cout << " M ";
+        return 'M';
+    }
+    
+    //Check for Items
+    else if (!dungeonPtr[r][c].getItems().empty())
+    {
+        vector<Item*> temp = dungeonPtr[r][c].getItems();
+        Ruby* rPtr =  dynamic_cast<Ruby*>(temp[0]);
+        Sapphire* sPtr =  dynamic_cast<Sapphire*>(temp[0]);
+        Emerald* ePtr = dynamic_cast<Emerald*>(temp[0]);
+        Equipment* qPtr = dynamic_cast<Equipment*>(temp[0]);
+        
+        if (rPtr || sPtr || ePtr)
+        {
+            cout << " G ";
+            return 'G';
+        }
+        else if (qPtr)
+        {
+            cout << " Q ";
+            return 'Q';
+        }
+        else
+        {
+            cout << " C ";
+            return 'C';
+        }
+    }
+    else
+    {
+        cout << "   ";
+    }
+    
+    return '1';
+}
+
 

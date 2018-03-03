@@ -55,7 +55,9 @@
 
 #include <iostream>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
+#include <cctype>
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -95,6 +97,9 @@ private:
     /* Initializes vectors with all room contents in the dungeon (monsters, items, room objects) with data */
     bool addRoomContents() throw(bad_alloc);
     
+    /* Prints room contents of a room at row, col. Returns a char representing specific room contents. */
+    char _printContents(int r, int c);
+    
 public:
     //Constructor
     /* Allocates memory for the dungeon matrix and intializes each room with data */
@@ -106,9 +111,9 @@ public:
     
     //Accessors
     /* Prints dungeon map and character's position inside the dungeon */
-    void printMap(int characterX, int characterY) const;
+    void printMap(int characterRow, int characterCol) const;
     /* Prints the contents of 4 rooms  adjacent to the room at x, y */
-    void printAdjacentRooms(int characterX, int characterY) const throw (BoundaryError);
+    void printAdjacentRooms(int characterRow, int characterCol) throw (BoundaryError);
     /* Returns a reference to a room at coordinates represented by row and col */
     Room& getRoom(const int row, const int col)
     {
