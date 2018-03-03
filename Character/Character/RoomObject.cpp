@@ -1,8 +1,8 @@
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 
 #include <iomanip>
 #include <iostream>
-#include <string.h>
+#include <string>
 #include "RoomObject.h"
 /**************************************************************************
  RoomObject class (base class)

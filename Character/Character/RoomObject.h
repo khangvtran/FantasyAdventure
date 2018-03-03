@@ -1,9 +1,10 @@
-#pragma once
-#ifndef __RoomObject__
+//#pragma once
+#ifndef RoomObject_h
+#define RoomObject_h
 
 #include <iostream>
 #include <string>
-#include "RoomObject.h"
+//#include "RoomObject.h"
 using namespace std;
 /**************************************************************************
  RoomObject class (base class)
