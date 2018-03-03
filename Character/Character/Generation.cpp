@@ -89,16 +89,16 @@ Item* Generation::generateItem(ITEMS type)
 }
 
 
-Monster* Generation::generateMonster(MONSTERS type, const string& description)
+Monster* Generation::generateMonster(MONSTERS type, const string& name, const string& description)
 {
     switch(type)
     {
         case DRAGON:
-            return new Dragon(description);
+            return new Dragon(name, description);
         case TITAN:
-            return new Titan(description);
+            return new Titan(name, description);
         case DRAGONBOSS:
-            return new DragonBoss(description);
+            return new DragonBoss(name, description);
         default:
         {
             cerr << "this should not happen" << endl;

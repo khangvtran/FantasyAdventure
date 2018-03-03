@@ -23,7 +23,7 @@
         // do code with ro
     }
  
-    Monster* monster = spawner.generateMonster(spawner.monsterContainer.at("Dragon"), "<bookname>", "<bookdescription>"); // returns a Dragon object
+    Monster* monster = spawner.generateMonster(spawner.monsterContainer.at("Dragon"), "<monstername>", "<monsterdescription>"); // returns a Dragon object
     if(monster != nullptr)
     {
         // do code with monster
@@ -79,7 +79,7 @@ public:
         {"Book", BOOK}, {"Flare", FLARE}, {"Fountain", FOUNTAIN}, {"Map", MAP}, {"Treasure", TREASURE}
     };
     
-    Monster* generateMonster(MONSTERS type, const string& = "");
+    Monster* generateMonster(MONSTERS type, const string& = "", const string& = "");
     Item* generateItem(ITEMS type);
     RoomObject* generateRoomObj(ROOMOBJ type, const string& = "", const string& = "");
     
