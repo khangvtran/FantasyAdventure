@@ -408,19 +408,22 @@ void Character::attack()
     // throw exception?
     
     Monster* m = currentRoom->getMonsterPtr();
-    if( m!= nullptr)
-        
+    if(m == nullptr)
+    {
+        cout << "There's no monster in the room. " << endl;
+        return;
+    }
     if(_HitOrHeal())
     {
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         double damage = strength * 1.5;
+        cout << "You dealt " << damage << " to " << m->getName() << "." << endl;
         if(m->modifyHealth(damage))
         {
             currentRoom->removeMonster(); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
             return;
         }
-        
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
     bool flag = false; // THIS IS NEW
@@ -430,7 +433,7 @@ void Character::attack()
     
     cout << "Health after attack: " << health << endl; // debug
     if(!isAlive())
-        ;//throw exception (died);
+        throw "You lost a life!"; //throw exception (died);
 }
 
 /**
