@@ -338,7 +338,8 @@ void Character::useItem(const string& item)
                 setLuck(getLuck() + potionValue);
             }
             
-            itemList.removeIterator();
+            delete potionPtr;               // remove iterator no longer realease memory
+            itemList.removeIterator();      // remove the pointer from the linkedlist
             return;
         }
         
@@ -347,7 +348,20 @@ void Character::useItem(const string& item)
         {
             cout << "use Kill Scroll" << endl;
             
+            Monster* m = currentRoom->getMonsterPtr();
+            if(m == nullptr)
+            {
+                cout << "There is no monster. What are you using that Kill Scroll for, pal? " << endl;
+                return;
+            }
+            else
+            {
+                m->modifyHealth(m->getHealth() + 1);    // kill the monster
+                currentRoom->removeMonster();           // remove monster from the room
+            }
             
+            
+            killScrollPtr = nullptr;
             itemList.removeIterator();
             return;
         }
@@ -366,6 +380,8 @@ void Character::useItem(const string& item)
 
     
 }
+
+
 
 
 

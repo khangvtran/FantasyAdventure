@@ -122,7 +122,7 @@ public:
     void dropItem(const string& item);
     void useItem(const string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
     int equipmentHealth();
-    
+    void useKillScroll();
     
     
     /* Interactions with Monsters */
