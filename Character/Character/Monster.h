@@ -85,12 +85,12 @@ using namespace std;
 class Monster
 {
 protected:
-    string name;            //stores monster name
-    string description;     //stores monster description
-    double strength;           //stores monster's strength
+    string name;                //stores monster name
+    string description;         //stores monster description
+    double strength;            //stores monster's strength
     double health;             //stores monster's health
     double luck;               //stores monster's luck
-    double alive;             //flag to indicate whether a monster is dead or alive
+    double alive;                //flag to indicate whether a monster is dead or alive
 public:
     //Constructor
     /* Initializes monster data with starting values */
@@ -132,6 +132,7 @@ public:
         if (health <= 0)
         {
             alive = false;
+            cout << name << " fainted." << endl;
         }
         return alive;
     }
@@ -172,7 +173,7 @@ public:
     
     //Pure virtual functions
     /* Returns an int representing damage done to the character */
-    virtual int attack(double characterLuck, bool& loseEquip) = 0;
+    virtual int attack(double characterLuck) = 0;
     
 };
 
@@ -240,7 +241,7 @@ public:
     
     //Pure virtual functions
     /* Returns an int representing damage done to the character */
-    virtual int attack(double characterLuck, bool& loseEquip);
+    virtual int attack(double characterLuck);
     
     /* Auguments monster's stats by multiplying them by 1.5 */
     void throwFireBall();
@@ -309,7 +310,7 @@ public:
     
     //Pure virtual functions
     /* Returns an int representing damage done to the character and causes character to drop one piece of eqipment */
-    virtual int attack(double characterLuck, bool& loseEquip);
+    virtual int attack(double characterLuck);
 };
 
 class DragonBoss: public Dragon, public Titan
@@ -340,7 +341,7 @@ public:
     virtual ~DragonBoss() {}
     
     /* Returns an int representing damage done to the character */
-    virtual int attack(double characterLuck, bool& loseEquip);
+    virtual int attack(double characterLuck);
 };
 
 #endif

@@ -39,7 +39,7 @@ bool Monster::getHitAccuracy(double characterLuck) const
  *******************************************************************************************/
 void Dragon::throwFireBall()
 {
-    const double MULTIPLIER = 1.5;
+    const double MULTIPLIER = 1.25;
     setStrength(strength * MULTIPLIER);
     //cout << "STRENGTH * 1.5: " << strength << endl;
     setLuck(luck * MULTIPLIER);
@@ -51,7 +51,7 @@ void Dragon::throwFireBall()
  Throws a fireball if dragon's vitality is > 10. Computes and returns damage done to the
  character by multiplying the character's strength by 1.5.
  *******************************************************************************************/
-int Dragon::attack(double characterLuck, bool& loseEquip)
+int Dragon::attack(double characterLuck)
 {
     int damage = 0;
     
@@ -83,24 +83,25 @@ int Dragon::attack(double characterLuck, bool& loseEquip)
  If titan's agility is > 10, the character's equipment is knocked down.
  Computes and returns damage done to the character by multiplying the character's strength by 1.5.
  *******************************************************************************************/
-int Titan::attack(double characterLuck, bool& loseEquip)
+int Titan::attack(double characterLuck)
 {
     int damage = 0;
-    
-    //If titan's agility is > 10, set loseEquipment flag to true
-    if (agility > 10)
-    {
-        cout << "You just lost a piece of equimpent. You better pick it back up quickly!" << endl;
-        loseEquip = true;
-    }
-    
     
     //If monster's attack was accurate, compute damage
     if (getHitAccuracy(characterLuck))
     {
         damage = strength * 1.5;
+        
+        //If titan's agility is > 10, do
+        if (agility > 10)
+        {
+            double modifier = (rand()% 10 + 1) / 10.0 + 1;
+            damage *= modifier;
+            cout << "Critical hit! " << endl;
+        }
         cout << "He hit you! You lost " << damage << " health points." << endl;
         //cout << "DAMAGE: " << damage << endl;
+        
     }
     else
     {
@@ -115,7 +116,7 @@ int Titan::attack(double characterLuck, bool& loseEquip)
  dragonboss's agility is > 10.  Computes and returns damage done to the character by multiplying
  the character's strength by 1.5.
  *******************************************************************************************/
-int DragonBoss::attack(double characterLuck, bool& loseEquip)
+int DragonBoss::attack(double characterLuck)
 {
     int damage = 0;
     
@@ -126,17 +127,21 @@ int DragonBoss::attack(double characterLuck, bool& loseEquip)
         throwFireBall();
     }
     
-    //If dragonboss's agility is > 10, set loseEquipment flag to true
-    if (agility > 10)
-    {
-        cout << "You just lost a piece of equimpent. You better pick it back up quickly!" << endl;
-        loseEquip = true;
-    }
+    //If dragonboss's agility is > 10
+  
     
     //If monster's attack was accurate, compute damage
     if (getHitAccuracy(characterLuck))
     {
         damage = strength * 1.5;
+        
+        //cout << "DAMAGE: " << damage << endl;
+        if (agility > 10)
+        {
+            double modifier = (rand()% 10 + 1) / 10.0 + 1;
+            damage *= modifier;
+            cout << "Critical hit! " << endl;
+        }
         cout << "He hit you! You lost " << damage << " health points." << endl;
         //cout << "DAMAGE: " << damage << endl;
     }
