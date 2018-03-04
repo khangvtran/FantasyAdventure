@@ -415,7 +415,12 @@ void Character::attack()
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         double damage = strength * 1.5;
-        m->modifyHealth(damage); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
+        if(m->modifyHealth(damage))
+        {
+            currentRoom->removeMonster(); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
+            return;
+        }
+        
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
     bool flag = false; // THIS IS NEW
