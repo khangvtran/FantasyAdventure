@@ -44,7 +44,7 @@ void Dungeon::release()
  Initializes vectors of all room contents (monsters, items, room objects) and sets room data
  for each room.
  *******************************************************************************************/
-Dungeon::Dungeon(int r, int c) throw(FileOpenError) : rows(r), cols(c), numPopulatedRooms(0)
+Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), cols(c), numPopulatedRooms(0)
 {
     //Allocate memory for the dungeon
     alloc();
@@ -62,10 +62,10 @@ Dungeon::Dungeon(int r, int c) throw(FileOpenError) : rows(r), cols(c), numPopul
         file.open(fileName, ios::in | ios::binary);
         if (!file)
         {
-            throw FileOpenError(fileName);
+            throw AdventureErrors::FileOpenError(fileName);
         }
     }
-    catch (const FileOpenError& e)
+    catch (const AdventureErrors::FileOpenError& e)
     {
         string newFile;
         cout << e.what() << endl;
@@ -107,7 +107,68 @@ Dungeon::Dungeon(int r, int c) throw(FileOpenError) : rows(r), cols(c), numPopul
     //Close file
     file.close();
 }
-
+/*
+bool Dungeon::putthingsintodungeon()
+{
+    bool roomData[10][10] = {false};
+    Generation spawner;
+    
+    do
+    {
+        int rowNum = rand() % 10;
+        int colNum = rand() % 10;
+        
+        bool set = false;
+        while(!roomData[rowNum][colNum] && !set) // if room is empty and no monster
+        {
+            if(!roomData[rowNum][colNum])
+                dungeonPtr[rowNum][colNum].setMonsterPtr(spawner.generateMonster(spawner.monsterContainer[0])); // generates dragon
+            set = true;
+        }
+        if(!roomData[rowNum][colNum]) // if room is empty
+        {
+            
+        }
+    }
+    
+    
+    
+    
+    
+    const int numMonsters = 18;
+    const int pots = 15;
+    const int equipment = 20;
+    const int roomobjs = 20;
+    int monsterCount, potCount, equipmentCount, roomobjCount = 0;
+    
+    
+    while(monsterCount != numMonsters && potCount != pots && equipmentCount != equipment && roomobjCount != roomobjs)
+    {
+        
+        int rowNum = rand() % 10;
+        int colNum = rand() % 10;
+        
+        if(!roomData[rowNum][colNum]) // if room is empty
+        {
+            if(monsterCount != numMonsters)
+            {
+                spawner.generateMonster(<#Generation::MONSTERS type#>)
+            }
+        }
+        
+        for(int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                if(! roomData[i][j]) // if room is empty
+                {
+                    
+                }
+            }
+        }
+    }
+    
+}*/
 /********************************************************************************************
  addRoomContents
  Initializes vectors with all monsters, items and room objects with data.
@@ -115,6 +176,8 @@ Dungeon::Dungeon(int r, int c) throw(FileOpenError) : rows(r), cols(c), numPopul
  *******************************************************************************************/
 bool Dungeon::addRoomContents() throw(bad_alloc)
 {
+    
+    
     try
     {
         //Initialize vector with all monsters in the dungeon
@@ -693,7 +756,10 @@ void Dungeon::printMap(int characterRow, int characterCol) const
         }
         cout << left << r;
         cout << "\n";  //Remove this newline to make the map more compact
-        cout << endl;
+        if (r < 9)
+        {
+            cout << endl;
+        }
     }
     cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
     cout << left << "\n" << endl;
@@ -708,10 +774,10 @@ void Dungeon::printMap(int characterRow, int characterCol) const
 }
 
 /********************************************************************************************
- printMap
+ printAdjacentRooms
  Takes room coordinates as arguments and prints room contents of 4 adjacent rooms.
  *******************************************************************************************/
-void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (BoundaryError)
+void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (AdventureErrors::BoundaryError)
 {
     //Stores pointer to a dynamic array of room contents returned by the _printContents function
     char roomContents[10];
@@ -722,10 +788,10 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Boun
     {
         if (characterRow < 0 || characterRow > (rows - 1) || characterCol < 0 || characterCol > (cols - 1))
         {
-            throw BoundaryError("That's outside the dungeon's boundaries");
+            throw AdventureErrors::BoundaryError("That's outside the dungeon's boundaries");
         }
     }
-    catch (const BoundaryError& e)
+    catch (const AdventureErrors::BoundaryError& e)
     {
         cout << e.what() << endl;
     }
@@ -779,7 +845,10 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Boun
         
         cout << left << r;
         cout << "\n";  //Remove this newline to make the map more compact
-        cout << endl;
+        if (r < 9)
+        {
+            cout << endl;
+        }
     }
     cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
     cout << left << "\n\n" << endl;
@@ -814,7 +883,6 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Boun
         {
             cout << right << setw(55) << " " << left << "R - Fountain " << endl;
             fountainUsed = true;
-            
         }
         else if (toupper(roomContents[i]) == 'P' && !mapUsed)
         {
@@ -948,4 +1016,47 @@ char Dungeon::_printContents(int r, int c)
     return '1';
 }
 
-
+/********************************************************************************************
+ printWalls
+ Prints dungeon's walls.
+ *******************************************************************************************/
+void Dungeon::printWalls() const
+{
+    struct Walls
+    {
+        string id;
+        string line1;
+        string line2;
+        string line3;
+    };
+    const int SIZE = 4;
+    Walls layout[SIZE] = {{"WS", "|   ", "|   ", "|___"},
+                           {"W", "|   ", "|   ", "|   "},
+                           {"S", "    ", "    ", "____"},
+                           {"N", "    ", "    ", "    "}};
+    
+    bool isSouth = false;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            for (int k = 0; k < cols; k++)
+            {
+                if (!dungeonPtr[i][j].checkWest())
+                {
+                    if (!dungeonPtr[i][j].checkSouth())
+                    {
+                        isSouth = true;
+                    }
+                    cout << layout[i].line1;
+                }
+            }
+            
+        }
+       
+    }
+    
+    
+    
+   
+}

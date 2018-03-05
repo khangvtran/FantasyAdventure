@@ -10,7 +10,7 @@
  
                                                         0 1 2 3 4 5 6 7 8 9
                                                         _ _ _ _ _ _ _ _ _ _
-                                                     0 |   |   | T |   |   |
+                                                     0 |   |   |T |   |   |
                                                      1 | | | | | | | | | | |
                                                      2 | | | | | | | | | | |
                                                      3 | |G _|_ _ _ _|_ _| |
@@ -64,6 +64,7 @@
 #include <new>
 #include "Room.h"
 #include "Exceptions.h"
+#include "Generation.h"
 using namespace std;
 
 class Dungeon
@@ -103,7 +104,7 @@ private:
 public:
     //Constructor
     /* Allocates memory for the dungeon matrix and intializes each room with data */
-    Dungeon(int r, int c) throw(FileOpenError);
+    Dungeon(int r, int c) throw(AdventureErrors::FileOpenError);
     
     //Destructor
     /* Deallocates memory used by the dungeon matrix */
@@ -113,7 +114,10 @@ public:
     /* Prints dungeon map and character's position inside the dungeon */
     void printMap(int characterRow, int characterCol) const;
     /* Prints the contents of 4 rooms  adjacent to the room at x, y */
-    void printAdjacentRooms(int characterRow, int characterCol) throw (BoundaryError);
+    void printAdjacentRooms(int characterRow, int characterCol) throw (AdventureErrors::BoundaryError);
+    /* Prints dungeon's walls */
+    void printWalls() const;
+    
     /* Returns a reference to a room at coordinates represented by row and col */
     Room& getRoom(const int row, const int col)
     {

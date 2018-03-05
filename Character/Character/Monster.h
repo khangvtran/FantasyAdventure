@@ -321,8 +321,8 @@ public:
     DragonBoss(string mName = "", string mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mVitality = 0, double mAgility = 0) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), Dragon(mAgility), Titan(mVitality)
     {
         //Set DragonBoss strength
-        const int STRENGTH_MIN = 0;
-        const int STRENGTH_MAX = 15;
+        const int STRENGTH_MIN = 15;        //Allocate higher health
+        const int STRENGTH_MAX = 30;
         strength = (rand() % (STRENGTH_MAX - STRENGTH_MIN + 1) + STRENGTH_MIN);
         setStrength(strength);
         

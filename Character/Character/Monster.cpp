@@ -57,7 +57,7 @@ int Dragon::attack(double characterLuck)
     
     //If dragons's vitality is > 10, throw a fireball
     //cout << "THROW FIRE BALL: " << (vitality > 10) << endl;
-    if (vitality > 10)
+    if (vitality > 12)
     {
         cout << "Watch out! Fire coming your way!" << endl;
         throwFireBall();
@@ -93,14 +93,14 @@ int Titan::attack(double characterLuck)
         damage = strength * 1.5;
         
         //If titan's agility is > 10, do
-        if (agility > 10)
+        if (agility > 12)
         {
             double modifier = (rand()% 10 + 1) / 10.0 + 1;
             damage *= modifier;
-            cout << "Critical hit! " << endl;
+            cout << "He dealt you a critical hit! " << endl;
         }
         cout << "He hit you! You lost " << damage << " health points." << endl;
-        //cout << "DAMAGE: " << damage << endl;
+        //cout << "MONSTER DAMAGE: " << damage << endl;
         
     }
     else
@@ -121,7 +121,7 @@ int DragonBoss::attack(double characterLuck)
     int damage = 0;
     
     //If dragonboss's vitality is > 10, throw a fireball
-    if (vitality > 10)
+    if (vitality > 12)
     {
         cout << "Watch out! Fire coming your way!" << endl;
         throwFireBall();
@@ -140,7 +140,7 @@ int DragonBoss::attack(double characterLuck)
         {
             double modifier = (rand()% 10 + 1) / 10.0 + 1;
             damage *= modifier;
-            cout << "Critical hit! " << endl;
+            cout << "He dealt you a critical hit! " << endl;
         }
         cout << "He hit you! You lost " << damage << " health points." << endl;
         //cout << "DAMAGE: " << damage << endl;

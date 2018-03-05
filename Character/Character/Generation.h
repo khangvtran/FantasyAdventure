@@ -63,6 +63,7 @@ public:
         {"Health Potion", HEALTHPOTION}, {"Max Health Potion", MAXHEALTHPOTION}, {"Strength Potion", STRENGTHPOTION}, {"Int Potion", INTPOTION},
         {"Luck Potion", LUCKPOTION}, {"Kill Scroll", KILLSCROLL},
         {"Iron Helmet", IRONHELMET}, {"Steel Helmet", STEELHELMET}, {"Mithril Helmet", MITHRILHELMET}, {"Adamantine Helmet", ADAMANTINEHELMET},
+        {"Iron Armor", IRONARMOR}, {"Steel Armor", STEELARMOR}, {"Mithril Armor", MITHRILARMOR}, {"Adamantine Armor", ADAMANTINEARMOR},
         {"Iron Greaves", IRONGREAVES}, {"Steel Greaves", STEELGREAVES}, {"Mithril Greaves", MITHRILGREAVES}, {"Adamantine Greaves", ADAMANTINEGREAVES},
         {"Iron Sword", IRONSWORD}, {"Steel Sword", STEELSWORD}, {"Mithril Sword", MITHRILSWORD}, {"Adamantine Sword", ADAMANTINESWORD},
         {"Iron Dagger", IRONDAGGER}, {"Steel Dagger", STEELDAGGER}, {"Mithril Dagger", MITHRILDAGGER}, {"Adamantine Dagger", ADAMANTINEDAGGER},

@@ -196,13 +196,14 @@ void Room::setDescription()
     {
         if (getMonsterPtr())
         {
+            cout << "monster" << endl;
             description = "In this room you find a(n) " + getMonsterPtr()->getName() + ".\n" + getMonsterPtr()->getDescription() + "\n";
         }
-        if (getRoomObjectPtr())
+        else if (getRoomObjectPtr())
         {
             description = "In this room you find a(n) " + getRoomObjectPtr()->getName() + ".\n" + getRoomObjectPtr()->getDescription() + "\n";
         }
-        if (!items.empty())
+        else if(!items.empty())
         {
             description = "In this room you find a(n) ";
             for (int i = 0; i < items.size(); i++)
