@@ -101,7 +101,7 @@ int Character::getRowPos() const
 void Character::setInitialAttributes()
 {
     int temp = -1;
-    int totalBaseStat = 18;
+    int totalBaseStat = 24;
     cout << "You have " << totalBaseStat << " points to allocate into Strength (affecting damage), Intelligence (affecting healing), and Luck (affecting accuracy)" << endl << endl;
     do
     {
@@ -435,16 +435,16 @@ void Character::attack()
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         double damage = strength * 1.5;
         cout << "You dealt " << damage << " to " << m->getName() << "." << endl;
-        if(m->modifyHealth(damage))
+        if(!m->modifyHealth(damage))
         {
             currentRoom->removeMonster(); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
             return;
         }
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
-    bool flag = false; // THIS IS NEW
+    //bool flag = false; // THIS IS NEW
     cout << "Health before attack: " << health << endl; // debug
-    double monsterDamage = m->attack(luck, flag);
+    double monsterDamage = m->attack(luck);
     setHealth(health - monsterDamage);
     
     cout << "Health after attack: " << health << endl; // debug
@@ -579,13 +579,13 @@ void Character::_activateEndgameTreasure() const        // CHANGE: complete
         if (TreasurePtr)       // check if the Room Object is a Treasure
         {
             // check if boss is dead
-            if (currentRoom->getMonsterPtr()->isAlive())
+            if (currentRoom->getMonsterPtr() != nullptr)
             {
                 cout << "May be it just me but do you see that colossal monster guarding the treasure there, mate????" << endl;
                 return;
             }
             // check if all gems are in itemList
-            if (itemList.linearSearch("Ruby") == -1 || itemList.linearSearch("Saphhire") == -1 || itemList.linearSearch("Emmerald") == -1)
+            if (itemList.linearSearch("Ruby") == -1 || itemList.linearSearch("Sapphire") == -1 || itemList.linearSearch("Emerald") == -1)
             {
                 cout << "You still have to acquire all three gems: Ruby, Sapphire, and Emmerald" << endl;
                 return;
