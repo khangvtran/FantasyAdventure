@@ -23,27 +23,35 @@ public:
  The following three classes are Portal Gems, required to be in the
  character's inventory in order to beat the game
  */
-class Ruby : public Item
+
+class PortalGem : public Item
+{
+public:
+    virtual string description(){return "gem that seems to sparkle with an inner light.";}
+    virtual ~PortalGem(){};
+};
+
+class Ruby : public PortalGem
 {
 public:
     string name(){return "Ruby";}
-    string description(){return "A large, blood red gem that seems to sparkle with an inner light.";}
+    string description(){return "A large, blood red " + PortalGem::description();}
     ~Ruby(){}
 };
 
-class Sapphire : public Item
+class Sapphire : public PortalGem
 {
 public:
     string name(){return "Sapphire";}
-    string description(){return "A large, deep blue gem that seems to sparkle with an inner light.";}
+    string description(){return "A large, deep blue " + PortalGem::description();}
     ~Sapphire(){}
 };
 
-class Emerald : public Item
+class Emerald : public PortalGem
 {
 public:
     string name(){return "Emerald";}
-    string description(){return "A large, bright green gem that seems to sparkle with an inner light.";}
+    string description(){return "A large, bright green " + PortalGem::description();}
     ~Emerald(){}
 };
 
@@ -450,3 +458,4 @@ public:
 
 
 #endif
+
