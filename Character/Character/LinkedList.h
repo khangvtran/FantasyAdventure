@@ -559,7 +559,7 @@ void List<listdata>::printNumberedList() const
     while(temp != NULL)
     {
         lineIndex++;
-        cout << lineIndex << ": " << temp->data << endl;
+        cout << lineIndex << ": " << temp->data->name() << endl;
         temp = temp->linknext;
     }
     cout << endl;
