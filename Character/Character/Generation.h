@@ -80,9 +80,9 @@ public:
         {"Book", BOOK}, {"Flare", FLARE}, {"Fountain", FOUNTAIN}, {"Map", MAP}, {"Treasure", TREASURE}
     };
     
-    Monster* generateMonster(MONSTERS type, const string& = "", const string& = "");
+    Monster* generateMonster(MONSTERS type);
     Item* generateItem(ITEMS type);
-    RoomObject* generateRoomObj(ROOMOBJ type, const string& = "", const string& = "");
+    RoomObject* generateRoomObj(ROOMOBJ type);
     
 };
 

@@ -82,48 +82,48 @@ Item* Generation::generateItem(ITEMS type)
             return new Sapphire();
         default:
         {
-            cerr << "this shouldn't happen" << endl;
+            cerr << "item this shouldn't happen" << endl;
             return nullptr;
         }
     }
 }
 
 
-Monster* Generation::generateMonster(MONSTERS type, const string& name, const string& description)
+Monster* Generation::generateMonster(MONSTERS type)
 {
     switch(type)
     {
         case DRAGON:
-            return new Dragon(name, description);
+            return new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating. If he's really angry, he'll throw fireballs at you! Watch out!");
         case TITAN:
-            return new Titan(name, description);
+            return new Titan("Titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can knock down your equipment.");
         case DRAGONBOSS:
-            return new DragonBoss(name, description);
+            return new DragonBoss("DragonBoss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures. Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for. The only thing you have to do is face this bad-tempered oversized colossus. Remember he can hurl fireballs your way and knock down any of your equipment. Good luck! Become a legend or become dinner!");
         default:
         {
-            cerr << "this should not happen" << endl;
+            cerr << "monster this should not happen" << endl;
             return nullptr;
         }
     }
 }
 
-RoomObject* Generation::generateRoomObj(ROOMOBJ type, const string& name, const string& description)
+RoomObject* Generation::generateRoomObj(ROOMOBJ type)
 {
     switch(type)
     {
         case BOOK:
-            return new Book(name,description);
+            return new Book("book","This black leather book contains hints about how to win the game.");
         case FLARE:
-            return new Flare(name,description);
+            return new Flare("flare","You can use this flare to check what's inside four adjacent rooms!!!");
         case FOUNTAIN:
-            return new Fountain(name,description);
+            return new Fountain("fountain","This fountain may help you recover or make you ill. Do you want to take the risk?");
         case MAP:
-            return new Map(name,description);
+            return new Map("map", "You find this large map hanging on the wall. You can use it to check where the gems, monsters, and treaseure are.");
         case TREASURE:
-            return new Treasure(name,description);
+            return new Treasure("treasure", "You have found your riches! In front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission. Congratulations!");
         default:
         {
-            cerr << "this should not happen" << endl;
+            cerr << "roomobj this should not happen" << endl;
             return nullptr;
         }
     }
