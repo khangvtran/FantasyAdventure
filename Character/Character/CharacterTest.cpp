@@ -28,8 +28,8 @@ using namespace std;
 const int ROWS = 10;
 const int COLS = 10;
 
-const string commands[] = {"move", "attack", "drop", "pickup", "activate", "use", "/"};
-const int numCommands = 7;
+const string commands[] = {"move", "attack", "drop", "pickup", "activate", "use", "print", "/"};
+const int numCommands = 8;
 const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this\ndark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find useful hints that will guide you toward the room with the treasure as well as maps that will show you your location in relation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal. \n\nYou have 3 lives. Use them wisely!\n\n";
 bool isValidCommand(const string& command);
 void doCommand(const string& command, Character &c) throw(const char*);
@@ -63,12 +63,13 @@ int main(void )
                 cout << "that wasn't a valid command" << endl;
             cout << endl;
             cout << "X: " << c.getRowPos() << " Y: " << c.getColPos() << endl;
-
+            cin.clear();
             //dungeon.printMap(c.getXPos(), c.getYPos());
             //c.printRoom();
             
         } catch (const char* exception) {
             cerr << exception << endl;
+            cin.clear();
         }
     } while(true);
     
@@ -107,6 +108,8 @@ void doCommand(const string &command, Character &c) throw(const char*)
             c.activate(command.substr(spacePos+1));
         else if(cmd == commands[5])
             c.useItem(command.substr(spacePos+1));
+        else if(cmd == commands[6])
+            c.print();
         else if(cmd.substr(0,1) == commands[numCommands-1]) // cheat
             c.cheat(command.substr(1,spacePos-1), command.substr(spacePos+1)); // possible cheat commands, "/god" and "/tp x y" without quotes, x y should be ints. to be implemented -> print map, spawn items into inv/equipment
         
