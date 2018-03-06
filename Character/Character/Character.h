@@ -60,7 +60,10 @@ private:
     
     void _die();
     bool _HitOrHeal() const;
-    
+    void _printAttributes() const;
+    void _printInventory() const;
+    void _printEquipmentSet(); //const;
+
     /* Helper move functions */
     void _moveNorth() throw(const char*);
     void _moveSouth() throw(const char*);
@@ -136,6 +139,11 @@ public:
     void move(const string& direction) throw(const char*);
     
     void activate(const string& thing);
+    
+    
+    void print();
+
+    
     
     
     /* Cheat */

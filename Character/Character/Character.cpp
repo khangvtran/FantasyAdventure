@@ -10,13 +10,23 @@
 #include <cstdlib>
 #include <cmath>
 #include <sstream>
+#include <iomanip>
 #include "Generation.h"
 
 // DRAGON HEALTH : 50
 // TITAN HEALTH : 40
 // DRAGON BOSS HEALTH : 80
 
+/*
+ 
+ 
+ X: 0 Y: 4
+ Enter command: attack
+ DIRECT HIT!
+ MONSTER HEALTH before: 50You dealt 72 to DragonBoss.
+ DragonBoss fainted.
 
+ */
 
 
 /* Constructor */
@@ -24,7 +34,9 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
 {
     equipmentSet = {{"Helmet", new IronHelmet},
                     {"Armor", new IronArmor},
-                    {"Greaves", new IronGreaves}};
+                    {"Greaves", new IronGreaves},
+                    {"Weapon", nullptr}
+    };
     
     
     health = maxHealth = 100 + equipmentHealth();
@@ -37,15 +49,50 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
     // dungeon->getRoom(x, y) will return a pointer to the room at row y, column x of the 2D array
     currentRoom = &(this->dungeon->getRoom(location.row, location.col));
     
-    
-    
 
     Item* item = new MithrilArmor(); // debug
     itemList.insertStart(item); // debug
     item = new HealthPotion;
     itemList.insertStart(item);
     setInitialAttributes();
+    if(_HitOrHeal())
+        equipmentSet["Weapon"] = new IronSword;
+    else
+        equipmentSet["Weapon"] = new IronDagger;
+    
     cout << currentRoom->getDescription() << endl << endl;
+}
+void Character::_printAttributes() const
+{
+    cout << "Character Attributes: " << endl;
+    cout << "Health: " << health << endl;
+    cout << "Max Health: " << maxHealth << endl;
+    cout << "Strength: " << strength << endl;
+    cout << "Intelligence: " << intelligence << endl;
+    cout << "Luck: " << luck << endl;
+    cout << endl;
+}
+
+void Character::_printInventory() const
+{
+    cout << "Character Inventory: " << endl;
+    itemList.printNumberedList();
+    cout << endl;
+}
+void Character::_printEquipmentSet() //const
+{
+    cout << "Character Equipment: " << endl;
+    
+    cout << equipmentSet["Helmet"]->name() << " +" << equipmentSet["Helmet"]->getvalue() << " max health"<< endl;
+    cout << equipmentSet["Armor"]->name() << " +" << equipmentSet["Armor"]->getvalue() << " max health"<< endl;
+    cout << equipmentSet["Greaves"]->name() << " +" << equipmentSet["Greaves"]->getvalue() << " max health"<< endl;
+    cout << setprecision(2) << equipmentSet["Weapon"]->name() << " *" << equipmentSet["Weapon"]->getvalue()/1.5 << "% damage" << endl;
+}
+void Character::print() //const
+{
+    _printAttributes();
+    _printInventory();
+    _printEquipmentSet();
 }
 
 /* Accessor */
@@ -148,16 +195,23 @@ void Character::setName(string Name)
 
 void Character::setHealth(int Health)
 {
-    if(health <= maxHealth)
-        health = Health;
+    if(health == maxHealth && !(Health < health))
+        cout << "You were already at full health though.." << endl;
+    
+    if(Health >= maxHealth) // 138 > 132? true
+        health = maxHealth; // sets health to 132
+    else
+        health = Health; // 131 < 132
     if(health < 0)
         _die();
-    if (Health > maxHealth)
-        health = maxHealth;
 }
 void Character::setMaxHealth(int MaxHealth)
 {
+    if(health == maxHealth)
+        health = MaxHealth;
+    // need to implement what happens if MaxHealth < health??
     maxHealth = MaxHealth;
+    
 }
 void Character::setStrength(int Strength)
 {
@@ -183,7 +237,7 @@ void Character::_die()
         alive = false;
     else
     {
-        health = 100; // ALSO NEED TO IMPLEMENT EXTRA HEALTH BASED ON EQUIPMENT
+        health = maxHealth; // ALSO NEED TO IMPLEMENT EXTRA HEALTH BASED ON EQUIPMENT
         cout << "You have " << lives << " lives remaining." << endl;
     }
 }
@@ -227,6 +281,7 @@ void Character::pickupItem(const string& item)
             {
                 dropItem("Helmet");
                 equipmentSet["Helmet"] = helmet;
+                setMaxHealth(maxHealth + equipmentSet["Helmet"]->getvalue());
                 cout << "You picked up " << helmet->name() << " and put it on!" << endl;
                 return;
             }
@@ -235,6 +290,7 @@ void Character::pickupItem(const string& item)
             {
                 dropItem("Armor");
                 equipmentSet["Armor"] = armor;
+                setMaxHealth(maxHealth + equipmentSet["Armor"]->getvalue());
                 cout << "You picked up " << armor->name() << " and put it on!" << endl;
                 return;
             }
@@ -244,7 +300,16 @@ void Character::pickupItem(const string& item)
             {
                 dropItem("Greaves");
                 equipmentSet["Greaves"] = greaves;
+                setMaxHealth(maxHealth + equipmentSet["Greaves"]->getvalue());
                 cout << "You picked up " << greaves->name() << " and put it on!" << endl;
+                return;
+            }
+            Weapon* weapon = dynamic_cast<Weapon*>(newEquipment);
+            if(weapon)
+            {
+                dropItem("Weapon");
+                equipmentSet["Weapon"] = weapon;
+                cout << "You wielded " << weapon->name() << "!" << endl;
                 return;
             }
         }
@@ -260,20 +325,28 @@ void Character::dropItem(const string& item)
 {
     cout << "tried to drop " << item << endl;
     string secondWord = item.substr(item.find(" ")+1);
-    if(secondWord == "Armor")
+    if(secondWord == "Armor" && equipmentSet["Armor"] != nullptr)
     {
+        setMaxHealth(maxHealth - equipmentSet["Armor"]->getvalue());
         currentRoom->setItem(equipmentSet["Armor"]);
         equipmentSet["Armor"] = nullptr;
     }
-    else if(secondWord == "Helmet")
+    else if(secondWord == "Helmet" && equipmentSet["Helmet"] != nullptr)
     {
+        setMaxHealth(maxHealth - equipmentSet["Helmet"]->getvalue());
         currentRoom->setItem(equipmentSet["Helmet"]);
         equipmentSet["Helmet"] = nullptr;
     }
-    else if(secondWord == "Greaves")
+    else if(secondWord == "Greaves" && equipmentSet["Greaves"] != nullptr)
     {
+        setMaxHealth(maxHealth - equipmentSet["Greaves"]->getvalue());
         currentRoom->setItem(equipmentSet["Greaves"]);
         equipmentSet["Greaves"] = nullptr;
+    }
+    else if((secondWord == "Sword" || secondWord == "Dagger" || secondWord == "Weapon") && equipmentSet["Weapon"] != nullptr)
+    {
+        currentRoom->setItem(equipmentSet["Weapon"]);
+        equipmentSet["Weapon"] = nullptr;
     }
     else
     {
@@ -313,31 +386,36 @@ void Character::useItem(const string& item)
             
             if (potionName == "Health Potion")
             {
-                cout << "use Health Potion" << endl;
+                cout << "You took a sip from the health potion." << endl;
+                if(health < maxHealth)
+                    cout << "Your health increased by " << potionValue + getIntelligence()*3 << endl;
                 setHealth(getHealth() + potionValue + getIntelligence()*3);
 
             }
             else if (potionName == "Max Health Potion")
             {
-                cout << "use Max Health Potion" << endl;
+                cout << "You sipped the Max Health Potion and you feel more energized." << endl;
+                cout << "Max health increased by " << potionValue << endl;
                 setMaxHealth(getMaxHealth() + potionValue);
             }
             else if (potionName == "Strength Potion")
             {
-                cout << "use Strength Potion" << endl;
+                cout << "You gulped down the Strength Potion and you feel stronger." << endl;
+                cout << "Strength increased by " << potionValue << endl;
                 setStrength(getStrength() + potionValue);
             }
             else if (potionName == "Intelligence Potion")
             {
-                cout << "use Intelligence Potion" << endl;
+                cout << "You look at the blue liquid and cautiously take a sip." << endl;
+                cout << "Intelligence increased by " << potionValue << endl;
                 setIntelligence(getIntelligence() + potionValue);
             }
             else if (potionName == "Luck Potion")
             {
-                cout << "use Luck Potion" << endl;
+                cout << "Ew, this looks disgusting. You drink it anyway." << endl;
+                cout << "Luck increased by " << potionValue << endl;
                 setLuck(getLuck() + potionValue);
             }
-            
             delete potionPtr;               // remove iterator no longer realease memory
             itemList.removeIterator();      // remove the pointer from the linkedlist
             return;
@@ -376,16 +454,7 @@ void Character::useItem(const string& item)
     {
         cout << "You don't have that item, pal!" << endl;
     }
-    
-
-    
 }
-
-
-
-
-
-
 
 
 int Character::equipmentHealth()
@@ -433,7 +502,8 @@ void Character::attack()
     {
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
-        double damage = strength * 1.5;
+        // try implementing dagger double damage(crit?)
+        double damage = (rand() % 11 + 6)/10 * strength * (equipmentSet["Weapon"] != nullptr ? equipmentSet["Weapon"]->getvalue()/1.5 : 1);
         cout << "You dealt " << damage << " to " << m->getName() << "." << endl;
         if(!m->modifyHealth(damage))
         {
@@ -445,7 +515,8 @@ void Character::attack()
     //bool flag = false; // THIS IS NEW
     cout << "Health before attack: " << health << endl; // debug
     double monsterDamage = m->attack(luck);
-    setHealth(health - monsterDamage);
+    if(monsterDamage != 0)
+        setHealth(health - monsterDamage);
     
     cout << "Health after attack: " << health << endl; // debug
     if(!isAlive())
