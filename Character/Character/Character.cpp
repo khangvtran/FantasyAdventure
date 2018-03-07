@@ -55,7 +55,7 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
     else
         equipmentSet["Weapon"] = new IronDagger;
     
-    cout << currentRoom->getDescription() << endl << endl;
+    cout << *currentRoom << endl << endl;
 }
 void Character::_printAttributes() const
 {
@@ -419,8 +419,8 @@ void Character::useItem(const string& item)
             {
                 cout << "You took a sip from the health potion." << endl;
                 if(health < maxHealth)
-                    cout << "Your health increased by " << potionValue + getIntelligence()*3 << endl;
-                setHealth(getHealth() + potionValue + getIntelligence()*3);
+                    cout << "Your health increased by " << potionValue * ((getIntelligence() / 10.)+1) << endl;
+                setHealth(getHealth() + potionValue * ((getIntelligence() / 10.)+1));
 
             }
             else if (potionName == "Max Health Potion")
@@ -529,7 +529,7 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         // try implementing dagger double damage(crit?)
         double modifier = (equipmentSet["Weapon"] != nullptr ? equipmentSet["Weapon"]->getvalue() * 0.8 : 1);
         double damage = (rand() % 11 + 6)/10.0 * strength * modifier;
-        
+        // put in miss cout
         cout << "weapon modifier" << equipmentSet["Weapon"]->getvalue() << endl;
         cout << "You dealt " << damage << " to " << m->getName() << "." << endl;
         if(!m->modifyHealth(damage))
@@ -692,7 +692,7 @@ void Character::move(const string& direction) throw(AdventureErrors::InvalidMove
     } catch (AdventureErrors::InvalidMove) {
         throw;
     }
-    cout << currentRoom->getDescription() << endl << endl;
+    cout << *currentRoom << endl << endl;
 }
 
 void Character::_moveNorth() throw(AdventureErrors::InvalidMove)
@@ -754,6 +754,21 @@ void Character::activate(const string& thing) throw(AdventureErrors::MissingObje
 }
 
 
+/*
+ In this room you find a(n)
+ - ruby : A large, blood red gem that seems to sparkle with an inner light.
+ - steel helmet : A helmet made from steel, stronger than iron.
+ - iron armor : Armor made from iron, the most basic material.
+ - iron greaves : Greaves made from iron, the most basic material.
+ - iron dagger : A dagger made from iron, the most basic material.
+ - max health potion : A flask of purple liquid that will increase your maximum health.
+ 
+ 
+ 
+ 
+ 
+ 
+ */
 void Character::cheat(const string& cmd, const string& cmd2)
 {
     if(cmd == "god")
@@ -775,7 +790,7 @@ void Character::cheat(const string& cmd, const string& cmd2)
         setColPos(col);
         cout << "Teleported to (" << location.row << "," << location.col << ")." << endl;
         currentRoom = &(this->dungeon->getRoom(location.row, location.col));
-        cout << currentRoom->getDescription() << endl << endl;
+        cout << *currentRoom << endl << endl;
     }
     else if(cmd == "spawn")
     {

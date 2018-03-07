@@ -338,7 +338,7 @@ int List<listdata>::linearSearch(listdata data) const
 template <class listdata>
 int List<listdata>::linearSearch(string data) const
 {
-    assert(!isEmpty());
+    //assert(!isEmpty());
     Node* temp = start;
     int index = 1;
     while (temp != NULL)

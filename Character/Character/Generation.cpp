@@ -120,7 +120,7 @@ RoomObject* Generation::generateRoomObj(ROOMOBJ type)
         case MAP:
             return new Map("map", "You find this large map hanging on the wall.\nYou can use it to check where the gems, monsters, and treaseure are.");
         case TREASURE:
-            return new Treasure("treasure", "You have found your riches!\nIn front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission.\nCongratulations!");
+            return new Treasure("treasure", "You have found your riches!\nIn front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission.\nAll you have to do is activate it.\n");
         default:
         {
             cerr << "roomobj this should not happen" << endl;

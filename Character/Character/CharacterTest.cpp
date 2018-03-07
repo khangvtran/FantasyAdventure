@@ -62,6 +62,12 @@ int main(void)
         cout << "Enter command: ";
         getline(cin, command);
         try {
+            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::BASIC);
+            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::MONSTER);
+            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::ROOMOBJECT);
+            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::ITEM);
+            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::ALL);
+
              //c.printRoom();
             if(isValidCommand(command))
                 doCommand(command, c);

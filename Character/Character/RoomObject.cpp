@@ -69,8 +69,8 @@ void Fountain::use() const {
 
 Treasure::Treasure(string name, string description) :RoomObject(name, description) {}
 void Treasure::use() const {
-    std::cout << "Brave man, have you got Ruby, Sapphire, Emerald and" << std::endl;
-    std::cout << "slay the Boss Monster, then you win the adventure!!!! CONGRATUATIONS!!!!!!!" << std::endl;
+    // you win the game
+    std::cout << "Congratulation! You won the game!" << std::endl;
     
 }
 /***********************************************************************************

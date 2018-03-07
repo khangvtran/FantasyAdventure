@@ -240,9 +240,10 @@ ostream& operator<<(ostream& strm, const Room& room)
         }
         else if (room.getRoomObjectPtr())
         {
+            //If treasure -> print the treasure name, not description (wait to activate)
             strm << "\n" << endl;
             strm << left << setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << endl;
-            strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
+            //strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
             strm << "\n" << endl;
         }
         else if(!room.items.empty())

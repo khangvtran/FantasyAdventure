@@ -132,7 +132,7 @@ public:
         if (health <= 0)
         {
             alive = false;
-            cout << name << " fainted." << endl;
+            cout << name << " burnt in flames and died." << endl;
         }
         return alive;
     }
@@ -327,7 +327,7 @@ public:
         setStrength(strength);
         
         //Set DragonBoss health
-        health = 50;
+        health = 200;
         setHealth(health);
         
         //Set DragonBoss luck

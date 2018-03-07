@@ -144,8 +144,10 @@ void Dungeon::putthingsintodungeon(const int &numMonsters, const int &numPots, c
         {
             if(monsterCount != numMonsters)
             {
-                dungeonPtr[rowNum][colNum].setMonsterPtr(spawner.generateMonster((Generation::MONSTERS)(rand() % (spawner.monsterContainer.size()-1)))); // put this into the room
+                dungeonPtr[rowNum][colNum].setMonsterPtr(spawner.generateMonster((Generation::MONSTERS)(rand() % (spawner.monsterContainer.size()-1)))); // put this into the room where you have a monster
+                dungeonPtr[rowNum][colNum].setItem(spawner.generateItem((Generation::ITEMS)(rand() % 5)));
                 cout << "generated" << dungeonPtr[rowNum][colNum].getMonsterPtr()->getName() << endl;
+                cout << "generated" << (*(dungeonPtr[rowNum][colNum].getItems().begin()))->name() << endl;
                 monsterCount++;
             }
             else if(potCount != numPots)
@@ -741,7 +743,6 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
     bool equipUsed = false;
     bool potUsed = false;
     
-    // if roomContents[i] = _printContents(r,c) and _printContents(r,c) only returns uppercase characters, then why need toUpper?
     for (int i = 0; i < count; i++)
     {
         if (toupper(roomContents[i]) == 'T')
@@ -870,7 +871,8 @@ char Dungeon::_printContents(int r, int c)
         PortalGem* gPtr = dynamic_cast<PortalGem*>(temp[0]);
         Equipment* qPtr = dynamic_cast<Equipment*>(temp[0]);
         Potion* pPtr = dynamic_cast<Potion*>(temp[0]);
-        // killscroll??
+        KillScroll* kPtr = dynamic_cast<KillScroll*>(temp[0]);
+        
         if (gPtr)
         {
             cout << " G ";
