@@ -13,7 +13,7 @@ Item* Generation::generateItem(ITEMS type)
 {
     switch(type)
     {
-        /** Consumables **/
+            /** Consumables **/
         case HEALTHPOTION:
             return new HealthPotion();
         case MAXHEALTHPOTION:
@@ -27,7 +27,7 @@ Item* Generation::generateItem(ITEMS type)
         case KILLSCROLL:
             return new KillScroll();
             
-        /** Equipment **/
+            /** Equipment **/
         case IRONHELMET:
             return new IronHelmet();
         case STEELHELMET:
@@ -55,7 +55,7 @@ Item* Generation::generateItem(ITEMS type)
         case ADAMANTINEGREAVES:
             return new AdamantineGreaves();
             
-        /** Weapons **/
+            /** Weapons **/
         case IRONSWORD:
             return new IronSword();
         case STEELSWORD:
@@ -73,7 +73,7 @@ Item* Generation::generateItem(ITEMS type)
         case ADAMANTINEDAGGER:
             return new AdamantineDagger();
             
-        /** Non-Consumable Items **/
+            /** Non-Consumable Items **/
         case RUBY:
             return new Ruby();
         case EMERALD:
@@ -94,11 +94,11 @@ Monster* Generation::generateMonster(MONSTERS type)
     switch(type)
     {
         case DRAGON:
-            return new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating. If he's really angry, he'll throw fireballs at you! Watch out!");
+            return new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating.\nIf he's really angry, he'll throw fireballs at you! Watch out!");
         case TITAN:
             return new Titan("Titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can knock down your equipment.");
         case DRAGONBOSS:
-            return new DragonBoss("DragonBoss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures. Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for. The only thing you have to do is face this bad-tempered oversized colossus. Remember he can hurl fireballs your way and knock down any of your equipment. Good luck! Become a legend or become dinner!");
+            return new DragonBoss("DragonBoss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures.\n Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for.\nThe only thing you have to do is face this bad-tempered oversized colossus\n Remember he can hurl fireballs your way and knock down any of your equipment.\nGood luck! Become a legend or become dinner!");
         default:
         {
             cerr << "monster this should not happen" << endl;
@@ -118,9 +118,9 @@ RoomObject* Generation::generateRoomObj(ROOMOBJ type)
         case FOUNTAIN:
             return new Fountain("fountain","This fountain may help you recover or make you ill. Do you want to take the risk?");
         case MAP:
-            return new Map("map", "You find this large map hanging on the wall. You can use it to check where the gems, monsters, and treaseure are.");
+            return new Map("map", "You find this large map hanging on the wall.\nYou can use it to check where the gems, monsters, and treaseure are.");
         case TREASURE:
-            return new Treasure("treasure", "You have found your riches! In front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission. Congratulations!");
+            return new Treasure("treasure", "You have found your riches!\nIn front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission.\nCongratulations!");
         default:
         {
             cerr << "roomobj this should not happen" << endl;
@@ -128,3 +128,4 @@ RoomObject* Generation::generateRoomObj(ROOMOBJ type)
         }
     }
 }
+

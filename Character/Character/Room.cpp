@@ -196,7 +196,7 @@ void Room::setDescription()
     {
         if (getMonsterPtr())
         {
-            cout << "monster" << endl;
+            //cout << "monster" << endl;
             description = "In this room you find a(n) " + getMonsterPtr()->getName() + ".\n" + getMonsterPtr()->getDescription() + "\n";
         }
         else if (getRoomObjectPtr())
@@ -228,9 +228,63 @@ void Room::setDescription()
  *******************************************************************************************/
 ostream& operator<<(ostream& strm, const Room& room)
 {
+    
+    if (room.getMonsterPtr() || room.getRoomObjectPtr() || (!room.items.empty()))
+    {
+        if (room.getMonsterPtr())
+        {
+            strm << "\n" << endl;
+            strm << left << setw(80) << ("In this room you find a(n) " + room.getMonsterPtr()->getName()) << endl;
+            strm << setw(80) << room.getMonsterPtr()->getDescription() << endl;
+            cout << "\n" << endl;
+        }
+        else if (room.getRoomObjectPtr())
+        {
+            strm << "\n" << endl;
+            strm << left << setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << endl;
+            strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
+            strm << "\n" << endl;
+        }
+        else if(!room.items.empty())
+        {
+            strm << "\n" << endl;
+            strm << left << setw(20) << "In this room you find a(n) ";
+            for (int i = 0; i < room.items.size(); i++)
+            {
+                Item* temp = room.items[i];
+                {
+                    strm << temp->name();
+                    if (room.items.size() > 1)
+                    {
+                        strm << " and a(n) ";
+                    }
+                    cout << endl;
+                }
+            }
+            //strm << "\n\n" << endl;
+            for (int i = 0; i < room.items.size(); i++)
+            {
+                Item* temp = room.items[i];
+                {
+                    strm << setw(80) << temp->description() << endl;
+                }
+            }
+        }
+    }
+    else
+    {
+        strm << "\n" << endl;
+        strm <<  "This room is empty.\n";
+        strm << "\n" << endl;
+    }
+    
+    //LEAVING THIS FOR DEBUGGING
+    /*
     strm << "row: " << setw(2) << room.coordinates.row << " col: " << setw(2) << room.coordinates.col << " walls: "
     << setw(2) << static_cast<int>(room.walls) << boolalpha << " MonsterPtr: " << setw(20) << room.getMonsterPtr()
     << setw(20) << " RoomObjectPtr: " << setw(20) << room.getRoomObjectPtr() << " Items: " <<  setw(5) << room.items.empty() << endl;
+     
+     */
     
     return strm;
 }

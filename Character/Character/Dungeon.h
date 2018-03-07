@@ -54,7 +54,6 @@
 #define Dungeon_h
 
 #include <iostream>
-#include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <cctype>
@@ -92,16 +91,32 @@ private:
     /* Releases memory used by the dungeon matrix */
     void release();
     
-    //Mnutators
+    //Mutators
     /* Sets room data for Room objects allocated via alloc function */
     void addRoom(int r, int c, unsigned char w);
-    /* Initializes vectors with all room contents in the dungeon (monsters, items, room objects) with data */
-    bool addRoomContents() throw(bad_alloc);
     
-    /* Prints room contents of a room at row, col. Returns a char representing specific room contents. */
+    //Accessors
+    /* Prints room contents of a room at row & col. Returns a char representing specific room contents. */
     char _printContents(int r, int c);
     
+    /*  Prints a map with locations of essentials necessary to win the game (treasure, gems & kill scroll) */
+    void _printBasicMap(int characterRow, int characterCol) const;
+    
+    /*  Prints a map with monsters only */
+    void _printMonsterMap(int characterRow, int characterCol) const;
+    
+    /*  Prints a map with room objects only */
+    void _printRoomObjectMap(int characterRow, int characterCol) const;
+    
+    /*  Prints a map with items only */
+    void _printItemsMap(int characterRow, int characterCol) const;
+    
+    /*  Prints a map with room objects, items and monsters */
+    void _printAllMap(int characterRow, int characterCol) const;
+    
 public:
+    enum MapType {BASIC, MONSTER, ROOMOBJECT, ITEM, ALL};   //enum flag representing map version passed to the printMap() function
+    
     //Constructor
     /* Allocates memory for the dungeon matrix and intializes each room with data */
     Dungeon(int r, int c) throw(AdventureErrors::FileOpenError);
@@ -111,8 +126,8 @@ public:
     ~Dungeon();
     
     //Accessors
-    /* Prints dungeon map and character's position inside the dungeon */
-    void printMap(int characterRow, int characterCol) const;
+    /* Prints a version dungeon map given an enum flag passed to it and displays character's position inside the dungeon */
+    void printMap(int characterRow, int characterCol, MapType version) const;
     /* Prints the contents of 4 rooms  adjacent to the room at x, y */
     void printAdjacentRooms(int characterRow, int characterCol) throw (AdventureErrors::BoundaryError);
     /* Prints dungeon's walls */

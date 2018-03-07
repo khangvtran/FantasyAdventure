@@ -49,11 +49,8 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     //Allocate memory for the dungeon
     alloc();
     
-    //Initialize vectors with all room contents (monsters, items, room objects)
-    //addRoomContents(); // TOOK OUT THIS LINE
-    
     //Set room coordinates and wall data
-    const char fileName[] = "walls.bin";
+    const char fileName[] = "/Users/Agnieszka Rynkiewicz/Desktop/Computer Science/1.7 C++/1.1 C++ Courses/1.3 Advanced C++/1.0 Group Project/3.0 Code/walls.bin";
     
     //Open file with room data
     fstream file;
@@ -104,8 +101,10 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
         file.read(reinterpret_cast<char*>(&newRoom), sizeof(Room));
         //cout << "ROW:  " << newRoom.row << " " << "COL:  " << newRoom.col << " WALL: " << static_cast<int>(newRoom.wall) << endl;
     }
+    
     putthingsintodungeon(18, 15, 20, 20); // ADDED THIS LINE
-    printMap(0,0); // ADDED THIS LINE TO DEBUG PRINT MAP
+    //printMap(0,0); // ADDED THIS LINE TO DEBUG PRINT MAP
+    
     //Close file
     file.close();
 }
@@ -119,6 +118,9 @@ void Dungeon::putthingsintodungeon(const int &numMonsters, const int &numPots, c
     dungeonPtr[0][4].setMonsterPtr(spawner.generateMonster(spawner.DRAGONBOSS)); // generates dragonboss at 0,4
     dungeonPtr[0][4].setRoomObjectPtr(spawner.generateRoomObj(spawner.TREASURE)); // generates treasure at 0,4
     
+    roomData[2][6] = true;
+    dungeonPtr[2][6].setItem(spawner.generateItem(spawner.KILLSCROLL)); // generates KillScroll at 2, 6
+    
     roomData[3][1] = true;
     dungeonPtr[3][1].setItem(spawner.generateItem(spawner.RUBY)); // generates Ruby at 3,1
     
@@ -127,7 +129,6 @@ void Dungeon::putthingsintodungeon(const int &numMonsters, const int &numPots, c
     
     roomData[8][1] = true;
     dungeonPtr[8][1].setItem(spawner.generateItem(spawner.EMERALD)); // generates Emerald at 8,1
-
 
     int monsterCount = 0;
     int potCount = 0;
@@ -174,399 +175,8 @@ void Dungeon::putthingsintodungeon(const int &numMonsters, const int &numPots, c
     cout << "should have " << numPots << " pots and have " << potCount << endl;
     cout << "should have " << numEquipment << " equipment and have " << equipmentCount << endl;
     cout << "should have " << numRoomObjs << " roomobjs and have " << roomObjCount << endl;
-    for(int i = 0 ; i< 10; i++)
-    {
-        for(int j = 0; j < 10; j++)
-            cout << boolalpha << roomData[i][j] <<  " ";
-        cout << endl;
-    }
-}
-/********************************************************************************************
- addRoomContents
- Initializes vectors with all monsters, items and room objects with data.
- Returns true if all vectors were populated successfully.
- *******************************************************************************************/
-bool Dungeon::addRoomContents() throw(bad_alloc)
-{
     
-    
-    try
-    {
-        //Initialize vector with all monsters in the dungeon
-        for (int i = 0; i < 25; i++)
-        {
-            switch (i % 2)
-            {
-                //Allocate a dragon
-                case 0:
-                {
-                    monsters.push_back(new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating. If he's really angry, he'll throw fireballs at you! Watch out!"));
-                    //cout << "NO: " << i << endl;
-                    //Monster* ptr = monsters[monsters.size() - 1];
-                    //cout << "MONSTER NAME: " << ptr->getName() << endl;
-                    //cout << "MONSTER DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-                //Allocate a titan
-                case 1:
-                {
-                    monsters.push_back(new Titan("Titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can knock down your equipment."));
-                    //cout << "NO: " << i << endl;
-                    //Monster* ptr = monsters[monsters.size() - 1];
-                    //cout << "MONSTER NAME: " << ptr->getName() << endl;
-                    //cout << "MONSTER DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-                default:
-                {
-                    //To account for the first loop iteration resulting in 0 % 2 = 2
-                    monsters.push_back(new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating. If he's really angry, he'll throw fireballs at you! Watch out!"));
-                    //cout << "NO: " << i << endl;
-                    //Monster* ptr = monsters[monsters.size() - 1];
-                    //cout << "MONSTER NAME: " << ptr->getName() << endl;
-                    //cout << "MONSTER DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-            }
-        }
-        
-        //Initialize dragonboss pointer
-        dragonBoss = new DragonBoss("DragonBoss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures. Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for. The only thing you have to do is face this bad-tempered oversized colossus. Remember he can hurl fireballs your way and knock down any of your equipment. Good luck! Become a legend or become dinner!");
-        //cout << "MONSTER NAME: " << dragonBoss->getName() << endl;
-        //cout << "MONSTER DESC: " << dragonBoss->getDescription() << endl;
-        
-        //Initialize items vector
-        for (int i = 0; i < 25; i++)
-        {
-            switch(i % 26)
-            {
-                case 0:
-                {
-                    items.push_back(new HealthPotion());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 1:
-                {
-                    items.push_back(new MaxHealthPotion());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 2:
-                {
-                    items.push_back(new StrengthPotion());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 3:
-                {
-                    items.push_back(new IntPotion());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 4:
-                {
-                    items.push_back(new LuckPotion());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 5:
-                {
-                    items.push_back(new KillScroll());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 6:
-                {
-                    items.push_back(new IronHelmet());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 7:
-                {
-                    items.push_back(new SteelHelmet());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 8:
-                {
-                    items.push_back(new MithrilHelmet());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 9:
-                {
-                    items.push_back(new AdamantineHelmet());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 10:
-                {
-                    items.push_back(new IronArmor());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 11:
-                {
-                    items.push_back(new SteelArmor());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 12:
-                {
-                    items.push_back(new MithrilArmor());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 13:
-                {
-                    items.push_back(new AdamantineHelmet());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 14:
-                {
-                    items.push_back(new IronGreaves());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 15:
-                {
-                    items.push_back(new SteelGreaves());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 16:
-                {
-                    items.push_back(new MithrilGreaves());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 17:
-                {
-                    items.push_back(new AdamantineGreaves());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 18:
-                {
-                    items.push_back(new IronSword());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 19:
-                {
-                    items.push_back(new SteelSword());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 20:
-                {
-                    items.push_back(new MithrilSword());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 21:
-                {
-                    items.push_back(new AdamantineSword());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 22:
-                {
-                    items.push_back(new IronDagger());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 23:
-                {
-                    items.push_back(new SteelDagger());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 24:
-                {
-                    items.push_back(new MithrilDagger());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                case 25:
-                {
-                    items.push_back(new AdamantineDagger());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-                default:
-                {
-                    //To account for first loop iteration resulting in 0 % 26 = 26
-                    items.push_back(new HealthPotion());
-                    //cout << "NO: " << i << endl;
-                    //Item* ptr = items[items.size() - 1];
-                    //cout << "ITEM NAME: " << ptr->name() << endl;
-                    //cout << "ITEM DESC: " << ptr->description() << endl;
-                    break;
-                }
-            }
-        }
-        
-        //Initialize gem pointers
-        ruby = new Ruby;
-        sapphire = new Sapphire;
-        emerald = new Emerald;
-        
-        //cout << "ITEM NAME: " << ruby->name() << endl;
-        //cout << "ITEM DESC: " << ruby->description() << endl;
-        //cout << "ITEM NAME: " << sapphire->name() << endl;
-        //cout << "ITEM DESC: " << sapphire->description() << endl;
-        //cout << "ITEM NAME: " << emerald->name() << endl;
-        //cout << "ITEM DESC: " << emerald->description() << endl;
-        
-        
-        //Initialize room objects vector
-        for (int i = 0; i < 25; i++)
-        {
-            switch (i % 4)
-            {
-                case 0:
-                {
-                    roomObjects.push_back(new Book("book", "This black leather book contains hints about how to win the game."));
-                    //cout << "NO: " << i << endl;
-                    //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
-                    //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
-                    //cout << "ROOM OBJECT DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-                case 1:
-                {
-                    roomObjects.push_back(new Flare("flare", "You can use this flare to check what's inside four adjacent rooms!!!"));
-                    //cout << "NO: " << i << endl;
-                    //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
-                    //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
-                    //cout << "ROOM OBJECT DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-                case 2:
-                {
-                    roomObjects.push_back(new Fountain("fountain", "This fountain may help you recover or make you ill. Do you want to take the risk?"));
-                    //cout << "NO: " << i << endl;
-                    //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
-                    //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
-                    //cout << "ROOM OBJECT DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-                case 3:
-                {
-                    roomObjects.push_back(new Map("map", "You find this large map hanging on the wall. You can use it to check where the gems, monsters, and treaseure are."));
-                    //cout << "NO: " << i << endl;
-                    //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
-                    //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
-                    //cout << "ROOM OBJECT DESC: " << ptr->getDescription() << endl;
-                    break;
-                }
-                default:
-                {
-                    //To account for first loop iteration resulting in 0 % 4 = 4
-                    roomObjects.push_back(new Book("book", "This black leader book contains hints about how to win the game."));
-                    //cout << "NO: " << i << endl;
-                    //RoomObject* ptr = roomObjects[roomObjects.size() - 1];
-                    //cout << "ROOM OBJECT NAME: " << ptr->getName() << endl;
-                    //cout << "ROOM OBJECT DESC: " << ptr->getDescription() << endl;
-                    break;
-                    
-                }
-            }
-        }
-        
-        //Initialize treasure pointer
-        treasure = new Treasure("treasure", "You have found your riches! In front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission. Congratulations!");
-        //cout << "ROOM OBJECT NAME: " << treasure->getName() << endl;
-        //cout << "ROOM OBJECT DESC: " << treasure->getDescription() << endl;
-    }
-    catch (bad_alloc)
-    {
-        cout << "Insufficient memory." << endl;
-    }
-    return true;
 }
-
 /********************************************************************************************
  addRoom
  Sets room data for a new room.
@@ -577,118 +187,6 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
     dungeonPtr[r][c].setCoordinates(r, c);
     dungeonPtr[r][c].setWalls(w);
     
-    //cout << "ROW OF THIS ROOM: " << dungeonPtr[r][c].getRow() << endl;
-    //cout << "COL OF THIS ROOM: " << dungeonPtr[r][c].getCol() << endl;
-    
-    //Set treasure
-    /*
-    if (r == 0 && c == 4)
-    {
-        dungeonPtr[r][c].setRoomObjectPtr(treasure);
-        dungeonPtr[r][c].setMonsterPtr(dragonBoss);
-        
-        if (dungeonPtr[r][c].getMonsterPtr())
-        {
-            //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
-        }
-        if (dungeonPtr[r][c].getRoomObjectPtr())
-        {
-            //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
-        }
-        
-    }
-    //Set ruby, sapphire and emerald
-    else if (r == 3 && c == 1)
-    {
-        dungeonPtr[r][c].setItem(ruby);
-        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
-    }
-    else if (r == 4 && c == 7)
-    {
-        dungeonPtr[r][c].setItem(sapphire);
-        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
-    }
-    else if (r == 8 && c == 1)
-    {
-        dungeonPtr[r][c].setItem(emerald);
-        //vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->name() << endl;
-        //cout << "r: " << r << "c" << c << " " << newItemVect[0]->description() << endl;
-    }
-    //Set monster, room object, and item data
-    else
-    {
-        bool ptrWasSet = false;
-        while (!ptrWasSet)
-        {
-            //Generate a random number
-            int i = rand()% 4 + 1;
-            //cout << "i: " << i << endl;
-            switch(i)
-            {
-                //Set monster data
-                case 1:
-                {
-                    if ((!monsters.empty()))
-                    {
-                        //Set monster Ptr in the room to monster Ptr stored as last element in monster vector
-                        dungeonPtr[r][c].setMonsterPtr(monsters[monsters.size() - 1]);
-                        monsters.pop_back();
-                        //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getMonsterPtr()->getName() << endl;
-                        ptrWasSet = true;
-                    }
-                    break;
-                }
-                //Set room object data
-                case 2:
-                {
-                    if (!roomObjects.empty())
-                    {
-                        //Set room object Ptr in the room to room object Ptr stored as last element in room object vector
-                        dungeonPtr[r][c].setRoomObjectPtr(roomObjects[roomObjects.size() - 1]);
-                        roomObjects.pop_back();
-                        //cout << "r: " << r << "c" << c << " " << dungeonPtr[r][c].getRoomObjectPtr()->getName() << endl;
-                        ptrWasSet = true;
-                    }
-                    break;
-                }
-                //Set item data
-                case 3:
-                {
-                    if (!items.empty())
-                    {
-                        //Set item Ptr in the room to item Ptr stored as last element in items vector
-                        dungeonPtr[r][c].setItem(items[items.size() - 1]);
-                        items.pop_back();
-                        
-                        /*
-                        vector<Item*> newItemVect = dungeonPtr[r][c].getItems();
-                        for (int i = 0; i < newItemVect.size(); i++)
-                        {
-                            //cout << "i: " << i << endl;
-                            cout << "r: " << r << "c" << c << " " << newItemVect[i]->name() << endl;
-                        }
-     
-                        
-                        ptrWasSet = true;
-                    }
-                    break;
-                }
-                //Set an empty room
-                case 4:
-                {
-                    //cout << "Empty" << endl;
-                    ptrWasSet = true;
-                    break;
-                }
-            }
-        }
-    }
-    */
     //Increment number of populated rooms
     numPopulatedRooms++;
 }
@@ -706,15 +204,50 @@ Dungeon::~Dungeon()
 /********************************************************************************************
  printMap
  Prints the layout of the dungeon with character's current position marked with a star "*".
- Prints the location of treasure, the three gems (ruby, sapphire, emerald) and all
- monsters in the dungeon.
+ A different version of the map is displayed given the enum value passed to it:
+ version = 0 displays essentials only (treasure, gems & kill scroll)
+ version = 1 displays monsters only
+ version = 2 displays room objects only
+ version = 3 displays items only
  *******************************************************************************************/
-void Dungeon::printMap(int characterRow, int characterCol) const
+void Dungeon::printMap(int characterRow, int characterCol, MapType version) const
+{
+    if (version == BASIC)
+    {
+        _printBasicMap(characterRow, characterCol);
+    }
+    else if (version == MONSTER)
+    {
+        _printMonsterMap(characterRow, characterCol);
+    }
+    else if (version == ROOMOBJECT)
+    {
+        _printRoomObjectMap(characterRow, characterCol);
+    }
+    else if (version == ITEM)
+    {
+        _printItemsMap(characterRow, characterCol);
+    }
+    else if (version == ALL)
+    {
+        _printAllMap(characterRow, characterCol);
+    }
+    else
+    {
+        cout << "Not a valid option!" << endl;
+    }
+}
+
+/********************************************************************************************
+ _printBasicMap
+ Prints a map with locations of essentials necessary to win the game (treasure, gems & kill scroll).
+ *******************************************************************************************/
+void Dungeon::_printBasicMap(int characterRow, int characterCol) const
 {
     cout << "\n\n\n" << endl;
-    cout << setw(96) << "               ~~***   MAP   ***~~               \n" << endl;
+    cout << setw(98) << "               ~~***   BASIC MAP   ***~~               \n" << endl;
     cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-
+    
     //Check for room object
     for (int r = 0; r < 10; r++)
     {
@@ -740,22 +273,19 @@ void Dungeon::printMap(int characterRow, int characterCol) const
                     cout << "   ";
                 }
             }
-           
-            //Print monster's location
-            else if (dungeonPtr[r][c].getMonsterPtr())
-            {
-                cout << " M ";
-            }
+            //Print gem's location and kill scroll's location
             else if (!dungeonPtr[r][c].getItems().empty())
             {
                 vector<Item*> temp = dungeonPtr[r][c].getItems();
-                Ruby* rPtr =  dynamic_cast<Ruby*>(temp[0]);
-                Sapphire* sPtr =  dynamic_cast<Sapphire*>(temp[0]);
-                Emerald* ePtr = dynamic_cast<Emerald*>(temp[0]);
-                
-                if (rPtr || sPtr || ePtr)
+                PortalGem* gPtr = dynamic_cast<PortalGem*>(temp[0]);
+                KillScroll* kPtr = dynamic_cast<KillScroll*>(temp[0]);
+                if (gPtr)
                 {
                     cout << " G ";
+                }
+                else if (kPtr)
+                {
+                    cout << " K ";
                 }
                 else
                 {
@@ -779,12 +309,347 @@ void Dungeon::printMap(int characterRow, int characterCol) const
     cout << right << setw(55) << " " << left << "LEGEND: " << endl;
     cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
     cout << right << setw(55) << " " << left << "T - Treasure " << endl;
-    cout << right << setw(55) << " " << left << "M - Monster " << endl;
+    cout << right << setw(55) << " " << left << "K - Kill Scroll " << endl;
     cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)\n" << endl;
     cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
     
     cout << "\n\n\n" << endl;
+    
 }
+
+/********************************************************************************************
+ _printMonsterMap
+ Prints a map with monsters only.
+ *******************************************************************************************/
+void Dungeon::_printMonsterMap(int characterRow, int characterCol) const
+{
+    cout << "\n\n\n" << endl;
+    cout << setw(100) << "               ~~***   MONSTER MAP   ***~~               \n" << endl;
+    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    
+    //Check for room object
+    for (int r = 0; r < 10; r++)
+    {
+        cout << right << setw(55) << r;
+        for (int c = 0; c < 10; c++)
+        {
+            //Print Character's location
+            if (r == characterRow && c == characterCol)
+            {
+                cout << " * ";
+            }
+            //Print Monster's location
+            else if (dungeonPtr[r][c].getMonsterPtr())
+            {
+               cout << " M ";
+            }
+            else
+            {
+                cout << "   ";
+            }
+        }
+        cout << left << r;
+        cout << "\n";  //Remove this newline to make the map more compact
+        if (r < 9)
+        {
+            cout << endl;
+        }
+    }
+    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    cout << left << "\n" << endl;
+    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
+    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    cout << right << setw(55) << " " << left << "M - Monster " << endl;
+    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    
+    cout << "\n\n\n" << endl;
+    
+}
+
+/********************************************************************************************
+ _printRoomObjectMap
+ Prints a map with room objects only.
+ *******************************************************************************************/
+void Dungeon::_printRoomObjectMap(int characterRow, int characterCol) const
+{
+    cout << "\n\n\n" << endl;
+    cout << setw(102) << "               ~~***   ROOM OBJECT MAP   ***~~               \n" << endl;
+    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    
+    //Check for room object
+    for (int r = 0; r < 10; r++)
+    {
+        cout << right << setw(55) << r;
+        for (int c = 0; c < 10; c++)
+        {
+            //Print Character's location
+            if (r == characterRow && c == characterCol)
+            {
+                cout << " * ";
+            }
+            //Print each Item's location
+            else if (dungeonPtr[r][c].getRoomObjectPtr())
+            {
+                RoomObject* temp = dungeonPtr[r][c].getRoomObjectPtr();
+                Book* bPtr = dynamic_cast<Book*>(temp);
+                Flare* fPtr = dynamic_cast<Flare*>(temp);
+                Map* mPtr = dynamic_cast<Map*>(temp);
+                Fountain* ftPtr = dynamic_cast<Fountain*>(temp);
+                
+                //Book
+                if (bPtr)
+                {
+                    cout << " B ";
+                }
+                //Flare
+                else if (fPtr)
+                {
+                    cout << " F ";
+                }
+                //Map
+                else if (mPtr)
+                {
+                    cout << " M ";
+                }
+                //Fountain
+                else if (ftPtr)
+                {
+                    cout << " R ";
+                }
+                else
+                {
+                    cout << "   ";
+                }
+            }
+            else
+            {
+                cout << "   ";
+            }
+        }
+        cout << left << r;
+        cout << "\n";  //Remove this newline to make the map more compact
+        if (r < 9)
+        {
+            cout << endl;
+        }
+    }
+    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    cout << left << "\n" << endl;
+    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
+    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    cout << right << setw(55) << " " << left << "B - Book " << endl;
+    cout << right << setw(55) << " " << left << "F - Flare " << endl;
+    cout << right << setw(55) << " " << left << "M - Map " << endl;
+    cout << right << setw(55) << " " << left << "R - Fountain " << endl;
+    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    
+    cout << "\n\n\n" << endl;
+    
+}
+
+/********************************************************************************************
+ _printItemsMap
+ Prints a map with items only.
+ *******************************************************************************************/
+void Dungeon::_printItemsMap(int characterRow, int characterCol) const
+{
+    cout << "\n\n\n" << endl;
+    cout << setw(98) << "               ~~***   ITEMS MAP   ***~~               \n" << endl;
+    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    
+    //Check for room object
+    for (int r = 0; r < 10; r++)
+    {
+        cout << right << setw(55) << r;
+        for (int c = 0; c < 10; c++)
+        {
+            //Print Character's location
+            if (r == characterRow && c == characterCol)
+            {
+                cout << " * ";
+            }
+            //Print Monster's location
+            else if (!dungeonPtr[r][c].getItems().empty())
+            {
+                vector<Item*> temp = dungeonPtr[r][c].getItems();
+                PortalGem* gPtr = dynamic_cast<PortalGem*>(temp[0]);
+                KillScroll* kPtr = dynamic_cast<KillScroll*>(temp[0]);
+                Equipment* ePtr = dynamic_cast<Equipment*>(temp[0]);
+                if (gPtr)
+                {
+                    cout << " G ";
+                }
+                else if (kPtr)
+                {
+                    cout << " K ";
+                }
+                else if (ePtr)
+                {
+                    cout << " E ";
+                }
+                else
+                {
+                    cout << "   ";
+                }
+            }
+            else
+            {
+                cout << "   ";
+            }
+        }
+        cout << left << r;
+        cout << "\n";  //Remove this newline to make the map more compact
+        if (r < 9)
+        {
+            cout << endl;
+        }
+    }
+    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    cout << left << "\n" << endl;
+    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
+    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)" << endl;
+    cout << right << setw(55) << " " << left << "K - Kill Scroll " << endl;
+    cout << right << setw(55) << " " << left << "E - Equipment " << endl;
+    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    
+    cout << "\n\n\n" << endl;
+    
+}
+
+/********************************************************************************************
+ _printAllMap
+ Prints a map with all room objects, items and monsters in the dungeon.
+ *******************************************************************************************/
+void Dungeon::_printAllMap(int characterRow, int characterCol) const
+{
+    cout << "\n\n\n" << endl;
+    cout << setw(100) << "               ~~***   GENERAL MAP   ***~~               \n" << endl;
+    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    
+    //Check for room object
+    for (int r = 0; r < 10; r++)
+    {
+        cout << right << setw(55) << r;
+        for (int c = 0; c < 10; c++)
+        {
+            //Print Character's location
+            if (r == characterRow && c == characterCol)
+            {
+                cout << " * ";
+            }
+            //Print all Room Object's locations
+            else if (dungeonPtr[r][c].getRoomObjectPtr())
+            {
+                RoomObject* temp = dungeonPtr[r][c].getRoomObjectPtr();
+                Treasure* tPtr = dynamic_cast<Treasure*>(temp);
+                Book* bPtr = dynamic_cast<Book*>(temp);
+                Flare* fPtr = dynamic_cast<Flare*>(temp);
+                Map* mPtr = dynamic_cast<Map*>(temp);
+                Fountain* ftPtr = dynamic_cast<Fountain*>(temp);
+                
+                //Treasure
+                if (tPtr)
+                {
+                    cout << " T ";
+                }
+                //Book
+                else if (bPtr)
+                {
+                    cout << " B ";
+                }
+                //Flare
+                else if (fPtr)
+                {
+                    cout << " F ";
+                }
+                //Map
+                else if (mPtr)
+                {
+                    cout << " D ";
+                }
+                //Fountain
+                else if (ftPtr)
+                {
+                    cout << " R ";
+                }
+                else
+                {
+                    cout << "   ";
+                }
+            }
+            //Print all Items' locations
+            else if (!dungeonPtr[r][c].getItems().empty())
+            {
+                vector<Item*> temp = dungeonPtr[r][c].getItems();
+                PortalGem* gPtr = dynamic_cast<PortalGem*>(temp[0]);
+                KillScroll* kPtr = dynamic_cast<KillScroll*>(temp[0]);
+                Equipment* ePtr = dynamic_cast<Equipment*>(temp[0]);
+                Potion* pPtr = dynamic_cast<Potion*>(temp[0]);
+                
+                //Gem
+                if (gPtr)
+                {
+                    cout << " G ";
+                }
+                //KillScroll
+                else if (kPtr)
+                {
+                    cout << " K ";
+                }
+                //Equipment
+                else if (ePtr)
+                {
+                    cout << " E ";
+                }
+                //Potion
+                else if (pPtr)
+                {
+                    cout << " P ";
+                }
+                else
+                {
+                    cout << "   ";
+                }
+            }
+            //Print all Monsters' locations
+            else if (dungeonPtr[r][c].getMonsterPtr())
+            {
+                cout << " M ";
+            }
+            else
+            {
+                cout << "   ";
+            }
+        }
+        cout << left << r;
+        cout << "\n";  //Remove this newline to make the map more compact
+        if (r < 9)
+        {
+            cout << endl;
+        }
+    }
+    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    cout << left << "\n" << endl;
+    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
+    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    cout << right << setw(55) << " " << left << "T - Treasure " << endl;
+    cout << right << setw(55) << " " << left << "B - Book " << endl;
+    cout << right << setw(55) << " " << left << "F - Flare " << endl;
+    cout << right << setw(55) << " " << left << "D - Map " << endl;
+    cout << right << setw(55) << " " << left << "R - Fountain " << endl;
+    cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)" << endl;
+    cout << right << setw(55) << " " << left << "K - Kill Scroll " << endl;
+    cout << right << setw(55) << " " << left << "E - Equipment " << endl;
+    cout << right << setw(55) << " " << left << "P - Potion " << endl;
+    cout << right << setw(55) << " " << left << "M - Monster " << endl;
+    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    
+    cout << "\n\n\n" << endl;
+    
+    
+}
+
 
 /********************************************************************************************
  printAdjacentRooms
@@ -810,7 +675,7 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
     }
     
     cout << "\n\n\n" << endl;
-    cout << setw(96) << "               ~~***   ***   ***~~               \n" << endl;
+    cout << setw(102) << "               ~~***   4 ADJACENT ROOMS   ***~~               \n" << endl;
     cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
     
     //Check for room object
@@ -874,8 +739,9 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
     bool mapUsed = false;
     bool monsterUsed = false;
     bool equipUsed = false;
-    bool consUsed = false;
+    bool potUsed = false;
     
+    // if roomContents[i] = _printContents(r,c) and _printContents(r,c) only returns uppercase characters, then why need toUpper?
     for (int i = 0; i < count; i++)
     {
         if (toupper(roomContents[i]) == 'T')
@@ -897,9 +763,9 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
             cout << right << setw(55) << " " << left << "R - Fountain " << endl;
             fountainUsed = true;
         }
-        else if (toupper(roomContents[i]) == 'P' && !mapUsed)
+        else if (toupper(roomContents[i]) == 'D' && !mapUsed)
         {
-            cout << right << setw(55) << " " << left << "P - Map " << endl;
+            cout << right << setw(55) << " " << left << "D - Map " << endl;
             mapUsed = true;
         }
         else if (toupper(roomContents[i]) == 'M' && !monsterUsed)
@@ -916,10 +782,10 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
             cout << right << setw(55) << " " << left << "Q - Equipment" << endl;
             equipUsed = true;
         }
-        else if (toupper(roomContents[i]) == 'C' && !consUsed)
+        else if (toupper(roomContents[i]) == 'P' && !potUsed)
         {
-            cout << right << setw(55) << " " << left << "C - Consummable\n" << endl;
-            consUsed = true;
+            cout << right << setw(55) << " " << left << "P - Potion" << endl;
+            potUsed = true;
         }
     }
     cout << endl;
@@ -927,6 +793,7 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
     cout << "\n\n\n" << endl;
     
 }
+
 /********************************************************************************************
  Overloaded ostream Operator<<
  Prints data for each room in the dungeon.
@@ -984,7 +851,7 @@ char Dungeon::_printContents(int r, int c)
         }
         else if (mPtr)
         {
-            cout << " P ";
+            cout << " D ";
             return 'P';
         }
     }
@@ -1000,12 +867,11 @@ char Dungeon::_printContents(int r, int c)
     else if (!dungeonPtr[r][c].getItems().empty())
     {
         vector<Item*> temp = dungeonPtr[r][c].getItems();
-        Ruby* rPtr =  dynamic_cast<Ruby*>(temp[0]);
-        Sapphire* sPtr =  dynamic_cast<Sapphire*>(temp[0]);
-        Emerald* ePtr = dynamic_cast<Emerald*>(temp[0]);
+        PortalGem* gPtr = dynamic_cast<PortalGem*>(temp[0]);
         Equipment* qPtr = dynamic_cast<Equipment*>(temp[0]);
-        
-        if (rPtr || sPtr || ePtr)
+        Potion* pPtr = dynamic_cast<Potion*>(temp[0]);
+        // killscroll??
+        if (gPtr)
         {
             cout << " G ";
             return 'G';
@@ -1017,8 +883,8 @@ char Dungeon::_printContents(int r, int c)
         }
         else
         {
-            cout << " C ";
-            return 'C';
+            cout << " P ";
+            return 'P';
         }
     }
     else
