@@ -143,9 +143,9 @@ void doCommand(const string &command, Character *c) throw(const char*, Adventure
             c->pickupItem(command.substr(spacePos+1));
         else if(cmd == commands[4]) // activate
             c->activate(command.substr(spacePos+1));
-        else if(cmd == commands[5])
+        else if(cmd == commands[5]) // use item
             c->useItem(command.substr(spacePos+1));
-        else if(cmd == commands[6])
+        else if(cmd == commands[6]) // print attributes
             c->print();
         else if(cmd.substr(0,1) == commands[numCommands-1]) // cheat
             c->cheat(command.substr(1,spacePos-1), command.substr(spacePos+1)); // possible cheat commands, "/god" and "/tp x y" without quotes, x y should be ints. to be implemented -> print map, spawn items into inv/equipment
