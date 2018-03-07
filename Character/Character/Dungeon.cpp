@@ -53,7 +53,7 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     //addRoomContents(); // TOOK OUT THIS LINE
     
     //Set room coordinates and wall data
-    const char fileName[] = "/Users/Agnieszka Rynkiewicz/Desktop/Computer Science/1.7 C++/1.1 C++ Courses/1.3 Advanced C++/1.0 Group Project/3.0 Code/walls.bin";
+    const char fileName[] = "walls.bin";
     
     //Open file with room data
     fstream file;
