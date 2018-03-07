@@ -17,17 +17,17 @@ namespace AdventureErrors
 {
     class BoundaryError : public std::range_error
     {
-    public:
+     public:
         BoundaryError(const char* arg) : std::range_error(arg) {}
         virtual const char* what() const throw()
         {
             return (std::range_error::what());
         }
     };
-    
+
     class FileOpenError : public std::invalid_argument
     {
-    public:
+     public:
         FileOpenError(const char* arg) : std::invalid_argument(arg) {}
         virtual const char* what() const throw()
         {
@@ -37,6 +37,35 @@ namespace AdventureErrors
             strcat(temp, " cannot be opened.");
             return (temp);
         }
+    };
+    class InvalidMove : public std::invalid_argument
+    {
+     public:
+        explicit InvalidMove(const char* what_arg) : std::invalid_argument(what_arg){ }
+        virtual const char* what() const noexcept
+        {
+            return invalid_argument::what();
+        }
+    };
+
+    class MissingObject : public std::logic_error
+    {
+     public:
+        explicit MissingObject(const char* what_arg) : std::logic_error(what_arg){ }
+        virtual const char* what() const noexcept
+        {
+            return logic_error::what();
+        }
+    };
+    class CharacterDeath : public std::runtime_error
+    {
+     public:
+        explicit CharacterDeath(const char* what_arg) : std::runtime_error(what_arg){ }
+        virtual const char* what() const noexcept
+        {
+            return runtime_error::what();
+        }
+        
     };
 }
 
