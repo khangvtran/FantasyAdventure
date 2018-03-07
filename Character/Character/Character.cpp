@@ -198,6 +198,7 @@ void Character::setInitialAttributes()
     cout << luck << " points were automatically allocated into luck" << endl << endl;
     
     cin.ignore(10, '\n');
+    cin.clear();
 }
 
 
