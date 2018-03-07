@@ -50,7 +50,7 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     alloc();
     
     //Initialize vectors with all room contents (monsters, items, room objects)
-    addRoomContents();
+    //addRoomContents(); // TOOK OUT THIS LINE
     
     //Set room coordinates and wall data
     const char fileName[] = "/Users/Agnieszka Rynkiewicz/Desktop/Computer Science/1.7 C++/1.1 C++ Courses/1.3 Advanced C++/1.0 Group Project/3.0 Code/walls.bin";
@@ -99,76 +99,88 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
         //Add a new room
         addRoom(newRoom.row, newRoom.col, newRoom.wall);
         
+       
         //Take a subsequent read to check for EOF bit
         file.read(reinterpret_cast<char*>(&newRoom), sizeof(Room));
         //cout << "ROW:  " << newRoom.row << " " << "COL:  " << newRoom.col << " WALL: " << static_cast<int>(newRoom.wall) << endl;
     }
-    
+    putthingsintodungeon(18, 15, 20, 20); // ADDED THIS LINE
+    printMap(0,0); // ADDED THIS LINE TO DEBUG PRINT MAP
     //Close file
     file.close();
 }
-/*
-bool Dungeon::putthingsintodungeon()
+
+void Dungeon::putthingsintodungeon(const int &numMonsters, const int &numPots, const int &numEquipment, const int &numRoomObjs)
 {
     bool roomData[10][10] = {false};
     Generation spawner;
     
+    roomData[0][4] = true;
+    dungeonPtr[0][4].setMonsterPtr(spawner.generateMonster(spawner.DRAGONBOSS)); // generates dragonboss at 0,4
+    dungeonPtr[0][4].setRoomObjectPtr(spawner.generateRoomObj(spawner.TREASURE)); // generates treasure at 0,4
+    
+    roomData[3][1] = true;
+    dungeonPtr[3][1].setItem(spawner.generateItem(spawner.RUBY)); // generates Ruby at 3,1
+    
+    roomData[4][7] = true;
+    dungeonPtr[4][7].setItem(spawner.generateItem(spawner.SAPPHIRE)); // generates Sapphire at 4,7
+    
+    roomData[8][1] = true;
+    dungeonPtr[8][1].setItem(spawner.generateItem(spawner.EMERALD)); // generates Emerald at 8,1
+
+
+    int monsterCount = 0;
+    int potCount = 0;
+    int equipmentCount = 0;
+    int roomObjCount = 0;
+    int rowNum, colNum;
     do
     {
-        int rowNum = rand() % 10;
-        int colNum = rand() % 10;
-        
-        bool set = false;
-        while(!roomData[rowNum][colNum] && !set) // if room is empty and no monster
-        {
-            if(!roomData[rowNum][colNum])
-                dungeonPtr[rowNum][colNum].setMonsterPtr(spawner.generateMonster(spawner.monsterContainer[0])); // generates dragon
-            set = true;
-        }
-        if(!roomData[rowNum][colNum]) // if room is empty
-        {
-            
-        }
-    }
-    
-    
-    
-    
-    
-    const int numMonsters = 18;
-    const int pots = 15;
-    const int equipment = 20;
-    const int roomobjs = 20;
-    int monsterCount, potCount, equipmentCount, roomobjCount = 0;
-    
-    
-    while(monsterCount != numMonsters && potCount != pots && equipmentCount != equipment && roomobjCount != roomobjs)
-    {
-        
-        int rowNum = rand() % 10;
-        int colNum = rand() % 10;
+        rowNum = rand() % rows;
+        colNum = rand() % cols;
         
         if(!roomData[rowNum][colNum]) // if room is empty
         {
             if(monsterCount != numMonsters)
             {
-                spawner.generateMonster(<#Generation::MONSTERS type#>)
+                dungeonPtr[rowNum][colNum].setMonsterPtr(spawner.generateMonster((Generation::MONSTERS)(rand() % (spawner.monsterContainer.size()-1)))); // put this into the room
+                cout << "generated" << dungeonPtr[rowNum][colNum].getMonsterPtr()->getName() << endl;
+                monsterCount++;
             }
-        }
-        
-        for(int i = 0; i < 10; i++)
-        {
-            for(int j = 0; j < 10; j++)
+            else if(potCount != numPots)
             {
-                if(! roomData[i][j]) // if room is empty
-                {
-                    
-                }
+                dungeonPtr[rowNum][colNum].setItem(spawner.generateItem((Generation::ITEMS)(rand() % 5))); // put this into the room
+                potCount++;
+                cout << "generated" << (*(dungeonPtr[rowNum][colNum].getItems().begin()))->name() << endl;
             }
+            else if(equipmentCount != numEquipment)
+            {
+                // rand() % ((spawner.itemContainer.size() - (6+3)) +6) generates a random number between 6 and 25 (which is the first of equipment and last of equipment)
+                dungeonPtr[rowNum][colNum].setItem(spawner.generateItem((Generation::ITEMS)(rand() % (spawner.itemContainer.size() - (6+3)) +6))); // put this into the room
+                cout << "generated" << (*(dungeonPtr[rowNum][colNum].getItems().begin()))->name() << endl;
+                equipmentCount++;
+            }
+            else if(roomObjCount != numRoomObjs)
+            {
+                dungeonPtr[rowNum][colNum].setRoomObjectPtr(spawner.generateRoomObj((Generation::ROOMOBJ)(rand() % (spawner.roomObjContainer.size()-1)))); // put this into the room
+                cout << "generated" << dungeonPtr[rowNum][colNum].getRoomObjectPtr()->getName() << endl;
+                roomObjCount++;
+            }
+            roomData[rowNum][colNum] = true;
         }
-    }
+    } while(monsterCount != numMonsters || potCount != numPots || equipmentCount != numEquipment || roomObjCount != numRoomObjs);
     
-}*/
+    cout << "should have " << numMonsters << " monsters and have " << monsterCount << endl;
+    cout << "should have " << numPots << " pots and have " << potCount << endl;
+    cout << "should have " << numEquipment << " equipment and have " << equipmentCount << endl;
+    cout << "should have " << numRoomObjs << " roomobjs and have " << roomObjCount << endl;
+    for(int i = 0 ; i< 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+            cout << boolalpha << roomData[i][j] <<  " ";
+        cout << endl;
+    }
+}
 /********************************************************************************************
  addRoomContents
  Initializes vectors with all monsters, items and room objects with data.
@@ -569,6 +581,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
     //cout << "COL OF THIS ROOM: " << dungeonPtr[r][c].getCol() << endl;
     
     //Set treasure
+    /*
     if (r == 0 && c == 4)
     {
         dungeonPtr[r][c].setRoomObjectPtr(treasure);
@@ -659,7 +672,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
                             //cout << "i: " << i << endl;
                             cout << "r: " << r << "c" << c << " " << newItemVect[i]->name() << endl;
                         }
-                         */
+     
                         
                         ptrWasSet = true;
                     }
@@ -675,7 +688,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
             }
         }
     }
-    
+    */
     //Increment number of populated rooms
     numPopulatedRooms++;
 }

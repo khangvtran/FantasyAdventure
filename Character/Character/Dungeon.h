@@ -124,6 +124,9 @@ public:
         return dungeonPtr[row][col];
     }
     
+    
+    void putthingsintodungeon(const int &numMonsters, const int &numPots, const int &numEquipment, const int &numRoomObjs);
+    
     //Overloaded Operator<<
     /* Prints dungeon contents */
     friend ostream& operator<<(ostream& strm, const Dungeon& dungeon);
