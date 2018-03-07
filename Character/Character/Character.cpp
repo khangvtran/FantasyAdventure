@@ -587,7 +587,10 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
     
     Map* map = dynamic_cast<Map*>(roomObjPtr);
     if(map)
+    {
         map->use();
+        dungeon->printMap(location.row, location.col, Dungeon::ALL);
+    }
     else
         throw AdventureErrors::MissingObject("This is not a map. Are you high, mate?");
 }
@@ -602,7 +605,10 @@ void Character::_useFlare() const throw(AdventureErrors::MissingObject)
     
     Flare* flare = dynamic_cast<Flare*>(roomObjPtr);
     if(flare)
+    {
         flare->use();
+        dungeon->printAdjacentRooms(location.row, location.col);
+    }
     else
         throw AdventureErrors::MissingObject("This is not a flare. What are you, blind?");
 }
@@ -611,7 +617,7 @@ void Character::_useFlare() const throw(AdventureErrors::MissingObject)
 void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
 {
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
-    if (roomObjPtr)
+    if (!roomObjPtr)
         throw AdventureErrors::MissingObject("Do you see anything around. I don't");
     
     Fountain* fountain = dynamic_cast<Fountain*>(roomObjPtr);
@@ -619,6 +625,7 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
     {
         if (_randomizer())
         {
+            fountain->use();
             cout << "You were lucky this time! Your health increased from " << getHealth() << " to ";
             setHealth(getHealth() + 3 * getIntelligence());
             cout << getHealth() << "." << endl << endl;
@@ -657,7 +664,6 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
             cout << "You still have to acquire all three gems: Ruby, Sapphire, and Emmerald" << endl;
             return;
         }
-        
         treasure->use();   // display winning message. Game keeps going on.
     }
     else
