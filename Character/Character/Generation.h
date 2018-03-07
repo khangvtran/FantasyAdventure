@@ -17,13 +17,13 @@
         // do code with thing.
     }
  
-    RoomObject* ro = spawner.generateRoomObj(spawner.roomObjectContainer.at("Book"), "<bookname>", "<bookdescription>"); // returns a book object
+    RoomObject* ro = spawner.generateRoomObj(spawner.roomObjectContainer.at("Book")); // returns a book object
     if(ro != nullptr)
     {
         // do code with ro
     }
  
-    Monster* monster = spawner.generateMonster(spawner.monsterContainer.at("Dragon"), "<monstername>", "<monsterdescription>"); // returns a Dragon object
+    Monster* monster = spawner.generateMonster(spawner.monsterContainer.at("Dragon")); // returns a Dragon object
     if(monster != nullptr)
     {
         // do code with monster
