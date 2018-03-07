@@ -15,8 +15,8 @@
 
 // DRAGON HEALTH : 50
 // TITAN HEALTH : 40
-// DRAGON BOSS HEALTH : 80
-
+// DRAGON BOSS HEALTH : 150
+// implement if health < maxhealth
 /*
  
  
@@ -30,7 +30,7 @@
 
 
 /* Constructor */
-Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
+Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
 {
     equipmentSet = {{"Helmet", new IronHelmet},
                     {"Armor", new IronArmor},
@@ -49,13 +49,8 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
     // dungeon->getRoom(x, y) will return a pointer to the room at row y, column x of the 2D array
     currentRoom = &(this->dungeon->getRoom(location.row, location.col));
     
-
-    Item* item = new MithrilArmor(); // debug
-    itemList.insertStart(item); // debug
-    item = new HealthPotion;
-    itemList.insertStart(item);
     setInitialAttributes();
-    if(_HitOrHeal())
+    if(_randomizer())
         equipmentSet["Weapon"] = new IronSword;
     else
         equipmentSet["Weapon"] = new IronDagger;
@@ -65,6 +60,7 @@ Character::Character(string Name, int row, int col, Dungeon& dungeon) : name(Nam
 void Character::_printAttributes() const
 {
     cout << "Character Attributes: " << endl;
+    cout << "Lives remaining: " << lives << endl;
     cout << "Health: " << health << endl;
     cout << "Max Health: " << maxHealth << endl;
     cout << "Strength: " << strength << endl;
@@ -75,20 +71,37 @@ void Character::_printAttributes() const
 
 void Character::_printInventory() const
 {
-    cout << "Character Inventory: " << endl;
-    itemList.printNumberedList();
-    cout << endl;
+    if(!itemList.isEmpty())
+    {
+        cout << "Character Inventory: " << endl;
+        itemList.printNumberedList();
+        cout << endl;
+    }
 }
-void Character::_printEquipmentSet() //const
+void Character::_printEquipmentSet() const
 {
     cout << "Character Equipment: " << endl;
+    try
+    {
+        if(equipmentSet.at("Helmet")!= nullptr)
+            cout << equipmentSet.at("Helmet")->name() << " (+" << equipmentSet.at("Helmet")->getvalue() << " max health)"<< endl;
+        if(equipmentSet.at("Armor")!= nullptr)
+            cout << equipmentSet.at("Armor")->name() << " (+" << equipmentSet.at("Armor")->getvalue() << " max health)"<< endl;
+        if(equipmentSet.at("Greaves")!= nullptr)
+            cout << equipmentSet.at("Greaves")->name() << " (+" << equipmentSet.at("Greaves")->getvalue() << " max health)"<< endl;
+        if(equipmentSet.at("Weapon")!= nullptr)
+            cout << setprecision(2) << equipmentSet.at("Weapon")->name() << " (x" << equipmentSet.at("Weapon")->getvalue() * 0.8 << " damage)";
+        if(equipmentSet.at("Weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("Weapon")) != nullptr)
+            cout << " [Chance to do critical hit! (x2)]";
+        cout << endl;
+        
+    } catch (out_of_range &err)
+    {
+        cerr << err.what() << endl;
+    }
     
-    cout << equipmentSet["Helmet"]->name() << " +" << equipmentSet["Helmet"]->getvalue() << " max health"<< endl;
-    cout << equipmentSet["Armor"]->name() << " +" << equipmentSet["Armor"]->getvalue() << " max health"<< endl;
-    cout << equipmentSet["Greaves"]->name() << " +" << equipmentSet["Greaves"]->getvalue() << " max health"<< endl;
-    cout << setprecision(2) << equipmentSet["Weapon"]->name() << " *" << equipmentSet["Weapon"]->getvalue()/1.5 << "% damage" << endl;
 }
-void Character::print() //const
+void Character::print() const
 {
     _printAttributes();
     _printInventory();
@@ -188,70 +201,87 @@ void Character::setInitialAttributes()
 }
 
 
-void Character::setName(string Name)
+void Character::setName(const string& name)
 {
-    name = Name;
+    this->name = name;
 }
 
-void Character::setHealth(int Health)
+void Character::setHealth(const int& newHealth)
 {
-    if(health == maxHealth && !(Health < health))
+    if(health == maxHealth && !(newHealth < health))
         cout << "You were already at full health though.." << endl;
     
-    if(Health >= maxHealth) // 138 > 132? true
+    if(newHealth >= maxHealth) // 138 > 132? true
         health = maxHealth; // sets health to 132
     else
-        health = Health; // 131 < 132
+        health = newHealth; // 131 < 132
     if(health < 0)
         _die();
 }
-void Character::setMaxHealth(int MaxHealth)
+void Character::setMaxHealth(const int& newMaxHealth)
 {
     if(health == maxHealth)
-        health = MaxHealth;
+        health = newMaxHealth;
     // need to implement what happens if MaxHealth < health??
-    maxHealth = MaxHealth;
+    maxHealth = newMaxHealth;
+    
+    if(health > newMaxHealth)
+        setHealth(newMaxHealth);
     
 }
-void Character::setStrength(int Strength)
+void Character::setStrength(const int& str)
 {
-    strength = Strength;
+    strength = str;
 }
 
 
-void Character::setIntelligence(int Intelligence)
+void Character::setIntelligence(const int& intel)
 {
-    intelligence = Intelligence;
+    intelligence = intel;
 }
 
-void Character::setLuck(int Luck)
+void Character::setLuck(const int& luck)
 {
-    luck = Luck;
+    this->luck = luck;
 }
 
 void Character::_die()
 {
-    cout << "YOU DIED" << endl;
+    cout << "**** YOU DIED ****" << endl;
+    cout << "What a shame.. Should've tried harder than that!" << endl << endl;
     lives--;
     if(lives < 0)
+    {
         alive = false;
+        return;
+    }
     else
     {
         health = maxHealth; // ALSO NEED TO IMPLEMENT EXTRA HEALTH BASED ON EQUIPMENT
-        cout << "You have " << lives << " lives remaining." << endl;
+        if(lives == 0)
+            cout << "You're on your last life! What are you doing‽" << endl;
+        else
+        {
+            cout << "Luckily, you seem to have " << lives;
+            if(lives > 1)
+                cout << " lives";
+            else
+                cout  << " life";
+             cout << " remaining." << endl;
+        }
     }
 }
 
-void Character::setColPos(int X)
+void Character::setColPos(const int& x)
 {
-    if(X >= 0 && X < location.xBound)
-        location.col = X;
+    if(x >= 0 && x < location.xBound)
+        location.col = x;
 }
 
-void Character::setRowPos(int Y)
+void Character::setRowPos(const int& y)
 {
-    if(Y >= 0 && Y < location.yBound)
-        location.row = Y;
+    if(y >= 0 && y < location.yBound)
+        location.row = y;
 }
 
 
@@ -426,19 +456,7 @@ void Character::useItem(const string& item)
         {
             cout << "use Kill Scroll" << endl;
             
-            Monster* m = currentRoom->getMonsterPtr();
-            if(m == nullptr)
-            {
-                cout << "There is no monster. What are you using that Kill Scroll for, pal? " << endl;
-                return;
-            }
-            else
-            {
-                m->modifyHealth(m->getHealth() + 1);    // kill the monster
-                currentRoom->removeMonster();           // remove monster from the room
-            }
-            
-            
+            _useKillScroll();
             killScrollPtr = nullptr;
             itemList.removeIterator();
             return;
@@ -457,18 +475,23 @@ void Character::useItem(const string& item)
 }
 
 
-int Character::equipmentHealth()
+int Character::equipmentHealth() const
 {
     int sum = 0;
-    if(equipmentSet["Helmet"] != nullptr)
-        sum += equipmentSet["Helmet"]->getvalue();
-    
-    if(equipmentSet["Armor"] != nullptr)
-        sum+=equipmentSet["Armor"]->getvalue();
-    
-    if(equipmentSet["Greaves"] != nullptr)
-        sum+=equipmentSet["Greaves"]->getvalue();
-    
+    try
+    {
+        if(equipmentSet.at("Helmet") != nullptr)
+            sum += equipmentSet.at("Helmet")->getvalue();
+        
+        if(equipmentSet.at("Armor") != nullptr)
+            sum += equipmentSet.at("Armor")->getvalue();
+        
+        if(equipmentSet.at("Greaves") != nullptr)
+            sum += equipmentSet.at("Greaves")->getvalue();
+    } catch (out_of_range &err)
+    {
+        cerr << err.what() << endl;
+    }
     return sum;
 }
 
@@ -487,7 +510,7 @@ int Character::equipmentHealth()
  subtracts monter's health based on calculated damage
  
 */
-void Character::attack()
+void Character::attack() throw(AdventureErrors::CharacterDeath)
 {
     // have to implement if room does not have monster
     // throw exception?
@@ -498,12 +521,15 @@ void Character::attack()
         cout << "There's no monster in the room. " << endl;
         return;
     }
-    if(_HitOrHeal())
+    if(_randomizer())
     {
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         // try implementing dagger double damage(crit?)
-        double damage = (rand() % 11 + 6)/10 * strength * (equipmentSet["Weapon"] != nullptr ? equipmentSet["Weapon"]->getvalue()/1.5 : 1);
+        double modifier = (equipmentSet["Weapon"] != nullptr ? equipmentSet["Weapon"]->getvalue() * 0.8 : 1);
+        double damage = (rand() % 11 + 6)/10.0 * strength * modifier;
+        
+        cout << "weapon modifier" << equipmentSet["Weapon"]->getvalue() << endl;
         cout << "You dealt " << damage << " to " << m->getName() << "." << endl;
         if(!m->modifyHealth(damage))
         {
@@ -520,7 +546,7 @@ void Character::attack()
     
     cout << "Health after attack: " << health << endl; // debug
     if(!isAlive())
-        throw "You lost a life!"; //throw exception (died);
+        throw AdventureErrors::CharacterDeath("You definitely didn't win this time around!"); //throw exception (died);
 }
 
 /**
@@ -528,7 +554,7 @@ void Character::attack()
  Returns true if character's attack will NOT miss
  Returns false if character's attack WILL miss
  */
-bool Character::_HitOrHeal() const // CHANGE: AccuracyHit() changed into HitOrHeal()
+bool Character::_randomizer() const // CHANGE: AccuracyHit() changed into HitOrHeal()
 {
     double accuracyRange = pow(luck, log10(100)/log10(18/* "MAX LUCK"*/));
     return (rand()%100 <= accuracyRange);
@@ -538,141 +564,103 @@ bool Character::_HitOrHeal() const // CHANGE: AccuracyHit() changed into HitOrHe
 
 /* Interactions with RoomObjects*/
 
-void Character::_readBook() const
+void Character::_readBook() const throw(AdventureErrors::MissingObject)
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
-    if (currentRoomObjectPtr)
-    {
-        Book* BookPtr = dynamic_cast<Book*>(currentRoomObjectPtr);
-        if (BookPtr)
-        {
-            BookPtr->use();
-        }
-        else
-        {
-            cout << "Does this thing look like a book to you, mate?" << endl;
-        }
-    }
+    RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
+    if(!roomObjPtr)
+        throw AdventureErrors::MissingObject("Do you see a book lying around, fool?");
+    
+    Book* book = dynamic_cast<Book*>(roomObjPtr);
+    if(book)
+        book->use();
     else
-    {
-        cout << "Do you see anything around, fool?" << endl;
-    }
+        throw AdventureErrors::MissingObject("Does this thing look like a book to you, mate?");
 }
 
 
-void Character::_readMap() const
+void Character::_readMap() const throw(AdventureErrors::MissingObject)
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
-    if (currentRoomObjectPtr)
-    {
-        Map* MapPtr = dynamic_cast<Map*>(currentRoomObjectPtr);
-        if (MapPtr)
-        {
-            MapPtr->use();
-            dungeon->printMap(location.row, location.col);
-        }
-        else
-        {
-            cout << "This is not a map. Are you high, mate" << endl;
-        }
-    }
+    RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
+    if(!roomObjPtr)
+        throw AdventureErrors::MissingObject("The room is empty, pal.");
+    
+    Map* map = dynamic_cast<Map*>(roomObjPtr);
+    if(map)
+        map->use();
     else
-    {
-        cout << "The room is empty, pal." << endl;
-    }
+        throw AdventureErrors::MissingObject("This is not a map. Are you high, mate?");
 }
 
 
 
-void Character::_useFlare() const
+void Character::_useFlare() const throw(AdventureErrors::MissingObject)
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
-    if (currentRoomObjectPtr)
-    {
-        Flare* FlarePtr = dynamic_cast<Flare*>(currentRoomObjectPtr);
-        if (FlarePtr)
-        {
-            FlarePtr->use();                     // from RoomObject
-            dungeon->printAdjacentRooms(location.row, location.col); // from dungeon
-        }
-        else
-        {
-            cout << "This is not a flare. You are a fool, aren't you" << endl;
-        }
-    }
+    RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
+    if(!roomObjPtr)
+        throw AdventureErrors::MissingObject("Do you see anything around? I sure don't.");
+    
+    Flare* flare = dynamic_cast<Flare*>(roomObjPtr);
+    if(flare)
+        flare->use();
     else
-    {
-        cout << "Do you see anything around. I don't" << endl;
-    }
+        throw AdventureErrors::MissingObject("This is not a flare. What are you, blind?");
 }
 
 
-void Character::_drinkFromFountain()
+void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
-    if (currentRoomObjectPtr)
+    RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
+    if (roomObjPtr)
+        throw AdventureErrors::MissingObject("Do you see anything around. I don't");
+    
+    Fountain* fountain = dynamic_cast<Fountain*>(roomObjPtr);
+    if (fountain)
     {
-        Fountain* FoutainPtr = dynamic_cast<Fountain*>(currentRoomObjectPtr);
-        if (FoutainPtr)
+        if (_randomizer())
         {
-            if (_HitOrHeal())
-            {
-                cout << "You were lucky this time! Your health increased from " << getHealth() << " to ";
-                setHealth(getHealth() + 3 * getIntelligence());
-                cout << getHealth() << "." << endl << endl;
-            }
-            else
-            {
-                cout << "Ouch! That water might have been slightly poisonous. Lost 10 health." << endl << endl;
-                setHealth(getHealth()-10);
-            }
+            cout << "You were lucky this time! Your health increased from " << getHealth() << " to ";
+            setHealth(getHealth() + 3 * getIntelligence());
+            cout << getHealth() << "." << endl << endl;
         }
         else
         {
-            cout << "How can you possibly mistake this object for a foutain, fool!" << endl;
+            cout << "Ouch! That water might have been slightly poisonous. Lost 10 health." << endl << endl;
+            setHealth(getHealth()-10);
         }
     }
     else
-    {
-        cout << "Do you see anything around. I don't" << endl;
-    }
+        throw AdventureErrors::MissingObject("How can you possibly mistake this object for a foutain, fool!");
 }
 
 
 
 
-void Character::_activateEndgameTreasure() const        // CHANGE: complete
+void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingObject)       // CHANGE: complete
 {
-    RoomObject* currentRoomObjectPtr = currentRoom->getRoomObjectPtr();
-    if (currentRoomObjectPtr)   // there is a room object in the room
+    RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
+    if (!roomObjPtr)   // there is a room object in the room
+        throw AdventureErrors::MissingObject("Ain't nothing lying around. Get your eyes checked! ");
+
+    Treasure* treasure = dynamic_cast<Treasure*>(roomObjPtr);
+    if (treasure)       // check if the Room Object is a Treasure
     {
-        Treasure* TreasurePtr = dynamic_cast<Treasure*>(currentRoomObjectPtr);
-        if (TreasurePtr)       // check if the Room Object is a Treasure
+        // check if boss is dead
+        if (currentRoom->getMonsterPtr() != nullptr)
         {
-            // check if boss is dead
-            if (currentRoom->getMonsterPtr() != nullptr)
-            {
-                cout << "May be it just me but do you see that colossal monster guarding the treasure there, mate????" << endl;
-                return;
-            }
-            // check if all gems are in itemList
-            if (itemList.linearSearch("Ruby") == -1 || itemList.linearSearch("Sapphire") == -1 || itemList.linearSearch("Emerald") == -1)
-            {
-                cout << "You still have to acquire all three gems: Ruby, Sapphire, and Emmerald" << endl;
-                return;
-            }
-            
-            TreasurePtr->use();   // display winning message. Game keeps going on.
+            cout << "Maybe it's just me but do you see that colossal monster guarding the treasure there, mate??" << endl;
+            return;
         }
-        else
+        // check if all gems are in itemList
+        if (itemList.linearSearch("Ruby") == -1 || itemList.linearSearch("Sapphire") == -1 || itemList.linearSearch("Emerald") == -1)
         {
-            cout << "This is not a treasure. Gosh, how can you get this far being so dumb!" << endl;
+            cout << "You still have to acquire all three gems: Ruby, Sapphire, and Emmerald" << endl;
+            return;
         }
+        
+        treasure->use();   // display winning message. Game keeps going on.
     }
     else
-    {
-        cout << "Ain't no nothing lying around. Get your eyes checked! " << endl;
-    }
+        throw AdventureErrors::MissingObject("This is not a treasure. Gosh, how did you get this far by being so dumb!");
 }
 
 
@@ -681,7 +669,7 @@ void Character::_activateEndgameTreasure() const        // CHANGE: complete
 
 /* Navigating */
 
-void Character::move(const string& direction) throw(const char*)
+void Character::move(const string& direction) throw(AdventureErrors::InvalidMove)
 {
     try {
         if(direction == "north")
@@ -693,14 +681,14 @@ void Character::move(const string& direction) throw(const char*)
         else if(direction == "east")
             _moveEast();
         else
-            throw string("Invalid move direction: " +direction).c_str();
-    } catch (const char*) {
+            throw AdventureErrors::InvalidMove(string("Invalid move direction: " +direction).c_str());
+    } catch (AdventureErrors::InvalidMove) {
         throw;
     }
     cout << currentRoom->getDescription() << endl << endl;
 }
 
-void Character::_moveNorth() throw(const char*)
+void Character::_moveNorth() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkNorth())
     {
@@ -708,10 +696,10 @@ void Character::_moveNorth() throw(const char*)
         currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
-        throw "There's a wall in the North direction!";
+        throw AdventureErrors::InvalidMove("There's a wall in the North direction!");
 }
 
-void Character::_moveSouth() throw(const char*)
+void Character::_moveSouth() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkSouth())
     {
@@ -719,10 +707,10 @@ void Character::_moveSouth() throw(const char*)
         currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
-        throw "There's a wall in the South direction!";;
+        throw AdventureErrors::InvalidMove("There's a wall in the South direction!");
 }
 
-void Character::_moveEast() throw(const char*)
+void Character::_moveEast() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkEast())
     {
@@ -730,10 +718,10 @@ void Character::_moveEast() throw(const char*)
         currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
-        throw "There's a wall in the East direction!";
+        throw AdventureErrors::InvalidMove("There's a wall in the East direction!");
 }
 
-void Character::_moveWest() throw(const char*)
+void Character::_moveWest() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkWest())
     {
@@ -741,10 +729,10 @@ void Character::_moveWest() throw(const char*)
         currentRoom = &(dungeon->getRoom(location.row, location.col));
     }
     else // exception, handled by main
-        throw "There's a wall in the West direction!";
+        throw AdventureErrors::InvalidMove("There's a wall in the West direction!");
 }
 
-void Character::activate(const string& thing)
+void Character::activate(const string& thing) throw(AdventureErrors::MissingObject)
 {
     if(thing == "map")
         _readMap();
@@ -774,11 +762,11 @@ void Character::cheat(const string& cmd, const string& cmd2)
     else if(cmd == "tp")
     {
         std::istringstream is(cmd2);
-        int row,col;
+        int row = 0, col = 0;
         is >> row >> col;
         setRowPos(row);
         setColPos(col);
-        cout << "Teleported to (" << row << "," << col << ")." << endl;
+        cout << "Teleported to (" << location.row << "," << location.col << ")." << endl;
         currentRoom = &(this->dungeon->getRoom(location.row, location.col));
         cout << currentRoom->getDescription() << endl << endl;
     }
@@ -795,3 +783,18 @@ void Character::cheat(const string& cmd, const string& cmd2)
         
     }
 }
+
+void Character::_useKillScroll() {
+    Monster* m = currentRoom->getMonsterPtr();
+    if(m == nullptr)
+    {
+        cout << "There is no monster. What are you using that Kill Scroll for, pal? " << endl;
+        return;
+    }
+    else
+    {
+        m->modifyHealth(m->getHealth() + 1);    // kill the monster
+        currentRoom->removeMonster();           // remove monster from the room
+    }
+}
+

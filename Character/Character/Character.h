@@ -6,15 +6,13 @@
 //  Copyright © 2018 Khang Tran and Joshua Kuan. All rights reserved.
 //
 
+
+
 #ifndef Character_h
 #define Character_h
 
-#include <stdio.h>
-
-# include <iostream>
+#include <iostream>
 # include <string>
-# include <iomanip>
-# include <cstdlib>
 
 #include <unordered_map>
 #include <vector>
@@ -22,11 +20,11 @@
 using namespace std;
 
 # include "Item.h"
-//# include "Equipment.h"
-# include "Dungeon.h"
-# include "Room.h"
-# include "LinkedList.h"
-# include "RoomObject.h"
+#include "Dungeon.h"
+#include "Room.h"
+#include "LinkedList.h"
+#include "RoomObject.h"
+#include "Exceptions.h"
 
 class Character
 {
@@ -59,23 +57,26 @@ private:
     /** Private Helper Functions **/
     
     void _die();
-    bool _HitOrHeal() const;
+    bool _randomizer() const;
     void _printAttributes() const;
     void _printInventory() const;
-    void _printEquipmentSet(); //const;
-
+    void _printEquipmentSet() const;
+    
+    void _useKillScroll();
+    
     /* Helper move functions */
-    void _moveNorth() throw(const char*);
-    void _moveSouth() throw(const char*);
-    void _moveEast() throw(const char*);
-    void _moveWest() throw(const char*);
+    void _moveNorth() throw(AdventureErrors::InvalidMove);
+    void _moveSouth() throw(AdventureErrors::InvalidMove);
+    void _moveEast() throw(AdventureErrors::InvalidMove);
+    void _moveWest() throw(AdventureErrors::InvalidMove);
     
     /* Interaction with RoomObjects */
-    void _readBook() const;
-    void _readMap() const;
-    void _useFlare() const;
-    void _drinkFromFountain();
-    void _activateEndgameTreasure() const;
+    void _readBook() const throw(AdventureErrors::MissingObject);
+    void _readMap() const throw(AdventureErrors::MissingObject);
+    void _useFlare() const throw(AdventureErrors::MissingObject);
+    void _drinkFromFountain() throw(AdventureErrors::MissingObject);
+    void _activateEndgameTreasure() const throw(AdventureErrors::MissingObject);
+    
 public:
     
     
@@ -87,7 +88,7 @@ public:
      * col refers to the MAX bound of cols in the dungeon.
      * dungeon is a reference which gets stored to use for the dungeon pointer.
      */
-    Character(string, int, int, Dungeon&);
+    Character(const string&, const int&, const int&, Dungeon&);
     
     /* Destructor */
     
@@ -108,15 +109,15 @@ public:
     
     /* Manipulator */
     void setInitialAttributes();
-    void setName(string Name);
-    void setMaxHealth(int MaxHealth);
-    void setHealth(int Health);
-    void setStrength(int Strength);
-    void setIntelligence(int Intelligence);
-    void setLuck(int Luck);
+    void setName(const string&);
+    void setMaxHealth(const int&);
+    void setHealth(const int&);
+    void setStrength(const int&);
+    void setIntelligence(const int&);
+    void setLuck(const int&);
 
-    void setRowPos(int Y);
-    void setColPos(int X);
+    void setRowPos(const int&);
+    void setColPos(const int&);
     
     
     /* Interaction with Items - Equipment */
@@ -124,27 +125,19 @@ public:
     void pickupItem(const string& item);    // CHANGE: swapEquipment is now a part of this
     void dropItem(const string& item);
     void useItem(const string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
-    int equipmentHealth();
-    void useKillScroll();
+    int equipmentHealth() const;
+    
     
     
     /* Interactions with Monsters */
     //void useSpecialAbility();
-    void attack();
-
-    
-
+    void attack() throw(AdventureErrors::CharacterDeath);
     
     /* Moving */
-    void move(const string& direction) throw(const char*);
+    void move(const string&) throw(AdventureErrors::InvalidMove);
     
-    void activate(const string& thing);
-    
-    
-    void print();
-
-    
-    
+    void activate(const string&) throw(AdventureErrors::MissingObject);
+    void print() const;
     
     /* Cheat */
     void cheat(const string&, const string& = "");
