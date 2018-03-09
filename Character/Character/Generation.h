@@ -51,23 +51,22 @@ class Generation
 {
 public:
     enum ITEMS {
-        HEALTHPOTION, MAXHEALTHPOTION, STRENGTHPOTION, INTPOTION, LUCKPOTION, KILLSCROLL,
-        IRONHELMET, STEELHELMET, MITHRILHELMET, ADAMANTINEHELMET,
-        IRONARMOR, STEELARMOR, MITHRILARMOR, ADAMANTINEARMOR,
-        IRONGREAVES, STEELGREAVES, MITHRILGREAVES, ADAMANTINEGREAVES,
-        IRONSWORD, STEELSWORD, MITHRILSWORD, ADAMANTINESWORD,
-        IRONDAGGER, STEELDAGGER, MITHRILDAGGER, ADAMANTINEDAGGER,
-        RUBY, EMERALD, SAPPHIRE};
+        HEALTHPOTION, MAXHEALTHPOTION, STRENGTHPOTION, INTPOTION, LUCKPOTION, KILLSCROLL, // 0-4 potions, 5 kill scroll
+        IRONHELMET, IRONARMOR, IRONGREAVES, IRONSWORD, IRONDAGGER, // 6-10 iron things
+        STEELHELMET, STEELARMOR, STEELGREAVES, STEELSWORD, STEELDAGGER, // 11-15 steel things
+        MITHRILHELMET, MITHRILARMOR, MITHRILGREAVES, MITHRILSWORD, MITHRILDAGGER, // 16-20 mithril things
+        ADAMANTINEHELMET, ADAMANTINEARMOR, ADAMANTINEGREAVES, ADAMANTINESWORD, ADAMANTINEDAGGER, // 21-25 adamantine things
+        RUBY, EMERALD, SAPPHIRE }; // 26-28 gems
     
     std::unordered_map<string, ITEMS> itemContainer {
-        {"Health Potion", HEALTHPOTION}, {"Max Health Potion", MAXHEALTHPOTION}, {"Strength Potion", STRENGTHPOTION}, {"Int Potion", INTPOTION},
-        {"Luck Potion", LUCKPOTION}, {"Kill Scroll", KILLSCROLL},
-        {"Iron Helmet", IRONHELMET}, {"Steel Helmet", STEELHELMET}, {"Mithril Helmet", MITHRILHELMET}, {"Adamantine Helmet", ADAMANTINEHELMET},
-        {"Iron Armor", IRONARMOR}, {"Steel Armor", STEELARMOR}, {"Mithril Armor", MITHRILARMOR}, {"Adamantine Armor", ADAMANTINEARMOR},
-        {"Iron Greaves", IRONGREAVES}, {"Steel Greaves", STEELGREAVES}, {"Mithril Greaves", MITHRILGREAVES}, {"Adamantine Greaves", ADAMANTINEGREAVES},
-        {"Iron Sword", IRONSWORD}, {"Steel Sword", STEELSWORD}, {"Mithril Sword", MITHRILSWORD}, {"Adamantine Sword", ADAMANTINESWORD},
-        {"Iron Dagger", IRONDAGGER}, {"Steel Dagger", STEELDAGGER}, {"Mithril Dagger", MITHRILDAGGER}, {"Adamantine Dagger", ADAMANTINEDAGGER},
-        {"Ruby", RUBY}, {"Emerald", EMERALD}, {"Sapphire", SAPPHIRE}
+        {"health potion", HEALTHPOTION}, {"max health potion", MAXHEALTHPOTION}, {"strength Potion", STRENGTHPOTION}, {"int Potion", INTPOTION},
+        {"luck potion", LUCKPOTION}, {"kill scroll", KILLSCROLL},
+        {"iron helmet", IRONHELMET}, {"steel helmet", STEELHELMET}, {"mithril helmet", MITHRILHELMET}, {"adamantine helmet", ADAMANTINEHELMET},
+        {"iron armor", IRONARMOR}, {"steel armor", STEELARMOR}, {"mithril armor", MITHRILARMOR}, {"adamantine armor", ADAMANTINEARMOR},
+        {"iron greaves", IRONGREAVES}, {"steel greaves", STEELGREAVES}, {"mithril greaves", MITHRILGREAVES}, {"adamantine greaves", ADAMANTINEGREAVES},
+        {"iron sword", IRONSWORD}, {"steel sword", STEELSWORD}, {"mithril sword", MITHRILSWORD}, {"adamantine sword", ADAMANTINESWORD},
+        {"iron dagger", IRONDAGGER}, {"steel dagger", STEELDAGGER}, {"mithril dagger", MITHRILDAGGER}, {"adamantine dagger", ADAMANTINEDAGGER},
+        {"ruby", RUBY}, {"emerald", EMERALD}, {"sapphire", SAPPHIRE}
     };
     
     enum MONSTERS {DRAGON, TITAN, DRAGONBOSS};
