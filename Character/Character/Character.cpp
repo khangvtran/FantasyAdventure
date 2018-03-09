@@ -32,10 +32,10 @@
 /* Constructor */
 Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), location(row, col)
 {
-    equipmentSet = {{"Helmet", new IronHelmet},
-                    {"Armor", new IronArmor},
-                    {"Greaves", new IronGreaves},
-                    {"Weapon", nullptr}
+    equipmentSet = {{"helmet", new IronHelmet},
+                    {"armor", new IronArmor},
+                    {"greaves", new IronGreaves},
+                    {"weapon", nullptr}
     };
     
     
@@ -51,9 +51,9 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
     
     setInitialAttributes();
     if(_randomizer())
-        equipmentSet["Weapon"] = new IronSword;
+        equipmentSet["weapon"] = new IronSword;
     else
-        equipmentSet["Weapon"] = new IronDagger;
+        equipmentSet["weapon"] = new IronDagger;
     
     cout << *currentRoom << endl << endl;
 }
@@ -83,15 +83,15 @@ void Character::_printEquipmentSet() const
     cout << "Character Equipment: " << endl;
     try
     {
-        if(equipmentSet.at("Helmet")!= nullptr)
-            cout << equipmentSet.at("Helmet")->name() << " (+" << equipmentSet.at("Helmet")->getvalue() << " max health)"<< endl;
-        if(equipmentSet.at("Armor")!= nullptr)
-            cout << equipmentSet.at("Armor")->name() << " (+" << equipmentSet.at("Armor")->getvalue() << " max health)"<< endl;
-        if(equipmentSet.at("Greaves")!= nullptr)
-            cout << equipmentSet.at("Greaves")->name() << " (+" << equipmentSet.at("Greaves")->getvalue() << " max health)"<< endl;
-        if(equipmentSet.at("Weapon")!= nullptr)
-            cout << setprecision(2) << equipmentSet.at("Weapon")->name() << " (x" << equipmentSet.at("Weapon")->getvalue() * 0.8 << " damage)";
-        if(equipmentSet.at("Weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("Weapon")) != nullptr)
+        if(equipmentSet.at("helmet")!= nullptr)
+            cout << equipmentSet.at("helmet")->name() << " (+" << equipmentSet.at("helmet")->getValue() << " max health)"<< endl;
+        if(equipmentSet.at("armor")!= nullptr)
+            cout << equipmentSet.at("armor")->name() << " (+" << equipmentSet.at("armor")->getValue() << " max health)"<< endl;
+        if(equipmentSet.at("greaves")!= nullptr)
+            cout << equipmentSet.at("greaves")->name() << " (+" << equipmentSet.at("greaves")->getValue() << " max health)"<< endl;
+        if(equipmentSet.at("weapon")!= nullptr)
+            cout << setprecision(2) << equipmentSet.at("weapon")->name() << " (x" << equipmentSet.at("weapon")->getValue() * 0.8 << " damage)";
+        if(equipmentSet.at("weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("weapon")) != nullptr)
             cout << " [Chance to do critical hit! (x2)]";
         cout << endl;
         
@@ -310,18 +310,18 @@ void Character::pickupItem(const string& item)
             Helmet* helmet = dynamic_cast<Helmet*>(newEquipment);
             if(helmet)
             {
-                dropItem("Helmet");
-                equipmentSet["Helmet"] = helmet;
-                setMaxHealth(maxHealth + equipmentSet["Helmet"]->getvalue());
+                dropItem("helmet");
+                equipmentSet["helmet"] = helmet;
+                setMaxHealth(maxHealth + equipmentSet["helmet"]->getValue());
                 cout << "You picked up " << helmet->name() << " and put it on!" << endl;
                 return;
             }
             Armor* armor = dynamic_cast<Armor*>(newEquipment);
             if(armor)
             {
-                dropItem("Armor");
-                equipmentSet["Armor"] = armor;
-                setMaxHealth(maxHealth + equipmentSet["Armor"]->getvalue());
+                dropItem("armor");
+                equipmentSet["armor"] = armor;
+                setMaxHealth(maxHealth + equipmentSet["armor"]->getValue());
                 cout << "You picked up " << armor->name() << " and put it on!" << endl;
                 return;
             }
@@ -329,17 +329,17 @@ void Character::pickupItem(const string& item)
             Greaves* greaves = dynamic_cast<Greaves*>(newEquipment);
             if(greaves)
             {
-                dropItem("Greaves");
-                equipmentSet["Greaves"] = greaves;
-                setMaxHealth(maxHealth + equipmentSet["Greaves"]->getvalue());
+                dropItem("greaves");
+                equipmentSet["greaves"] = greaves;
+                setMaxHealth(maxHealth + equipmentSet["greaves"]->getValue());
                 cout << "You picked up " << greaves->name() << " and put it on!" << endl;
                 return;
             }
             Weapon* weapon = dynamic_cast<Weapon*>(newEquipment);
             if(weapon)
             {
-                dropItem("Weapon");
-                equipmentSet["Weapon"] = weapon;
+                dropItem("weapon");
+                equipmentSet["weapon"] = weapon;
                 cout << "You wielded " << weapon->name() << "!" << endl;
                 return;
             }
@@ -356,28 +356,28 @@ void Character::dropItem(const string& item)
 {
     cout << "tried to drop " << item << endl;
     string secondWord = item.substr(item.find(" ")+1);
-    if(secondWord == "Armor" && equipmentSet["Armor"] != nullptr)
+    if(secondWord == "armor" && equipmentSet["armor"] != nullptr)
     {
-        setMaxHealth(maxHealth - equipmentSet["Armor"]->getvalue());
+        setMaxHealth(maxHealth - equipmentSet["armor"]->getValue());
         currentRoom->setItem(equipmentSet["Armor"]);
-        equipmentSet["Armor"] = nullptr;
+        equipmentSet["armor"] = nullptr;
     }
-    else if(secondWord == "Helmet" && equipmentSet["Helmet"] != nullptr)
+    else if(secondWord == "helmet" && equipmentSet["helmet"] != nullptr)
     {
-        setMaxHealth(maxHealth - equipmentSet["Helmet"]->getvalue());
-        currentRoom->setItem(equipmentSet["Helmet"]);
-        equipmentSet["Helmet"] = nullptr;
+        setMaxHealth(maxHealth - equipmentSet["helmet"]->getValue());
+        currentRoom->setItem(equipmentSet["helmet"]);
+        equipmentSet["helmet"] = nullptr;
     }
-    else if(secondWord == "Greaves" && equipmentSet["Greaves"] != nullptr)
+    else if(secondWord == "greaves" && equipmentSet["greaves"] != nullptr)
     {
-        setMaxHealth(maxHealth - equipmentSet["Greaves"]->getvalue());
-        currentRoom->setItem(equipmentSet["Greaves"]);
-        equipmentSet["Greaves"] = nullptr;
+        setMaxHealth(maxHealth - equipmentSet["greaves"]->getValue());
+        currentRoom->setItem(equipmentSet["greaves"]);
+        equipmentSet["greaves"] = nullptr;
     }
-    else if((secondWord == "Sword" || secondWord == "Dagger" || secondWord == "Weapon") && equipmentSet["Weapon"] != nullptr)
+    else if((secondWord == "sword" || secondWord == "dagger" || secondWord == "weapon") && equipmentSet["weapon"] != nullptr)
     {
-        currentRoom->setItem(equipmentSet["Weapon"]);
-        equipmentSet["Weapon"] = nullptr;
+        currentRoom->setItem(equipmentSet["weapon"]);
+        equipmentSet["weapon"] = nullptr;
     }
     else
     {
@@ -415,7 +415,7 @@ void Character::useItem(const string& item)
             string potionName = potionPtr->name();
             
             
-            if (potionName == "Health Potion")
+            if (potionName == "health potion")
             {
                 cout << "You took a sip from the health potion." << endl;
                 if(health < maxHealth)
@@ -423,25 +423,25 @@ void Character::useItem(const string& item)
                 setHealth(getHealth() + potionValue * ((getIntelligence() / 10.)+1));
 
             }
-            else if (potionName == "Max Health Potion")
+            else if (potionName == "max health potion")
             {
-                cout << "You sipped the Max Health Potion and you feel more energized." << endl;
+                cout << "You sipped the max health potion and you feel more energized." << endl;
                 cout << "Max health increased by " << potionValue << endl;
                 setMaxHealth(getMaxHealth() + potionValue);
             }
-            else if (potionName == "Strength Potion")
+            else if (potionName == "strength potion")
             {
-                cout << "You gulped down the Strength Potion and you feel stronger." << endl;
+                cout << "You gulped down the strength potion and you feel stronger." << endl;
                 cout << "Strength increased by " << potionValue << endl;
                 setStrength(getStrength() + potionValue);
             }
-            else if (potionName == "Intelligence Potion")
+            else if (potionName == "intelligence potion")
             {
                 cout << "You look at the blue liquid and cautiously take a sip." << endl;
                 cout << "Intelligence increased by " << potionValue << endl;
                 setIntelligence(getIntelligence() + potionValue);
             }
-            else if (potionName == "Luck Potion")
+            else if (potionName == "luck potion")
             {
                 cout << "Ew, this looks disgusting. You drink it anyway." << endl;
                 cout << "Luck increased by " << potionValue << endl;
@@ -453,7 +453,7 @@ void Character::useItem(const string& item)
         }
         
         KillScroll* killScrollPtr = dynamic_cast<KillScroll*>(itemPtr);
-        if (killScrollPtr)
+        if (killScrollPtr) // isn't this when monster exists?
         {
             cout << "use Kill Scroll" << endl;
             
@@ -481,14 +481,14 @@ int Character::equipmentHealth() const
     int sum = 0;
     try
     {
-        if(equipmentSet.at("Helmet") != nullptr)
-            sum += equipmentSet.at("Helmet")->getvalue();
+        if(equipmentSet.at("helmet") != nullptr)
+            sum += equipmentSet.at("helmet")->getValue();
         
-        if(equipmentSet.at("Armor") != nullptr)
-            sum += equipmentSet.at("Armor")->getvalue();
+        if(equipmentSet.at("armor") != nullptr)
+            sum += equipmentSet.at("armor")->getValue();
         
-        if(equipmentSet.at("Greaves") != nullptr)
-            sum += equipmentSet.at("Greaves")->getvalue();
+        if(equipmentSet.at("greaves") != nullptr)
+            sum += equipmentSet.at("greaves")->getValue();
     } catch (out_of_range &err)
     {
         cerr << err.what() << endl;
@@ -529,10 +529,10 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         // try implementing dagger double damage(crit?)
         //if(equipmentSet["Weapon"]->name().substr(equipmentSet["Weapon"]->name().find(" ")+1) == "Dagger")
             
-        double modifier = (equipmentSet["Weapon"] != nullptr ? equipmentSet["Weapon"]->getvalue() * 0.8 : 1);
+        double modifier = (equipmentSet["weapon"] != nullptr ? equipmentSet["weapon"]->getValue() * 0.8 : 1);
         double damage = (rand() % 11 + 6)/10.0 * strength * modifier;
         // put in miss cout
-        cout << "weapon modifier" << equipmentSet["Weapon"]->getvalue() << endl;
+        cout << "weapon modifier" << equipmentSet["weapon"]->getValue() << endl;
         cout << "You dealt " << damage << " to " << m->getName() << "." << endl;
         if(!m->modifyHealth(damage))
         {
@@ -661,9 +661,9 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
             return;
         }
         // check if all gems are in itemList
-        if (itemList.linearSearch("Ruby") == -1 || itemList.linearSearch("Sapphire") == -1 || itemList.linearSearch("Emerald") == -1)
+        if (itemList.linearSearch("ruby") == -1 || itemList.linearSearch("sapphire") == -1 || itemList.linearSearch("emerald") == -1)
         {
-            cout << "You still have to acquire all three gems: Ruby, Sapphire, and Emmerald" << endl;
+            cout << "You still have to acquire all three gems: ruby, sapphire, and emerald" << endl;
             return;
         }
         treasure->use();   // display winning message. Game keeps going on.
@@ -804,7 +804,19 @@ void Character::cheat(const string& cmd, const string& cmd2)
         } catch (out_of_range &err) {
             cerr << "Invalid type " << cmd2 << "." << endl << endl;
         }
-        
+    }
+    else if(cmd == "map")
+    {
+        if(cmd2 == "basic")
+            dungeon->printMap(location.row, location.col, Dungeon::BASIC);
+        else if(cmd2 == "monster")
+            dungeon->printMap(location.row, location.col, Dungeon::MONSTER);
+        else if(cmd2 == "roomobject")
+            dungeon->printMap(location.row, location.col, Dungeon::ROOMOBJECT);
+        else if(cmd2 == "item")
+            dungeon->printMap(location.row, location.col, Dungeon::ITEM);
+        else if(cmd2 == "all")
+            dungeon->printMap(location.row, location.col, Dungeon::ALL);
     }
 }
 
