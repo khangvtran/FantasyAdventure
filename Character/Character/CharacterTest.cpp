@@ -23,6 +23,9 @@
 #include "Dungeon.h"
 #include "Character.h"
 #include <cstdlib>
+#include <algorithm>
+#include <cctype>
+#include <string>
 using namespace std;
 
 const int ROWS = 10;
@@ -31,7 +34,9 @@ const int COLS = 10;
 const string commands[] = {"move", "attack", "drop", "pickup", "activate", "use", "print", "/"};
 const int numCommands = 8;
 const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this\ndark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find useful hints that will guide you toward the room with the treasure as well as maps that will show you your location in relation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal. \n\nYou have 3 lives. Use them wisely!\n\n";
-bool isValidCommand(const string& command);
+bool isInvalidChar(int i);
+
+bool isValidCommand(string& command);
 void doCommand(const string& command, Character* c) throw(const char*, AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
 
 int main(void)
@@ -119,8 +124,13 @@ int main(void)
     return 0;
 }
 
-bool isValidCommand(const string& command)
+bool isInvalidChar(int i)
 {
+    return !(::isalnum(i));
+}
+bool isValidCommand(string& command)
+{
+    command.erase(remove_if (command.begin(), command.end(), isInvalidChar), command.end());
     string firstWord = command.substr(0, command.find(" "));
 
     for(int i = 0; i < numCommands-1; i++)
