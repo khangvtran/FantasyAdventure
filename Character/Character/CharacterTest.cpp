@@ -126,7 +126,7 @@ int main(void)
 
 bool isInvalidChar(int i)
 {
-    return !(::isalnum(i) || ::isspace(i));
+    return !(::isalnum(i) || ::isspace(i) || i == '/');
 }
 bool isValidCommand(string& command)
 {
