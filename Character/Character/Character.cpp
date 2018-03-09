@@ -527,6 +527,8 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         cout << "DIRECT HIT!" << endl;
         cout << "MONSTER HEALTH before: " << m->getHealth(); // debug
         // try implementing dagger double damage(crit?)
+        //if(equipmentSet["Weapon"]->name().substr(equipmentSet["Weapon"]->name().find(" ")+1) == "Dagger")
+            
         double modifier = (equipmentSet["Weapon"] != nullptr ? equipmentSet["Weapon"]->getvalue() * 0.8 : 1);
         double damage = (rand() % 11 + 6)/10.0 * strength * modifier;
         // put in miss cout

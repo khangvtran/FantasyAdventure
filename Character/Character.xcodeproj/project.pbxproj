@@ -15,6 +15,7 @@
 		B2868A9220462D7900CB8B84 /* RoomObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8520462D7800CB8B84 /* RoomObject.cpp */; };
 		B2868A9320462D7900CB8B84 /* Room.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8720462D7800CB8B84 /* Room.cpp */; };
 		B2868A9420462D7900CB8B84 /* Dungeon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A8A20462D7800CB8B84 /* Dungeon.cpp */; };
+		B2A5A77B2052FD9C004894D6 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2A5A77A2052FD9C004894D6 /* Item.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +52,7 @@
 		B293064B20474F1E00949E2A /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exceptions.h; sourceTree = "<group>"; };
 		B293064C20474F4000949E2A /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
 		B293064D20474F4000949E2A /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
+		B2A5A77A2052FD9C004894D6 /* Item.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				B2868A8320462D7800CB8B84 /* Exceptions.cpp */,
 				B293064B20474F1E00949E2A /* Exceptions.h */,
 				B2868A7C20462D7700CB8B84 /* Item.h */,
+				B2A5A77A2052FD9C004894D6 /* Item.cpp */,
 				B2868A8220462D7800CB8B84 /* items.txt */,
 				B293064C20474F4000949E2A /* Monster.h */,
 				B2868A7B20462D7700CB8B84 /* Monster.cpp */,
@@ -164,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2A5A77B2052FD9C004894D6 /* Item.cpp in Sources */,
 				B2868A9320462D7900CB8B84 /* Room.cpp in Sources */,
 				B2868A9420462D7900CB8B84 /* Dungeon.cpp in Sources */,
 				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,

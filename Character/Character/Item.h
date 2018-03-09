@@ -1,4 +1,4 @@
-/*
+/*******************************************************************
  
  Specification file for the Item class.
  
@@ -7,7 +7,6 @@
 #ifndef Item_h
 #define Item_h
 
-#include <iostream>
 #include <string>
 using namespace std;
 
@@ -27,31 +26,31 @@ public:
 class PortalGem : public Item
 {
 public:
-    virtual string description(){return "gem that seems to sparkle with an inner light.";}
+    virtual string description();
     virtual ~PortalGem(){};
 };
 
 class Ruby : public PortalGem
 {
 public:
-    string name(){return "Ruby";}
-    string description(){return "A large, blood red " + PortalGem::description();}
+    string name();
+    string description();
     ~Ruby(){}
 };
 
 class Sapphire : public PortalGem
 {
 public:
-    string name(){return "Sapphire";}
-    string description(){return "A large, deep blue " + PortalGem::description();}
+    string name();
+    string description();
     ~Sapphire(){}
 };
 
 class Emerald : public PortalGem
 {
 public:
-    string name(){return "Emerald";}
-    string description(){return "A large, bright green " + PortalGem::description();}
+    string name();
+    string description();
     ~Emerald(){}
 };
 
@@ -65,7 +64,7 @@ protected:
     //potion heals or buffs
     int value;
 public:
-    int getValue(){return value;}
+    int getValue();
     Potion(int n) : value(n){}
     virtual ~Potion(){}
 };
@@ -75,8 +74,8 @@ public:
 class HealthPotion : public Potion
 {
 public:
-    string name(){return "Health Potion";}
-    string description(){return "A flask of red liquid that will restore your health.";}
+    string name();
+    string description();
     HealthPotion() : Potion(15){};
     ~HealthPotion(){}
 };
@@ -85,8 +84,8 @@ public:
 class MaxHealthPotion : public Potion
 {
 public:
-    string name(){return "Max Health Potion";}
-    string description(){return "A flask of purple liquid that will increase your maximum health.";}
+    string name();
+    string description();
     MaxHealthPotion() : Potion(5){};
     ~MaxHealthPotion(){}
 };
@@ -95,8 +94,8 @@ public:
 class StrengthPotion : public Potion
 {
 public:
-    string name(){return "Strength Potion";}
-    string description(){return "A flask of yellow liquid that will strengthen you.";}
+    string name();
+    string description();
     StrengthPotion() : Potion(1){};
     ~StrengthPotion(){}
 };
@@ -105,8 +104,8 @@ public:
 class IntPotion : public Potion
 {
 public:
-    string name(){return "Intelligence Potion";}
-    string description(){return "A flask of blue liquid that will sharpen your wits.";}
+    string name();
+    string description();
     IntPotion() : Potion(1){};
     ~IntPotion(){}
 };
@@ -115,8 +114,8 @@ public:
 class LuckPotion : public Potion
 {
 public:
-    string name(){return "Luck Potion";}
-    string description(){return "A flask of opaque white liquid that will increase your luck.";}
+    string name();
+    string description();
     LuckPotion() : Potion(1){};
     ~LuckPotion(){}
 };
@@ -125,8 +124,8 @@ public:
 class KillScroll : public Item
 {
 public:
-    string name(){return "Kill Scroll";}
-    string description(){return "A yellowing, tattered scroll inscribed with eldritch runes that will kill any monster when read.";}
+    string name();
+    string description();
     ~KillScroll(){}
 };
 
@@ -135,7 +134,7 @@ class Equipment : public Item
 protected:
     int value;
 public:
-    int getvalue(){return value;}
+    int getValue();
     Equipment(int n) : value(n){}
     virtual ~Equipment(){}
 };
@@ -157,8 +156,8 @@ public:
 class Iron : public Material
 {
 public:
-    virtual string name(){return "Iron";}
-    virtual string description(){return "iron, the most basic material.";}
+    virtual string name();
+    virtual string description();
     Iron() : Material(1){}
     virtual ~Iron(){}
 };
@@ -166,8 +165,8 @@ public:
 class Steel : public Material
 {
 public:
-    virtual string name(){return "Steel";}
-    virtual string description(){return "steel, stronger than iron.";}
+    virtual string name();
+    virtual string description();
     Steel() : Material(2){}
     virtual ~Steel(){}
 };
@@ -175,8 +174,8 @@ public:
 class Mithril : public Material
 {
 public:
-    virtual string name(){return "Mithril";}
-    virtual string description(){return "mithril, stronger than iron or steel.";}
+    virtual string name();
+    virtual string description();
     Mithril() : Material(3){}
     virtual ~Mithril(){}
 };
@@ -184,8 +183,8 @@ public:
 class Adamantine : public Material
 {
 public:
-    virtual string name(){return "Adamantine";}
-    virtual string description(){return "adamantine, the strongest material.";}
+    virtual string name();
+    virtual string description();
     Adamantine() : Material(4){}
     virtual ~Adamantine(){}
 };
@@ -197,8 +196,8 @@ public:
 class Helmet : public Equipment
 {
 public:
-    virtual string name(){return "Helmet";}
-    virtual string description(){return "A helmet made from";}
+    virtual string name();
+    virtual string description();
     Helmet(int n) : Equipment(n * 4){}
     virtual ~Helmet(){}
 };
@@ -207,8 +206,8 @@ public:
 class Armor : public Equipment
 {
 public:
-    virtual string name(){return "Armor";}
-    virtual string description(){return "Armor made from";}
+    virtual string name();
+    virtual string description();
     Armor(int n) : Equipment(n * 6){}
     virtual ~Armor(){}
 };
@@ -217,8 +216,8 @@ public:
 class Greaves : public Equipment
 {
 public:
-    virtual string name(){return "Greaves";}
-    virtual string description(){return "Greaves made from";}
+    virtual string name();
+    virtual string description();
     Greaves(int n) : Equipment(n * 5){}
     virtual ~Greaves(){}
 };
@@ -234,8 +233,8 @@ public:
 class Sword : public Weapon
 {
 public:
-    virtual string name(){return "Sword";}
-    virtual string description(){return "A sword made from";}
+    virtual string name();
+    virtual string description();
     Sword(int n) : Weapon(n * 3){}
     virtual ~Sword(){}
 };
@@ -243,8 +242,8 @@ public:
 class Dagger : public Weapon
 {
 public:
-    virtual string name(){return "Dagger";}
-    virtual string description(){return "A dagger made from";}
+    virtual string name();
+    virtual string description();
     Dagger(int n) : Weapon(n * 2){}
     virtual ~Dagger(){}
 };
@@ -257,9 +256,8 @@ public:
 class IronHelmet : public Iron, public Helmet
 {
 public:
-    string name(){return Iron::name() + " " + Helmet::name();}
-    string description(){return Helmet::description() + " " + Iron::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     IronHelmet() : Iron(), Helmet(matValue){}
     ~IronHelmet(){}
 };
@@ -267,9 +265,8 @@ public:
 class SteelHelmet : public Steel, public Helmet
 {
 public:
-    string name(){return Steel::name() + " " + Helmet::name();}
-    string description(){return Helmet::description() + " " + Steel::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     SteelHelmet() : Steel(), Helmet(matValue){}
     ~SteelHelmet(){}
 };
@@ -277,9 +274,8 @@ public:
 class MithrilHelmet : public Mithril, public Helmet
 {
 public:
-    string name(){return Mithril::name() + " " + Helmet::name();}
-    string description(){return Helmet::description() + " " + Mithril::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     MithrilHelmet() : Mithril(), Helmet(matValue){}
     ~MithrilHelmet(){}
 };
@@ -287,9 +283,8 @@ public:
 class AdamantineHelmet : public Adamantine, public Helmet
 {
 public:
-    string name(){return Adamantine::name() + " " + Helmet::name();}
-    string description(){return Helmet::description() + " " + Adamantine::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     AdamantineHelmet() : Adamantine(), Helmet(matValue){}
     ~AdamantineHelmet(){}
 };
@@ -297,9 +292,8 @@ public:
 class IronArmor : public Iron, public Armor
 {
 public:
-    string name(){return Iron::name() + " " + Armor::name();}
-    string description(){return Armor::description() + " " + Iron::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     IronArmor() : Iron(), Armor(matValue){}
     ~IronArmor(){}
 };
@@ -307,9 +301,8 @@ public:
 class SteelArmor : public Steel, public Armor
 {
 public:
-    string name(){return Steel::name() + " " + Armor::name();}
-    string description(){return Armor::description() + " " + Steel::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     SteelArmor() : Steel(), Armor(matValue){}
     ~SteelArmor(){}
 };
@@ -317,9 +310,8 @@ public:
 class MithrilArmor : public Mithril, public Armor
 {
 public:
-    string name(){return Mithril::name() + " " + Armor::name();}
-    string description(){return Armor::description() + " " + Mithril::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     MithrilArmor() : Mithril(), Armor(matValue){}
     ~MithrilArmor(){}
 };
@@ -327,9 +319,8 @@ public:
 class AdamantineArmor : public Adamantine, public Armor
 {
 public:
-    string name(){return Adamantine::name() + " " + Armor::name();}
-    string description(){return Armor::description() + " " + Adamantine::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     AdamantineArmor() : Adamantine(), Armor(matValue){}
     ~AdamantineArmor(){}
 };
@@ -337,9 +328,8 @@ public:
 class IronGreaves : public Iron, public Greaves
 {
 public:
-    string name(){return Iron::name() + " " + Greaves::name();}
-    string description(){return Greaves::description() + " " + Iron::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     IronGreaves() : Iron(), Greaves(matValue){}
     ~IronGreaves(){}
 };
@@ -347,9 +337,8 @@ public:
 class SteelGreaves : public Steel, public Greaves
 {
 public:
-    string name(){return Steel::name() + " " + Greaves::name();}
-    string description(){return Greaves::description() + " " + Steel::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     SteelGreaves() : Steel(), Greaves(matValue){}
     ~SteelGreaves(){}
 };
@@ -357,9 +346,8 @@ public:
 class MithrilGreaves : public Mithril, public Greaves
 {
 public:
-    string name(){return Mithril::name() + " " + Greaves::name();}
-    string description(){return Greaves::description() + " " + Mithril::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     MithrilGreaves() : Mithril(), Greaves(matValue){}
     ~MithrilGreaves(){}
 };
@@ -367,9 +355,8 @@ public:
 class AdamantineGreaves : public Adamantine, public Greaves
 {
 public:
-    string name(){return Adamantine::name() + " " + Greaves::name();}
-    string description(){return Greaves::description() + " " + Adamantine::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     AdamantineGreaves() : Adamantine(), Greaves(matValue){}
     ~AdamantineGreaves(){}
 };
@@ -377,9 +364,8 @@ public:
 class IronSword : public Iron, public Sword
 {
 public:
-    string name(){return Iron::name() + " " + Sword::name();}
-    string description(){return Sword::description() + " " + Iron::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     IronSword() : Iron(), Sword(matValue){}
     ~IronSword(){}
 };
@@ -387,9 +373,8 @@ public:
 class SteelSword : public Steel, public Sword
 {
 public:
-    string name(){return Steel::name() + " " + Sword::name();}
-    string description(){return Sword::description() + " " + Steel::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     SteelSword() : Steel(), Sword(matValue){}
     ~SteelSword(){}
 };
@@ -397,9 +382,8 @@ public:
 class MithrilSword : public Mithril, public Sword
 {
 public:
-    string name(){return Mithril::name() + " " + Sword::name();}
-    string description(){return Sword::description() + " " + Mithril::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     MithrilSword() : Mithril(), Sword(matValue){}
     ~MithrilSword(){}
 };
@@ -407,9 +391,8 @@ public:
 class AdamantineSword : public Adamantine, public Sword
 {
 public:
-    string name(){return Adamantine::name() + " " + Sword::name();}
-    string description(){return Sword::description() + " " + Adamantine::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     AdamantineSword() : Adamantine(), Sword(matValue){}
     ~AdamantineSword(){}
 };
@@ -417,9 +400,8 @@ public:
 class IronDagger : public Iron, public Dagger
 {
 public:
-    string name(){return Iron::name() + " " + Dagger::name();}
-    string description(){return Dagger::description() + " " + Iron::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     IronDagger() : Iron(), Dagger(matValue){}
     ~IronDagger(){}
 };
@@ -427,9 +409,8 @@ public:
 class SteelDagger : public Steel, public Dagger
 {
 public:
-    string name(){return Steel::name() + " " + Dagger::name();}
-    string description(){return Dagger::description() + " " + Steel::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     SteelDagger() : Steel(), Dagger(matValue){}
     ~SteelDagger(){}
 };
@@ -437,9 +418,8 @@ public:
 class MithrilDagger : public Mithril, public Dagger
 {
 public:
-    string name(){return Mithril::name() + " " + Dagger::name();}
-    string description(){return Dagger::description() + " " + Mithril::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     MithrilDagger() : Mithril(), Dagger(matValue){}
     ~MithrilDagger(){}
 };
@@ -447,9 +427,8 @@ public:
 class AdamantineDagger : public Adamantine, public Dagger
 {
 public:
-    string name(){return Adamantine::name() + " " + Dagger::name();}
-    string description(){return Dagger::description() + " " + Adamantine::description();}
-    int getValue(){return value;}
+    string name();
+    string description();
     AdamantineDagger() : Adamantine(), Dagger(matValue){}
     ~AdamantineDagger(){}
 };
@@ -458,4 +437,3 @@ public:
 
 
 #endif
-
