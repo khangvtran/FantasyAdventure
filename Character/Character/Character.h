@@ -92,6 +92,7 @@ public:
     
     /* Destructor */
     
+    ~Character();
     
     /* Accessor */
     string getName() const;

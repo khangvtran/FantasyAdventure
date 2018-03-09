@@ -57,6 +57,43 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
     
     cout << *currentRoom << endl << endl;
 }
+
+
+
+
+/* Destructor */
+Character::~Character()
+{
+    // Linkedlist has destructor
+    
+    // deallocate equipment
+    if(equipmentSet["helmet"] != nullptr)
+    {
+        delete equipmentSet["helmet"];
+        equipmentSet["helmet"] = nullptr;
+    }
+    if(equipmentSet["armor"] != nullptr)
+    {
+        delete equipmentSet["armor"];
+        equipmentSet["armor"] = nullptr;
+    }
+    if(equipmentSet["greaves"] != nullptr)
+    {
+        delete equipmentSet["greaves"];
+        equipmentSet["greaves"] = nullptr;
+    }
+    if(equipmentSet["weapon"] != nullptr)
+    {
+        delete equipmentSet["weapon"];
+        equipmentSet["weapon"] = nullptr;
+    }
+    
+}
+
+
+
+
+
 void Character::_printAttributes() const
 {
     cout << "Character Attributes: " << endl;
@@ -293,6 +330,13 @@ void Character::setRowPos(const int& y)
  /* Interaction with Items - Equipment */
 void Character::pickupItem(const string& item)
 {
+    if (currentRoom->getMonsterPtr() != nullptr)
+    {
+        cout << "Waste the guarding monster first. No pain no gain, pal" << endl;
+        return;
+    }
+        
+    
     if (currentRoom->contains(item))                    // check if there is an item
     {
         Item* newItem = currentRoom->removeItem(item);  // take the item from the room
@@ -537,19 +581,22 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         if(!m->modifyHealth(damage))
         {
             currentRoom->removeMonster(); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
+            cout << *currentRoom << endl; // ADDED
             return;
         }
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
+    
     //bool flag = false; // THIS IS NEW
     cout << "Health before attack: " << health << endl; // debug
     double monsterDamage = m->attack(luck);
     if(monsterDamage != 0)
         setHealth(health - monsterDamage);
-    
     cout << "Health after attack: " << health << endl; // debug
+
     if(!isAlive())
         throw AdventureErrors::CharacterDeath("You definitely didn't win this time around!"); //throw exception (died);
+    
 }
 
 /**

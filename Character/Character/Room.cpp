@@ -229,16 +229,16 @@ void Room::setDescription()
 ostream& operator<<(ostream& strm, const Room& room)
 {
     
-    if (room.getMonsterPtr() || room.getRoomObjectPtr() || (!room.items.empty()))
+    if (room.getMonsterPtr() != nullptr || room.getRoomObjectPtr() != nullptr || (!room.items.empty()))
     {
-        if (room.getMonsterPtr())
+        if (room.getMonsterPtr() != nullptr)
         {
             strm << "\n" << endl;
             strm << left << setw(80) << ("In this room you find a(n) " + room.getMonsterPtr()->getName()) << endl;
             strm << setw(80) << room.getMonsterPtr()->getDescription() << endl;
             cout << "\n" << endl;
         }
-        else if (room.getRoomObjectPtr())
+        else if (room.getRoomObjectPtr() != nullptr)
         {
             //If treasure -> print the treasure name, not description (wait to activate)
             strm << "\n" << endl;
