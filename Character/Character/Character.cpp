@@ -293,6 +293,13 @@ void Character::setRowPos(const int& y)
  /* Interaction with Items - Equipment */
 void Character::pickupItem(const string& item)
 {
+    if (currentRoom->getMonsterPtr() != nullptr)
+    {
+        cout << "Waste the guarding monster first. No pain no gain, pal" << endl;
+        return;
+    }
+        
+    
     if (currentRoom->contains(item))                    // check if there is an item
     {
         Item* newItem = currentRoom->removeItem(item);  // take the item from the room
@@ -541,15 +548,17 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         }
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
     }
+    
     //bool flag = false; // THIS IS NEW
     cout << "Health before attack: " << health << endl; // debug
     double monsterDamage = m->attack(luck);
     if(monsterDamage != 0)
-        setHealth(health - monsterDamage);
-    
+        setHealth(health - monsterDamage);    
     cout << "Health after attack: " << health << endl; // debug
+
     if(!isAlive())
         throw AdventureErrors::CharacterDeath("You definitely didn't win this time around!"); //throw exception (died);
+    
 }
 
 /**
