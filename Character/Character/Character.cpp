@@ -57,6 +57,24 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
     
     cout << *currentRoom << endl << endl;
 }
+
+
+
+
+/* Destructor */
+Character::~Character()
+{
+    // Linkedlist has destructor
+    
+    // deallocate equipment
+    equipmentSet.clear();
+    
+}
+
+
+
+
+
 void Character::_printAttributes() const
 {
     cout << "Character Attributes: " << endl;
@@ -544,6 +562,7 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         if(!m->modifyHealth(damage))
         {
             currentRoom->removeMonster(); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
+            cout << *currentRoom << endl; // ADDED
             return;
         }
         cout << "MONSTER HEALTH after: " << m->getHealth(); // debug
@@ -553,7 +572,7 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
     cout << "Health before attack: " << health << endl; // debug
     double monsterDamage = m->attack(luck);
     if(monsterDamage != 0)
-        setHealth(health - monsterDamage);    
+        setHealth(health - monsterDamage);
     cout << "Health after attack: " << health << endl; // debug
 
     if(!isAlive())

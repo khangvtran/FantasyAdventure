@@ -132,7 +132,7 @@ bool isValidCommand(string& command)
 {
     command.erase(remove_if (command.begin(), command.end(), isInvalidChar), command.end());
     string firstWord = command.substr(0, command.find(" "));
-
+    cout << command << endl;
     for(int i = 0; i < numCommands-1; i++)
     {
         if(firstWord == commands[i])
