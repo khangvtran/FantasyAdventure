@@ -244,6 +244,7 @@ List<listdata>::~List()
         delete b; //remove b (you know it is not NULL from if)
         b = a; //b "catches up" with a (both point to same place in list)
     }
+    cout << "Call linked list destructor" << endl;
 }
 
 /*************************************************************************/

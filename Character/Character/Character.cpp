@@ -67,7 +67,26 @@ Character::~Character()
     // Linkedlist has destructor
     
     // deallocate equipment
-    equipmentSet.clear();
+    if(equipmentSet["helmet"] != nullptr)
+    {
+        delete equipmentSet["helmet"];
+        equipmentSet["helmet"] = nullptr;
+    }
+    if(equipmentSet["armor"] != nullptr)
+    {
+        delete equipmentSet["armor"];
+        equipmentSet["armor"] = nullptr;
+    }
+    if(equipmentSet["greaves"] != nullptr)
+    {
+        delete equipmentSet["greaves"];
+        equipmentSet["greaves"] = nullptr;
+    }
+    if(equipmentSet["weapon"] != nullptr)
+    {
+        delete equipmentSet["weapon"];
+        equipmentSet["weapon"] = nullptr;
+    }
     
 }
 
@@ -384,7 +403,7 @@ void Character::dropItem(const string& item)
     if(secondWord == "armor" && equipmentSet["armor"] != nullptr)
     {
         setMaxHealth(maxHealth - equipmentSet["armor"]->getValue());
-        currentRoom->setItem(equipmentSet["Armor"]);
+        currentRoom->setItem(equipmentSet["armor"]);
         equipmentSet["armor"] = nullptr;
     }
     else if(secondWord == "helmet" && equipmentSet["helmet"] != nullptr)
