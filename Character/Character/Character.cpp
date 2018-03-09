@@ -127,7 +127,7 @@ void Character::_printEquipmentSet() const
         if(equipmentSet.at("greaves")!= nullptr)
             cout << equipmentSet.at("greaves")->name() << " (+" << equipmentSet.at("greaves")->getValue() << " max health)"<< endl;
         if(equipmentSet.at("weapon")!= nullptr)
-            cout << setprecision(2) << equipmentSet.at("weapon")->name() << " (x" << equipmentSet.at("weapon")->getValue() * 0.8 << " damage)";
+            cout << setprecision(2) << equipmentSet.at("weapon")->name() << " (+" << equipmentSet.at("weapon")->getValue() << " damage)";
         if(equipmentSet.at("weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("weapon")) != nullptr)
             cout << " [Chance to do critical hit! (x2)]";
         cout << endl;
@@ -343,7 +343,7 @@ void Character::pickupItem(const string& item)
         
         Equipment* newEquipment = dynamic_cast<Equipment*>(newItem); // downcast into equipment
         
-        if (! newEquipment) // if this is consumable item, do insert
+        if (!newEquipment) // if this is consumable item, do insert
         {
             itemList.insertStart(newItem);
             cout << "Picked up " << item << ". It's now in your inventory" << endl;
@@ -638,7 +638,26 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
     if(map)
     {
         map->use();
-        dungeon->printMap(location.row, location.col, Dungeon::ALL);
+        string cmd = "";
+        do
+        {
+            cout << "Which map would you like to see? [basic, monster, roomobject, item, all] ";
+            cin >> cmd;
+            if(cmd == "basic")
+                dungeon->printMap(location.row, location.col, Dungeon::BASIC);
+            else if(cmd == "monster")
+                dungeon->printMap(location.row, location.col, Dungeon::MONSTER);
+            else if(cmd == "roomobject")
+                dungeon->printMap(location.row, location.col, Dungeon::ROOMOBJECT);
+            else if(cmd == "item")
+                dungeon->printMap(location.row, location.col, Dungeon::ITEM);
+            else if(cmd == "all")
+                dungeon->printMap(location.row, location.col, Dungeon::ALL);
+            if(cmd == "basic" || cmd == "monster" || cmd == "roomobj" || cmd == "item" || cmd == "all")
+                break;
+        } while(cmd != "basic" || cmd != "monster" || cmd != "roomobj" || cmd != "item" || cmd != "all");
+        cin.ignore(10, '\n');
+        cin.clear();
     }
     else
         throw AdventureErrors::MissingObject("This is not a map. Are you high, mate?");

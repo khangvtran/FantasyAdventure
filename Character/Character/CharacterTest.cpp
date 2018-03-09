@@ -37,7 +37,7 @@ const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! 
 bool isInvalidChar(int i);
 
 bool isValidCommand(string& command);
-void doCommand(const string& command, Character* c) throw(const char*, AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
+void doCommand(const string& command, Character* c) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
 
 int main(void)
 {
@@ -82,9 +82,9 @@ int main(void)
             cout << endl;
             cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
             
-        } catch (const char* &exception) {
+        }/* catch (const char* &exception) {
             cerr << exception << endl;
-        }
+        }*/
         catch (AdventureErrors::InvalidMove &err)
         {
             cerr << err.what() << endl;
@@ -143,7 +143,7 @@ bool isValidCommand(string& command)
     return false;
 }
 
-void doCommand(const string &command, Character *c) throw(const char*, AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
+void doCommand(const string &command, Character *c) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
 {
     size_t spacePos = command.find(" ");
     string cmd = command.substr(0, spacePos);
@@ -168,7 +168,7 @@ void doCommand(const string &command, Character *c) throw(const char*, Adventure
         
         else;
     }
-    catch(const char*) { throw; }
+    //catch(const char*) { throw; }
     catch(AdventureErrors::InvalidMove) { throw; }
     catch(AdventureErrors::MissingObject) { throw; }
     catch(AdventureErrors::CharacterDeath) { throw; }
