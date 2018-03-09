@@ -158,7 +158,7 @@ void Dungeon::putthingsintodungeon(const int &numMonsters, const int &numPots, c
             }
             else if(equipmentCount != numEquipment)
             {
-                // rand() % ((spawner.itemContainer.size() - (6+3)) +6) generates a random number between 6 and 25 (which is the first of equipment and last of equipment)
+                // rand() % ((spawner.itemContainer.size() - (11+3)) +11) generates a random number between 11 and 25 (which is the first of equipment and last of equipment)
                 dungeonPtr[rowNum][colNum].setItem(spawner.generateItem((Generation::ITEMS)(rand() % (spawner.itemContainer.size() - (11+3)) +11))); // put this into the room
                 cout << "generated" << (*(dungeonPtr[rowNum][colNum].getItems().begin()))->name() << endl;
                 equipmentCount++;
