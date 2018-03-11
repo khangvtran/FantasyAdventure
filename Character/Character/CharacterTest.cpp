@@ -31,16 +31,21 @@ using namespace std;
 const int ROWS = 10;
 const int COLS = 10;
 
-const string commands[] = {"move", "attack", "drop", "pickup", "activate", "use", "print", "/"};
-const int NUM_COMMANDS = 8;
+const string commands[] = {"attack", "activate", "drop", "move", "pickup", "print", "use", "help", "/"};
+const int NUM_COMMANDS = 9;
+const string HELP_FILE = "help.bin";
 const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this\ndark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find useful hints that will guide you toward the room with the treasure as well as maps that will show you your location in relation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal. \n\nYou have 3 lives. Use them wisely!\n\n";
+bool again(Character*&);
+void initialize(Dungeon*&, Character*&, ifstream&);
 bool isInvalidChar(int i);
-
+void displayHelpScreen(ifstream&, const string& = "help");
 bool isValidCommand(string& command);
-void doCommand(const string& command, Character* c) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
+void doCommand(const string& command, Character*& c, ifstream&) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
 
 int main(void)
 {
+
+    ifstream helpFile(HELP_FILE.c_str());
     bool replay = true;
     bool restart = true;
     srand(time(0));
@@ -51,40 +56,21 @@ int main(void)
         if(restart)
         {
             cout << INTRO;
-            
-            //Create a Dungeon
-             dungeon = new Dungeon(ROWS, COLS);
-            
-            cout << "Enter a name: ";
-            string name;
-            getline(cin, name);
-            
-            //Create a Character
-            c = new Character(name, ROWS, COLS, *dungeon);
+            initialize(dungeon, c, helpFile);
             restart = false;
         }
-        // Enter
         cout << "Enter command: ";
         getline(cin, command);
         try {
-            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::BASIC);
-            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::MONSTER);
-            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::ROOMOBJECT);
-            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::ITEM);
-            //dungeon->printMap(c->getRowPos(), c->getColPos(), Dungeon::ALL);
-
-             //c.printRoom();
             if(isValidCommand(command))
-                doCommand(command, c);
+                doCommand(command, c, helpFile);
             else
-                cerr << "that wasn't a valid command" << endl;
+                cerr << "Uh oh, that didn't seem like a valid command. You can type 'help' at any time to bring up the help menu." << endl;
             
             cout << endl;
             cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
             
-        }/* catch (const char* &exception) {
-            cerr << exception << endl;
-        }*/
+        }
         catch (AdventureErrors::InvalidMove &err)
         {
             cerr << err.what() << endl;
@@ -95,28 +81,13 @@ int main(void)
         }
         catch(AdventureErrors::CharacterDeath &err)
         {
+            restart = true;
             cerr << err.what() << endl;
-            char again;
-            do
-            {
-                cout << "Did you wish to play again? (Y/N): ";
-                cin >> again;
-                if(again == 'n' || again == 'N')
-                {
-                    cout << "Goodbye " << c->getName() << "!" << endl;
-                    replay = false;
-                }
-                else
-                {
-                    restart = true;
-                    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; // 20 newlines?
-                }
-                
-            } while(!(again != 'y' || again != 'Y' || again != 'n' || again != 'N'));
-            cin.clear();
-            cin.ignore(10, '\n');
+            replay = again(c); // if player wants to replay (true)
             delete dungeon;
             delete c;
+            cin.clear();
+            cin.ignore(10, '\n');
         }
         cin.clear();
     } while(replay);
@@ -124,15 +95,63 @@ int main(void)
     return 0;
 }
 
+
+bool again(Character* &c)
+{
+    char replay;
+    do
+    {
+        cout << "Did you wish to play again? (Y/N): ";
+        cin >> replay;
+        if(replay == 'n' || replay == 'N')
+        {
+            cout << "Goodbye " << c->getName() << "!" << endl;
+            return false;
+        }
+        
+    } while(!(replay != 'y' || replay != 'Y' || replay != 'n' || replay != 'N'));
+    return true;
+}
+
+void initialize(Dungeon* &d, Character* &c, ifstream& helpFile)
+{
+    try {
+        if(!helpFile.is_open())
+            throw AdventureErrors::FileOpenError(HELP_FILE.c_str());
+    } catch (AdventureErrors::FileOpenError &err) {
+        string newFile;
+        cerr << err.what() << endl;
+        helpFile.clear();
+        cout << "Enter another file: ";
+        getline(cin, newFile);
+        helpFile.open(newFile.c_str());
+        if (!helpFile)
+        {
+            cout << "File Open Error" << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+    
+    //Create a Dungeon
+    d = new Dungeon(ROWS, COLS);
+    
+    cout << "Enter a name: ";
+    string name;
+    getline(cin, name);
+    
+    //Create a Character
+    c = new Character(name, ROWS, COLS, *d);
+}
+
 bool isInvalidChar(int i)
 {
     return !(::isalnum(i) || ::isspace(i) || i == '/');
 }
+
 bool isValidCommand(string& command)
 {
     command.erase(remove_if (command.begin(), command.end(), isInvalidChar), command.end());
     string firstWord = command.substr(0, command.find(" "));
-    cout << command << endl;
     for(int i = 0; i < NUM_COMMANDS-1; i++)
     {
         if(firstWord == commands[i])
@@ -143,30 +162,101 @@ bool isValidCommand(string& command)
     return false;
 }
 
-void doCommand(const string &command, Character *c) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
+void displayHelpScreen(ifstream& input, const string& command)
+{
+    input.seekg(0, ios::beg);
+    size_t cursor = 0;
+    size_t numLines = 0;
+    if(isdigit(command[0]) || command == "help")
+    {
+        int pageNum = isdigit(command[0]) ? command[0] - '0' : 1;
+        if(pageNum <= 0 || pageNum > 3)
+        {
+            cerr << "There is no such help page. Type 'help' to view the help menu." << endl;
+            return;
+        }
+        
+        if(pageNum > 0 && pageNum <= 3)
+        {
+            for(int i = 0; i < pageNum; i++)
+            {
+                input.read(reinterpret_cast<char*>(&cursor), sizeof(size_t));
+                input.read(reinterpret_cast<char*>(&numLines), sizeof(size_t));
+            }
+            input.seekg(cursor, ios::beg);
+            string str;
+            size_t lengthOfStr;
+            for(int i = 0; i < numLines; i++)
+            {
+                input.read(reinterpret_cast<char*>(&lengthOfStr), sizeof(size_t));
+                str.resize(lengthOfStr);
+                input.read(reinterpret_cast<char*>(&str[0]), lengthOfStr);
+                cout << str << endl;
+            }
+            cout << endl;
+            return;
+        }
+    }
+    else
+    {
+        int counter = 0;
+        for(int i = 0; i < NUM_COMMANDS - 2; i++)
+        {
+            if(command != commands[i])
+                counter++;
+            else
+                break;
+        }
+        if(counter == NUM_COMMANDS - 2)
+            cerr << "There is no such help page. Type 'help' to view the help menu." << endl;
+        else
+        {
+            for(int i = 0; i < counter+4; i++)
+            {
+                input.read(reinterpret_cast<char*>(&cursor), sizeof(size_t));
+                input.read(reinterpret_cast<char*>(&numLines), sizeof(size_t));
+            }
+            input.seekg(cursor, ios::beg);
+            string str;
+            size_t lengthOfStr;
+            for(int i = 0; i < numLines; i++)
+            {
+                input.read(reinterpret_cast<char*>(&lengthOfStr), sizeof(size_t));
+                str.resize(lengthOfStr);
+                input.read(reinterpret_cast<char*>(&str[0]), lengthOfStr);
+                cout << str << endl;
+            }
+            cout << endl;
+            return;
+        }
+    }
+}
+void doCommand(const string &command, Character *&c, ifstream& helpFile) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
 {
     size_t spacePos = command.find(" ");
     string cmd = command.substr(0, spacePos);
     
     try {
-        if(cmd == commands[0]) // move
-            c->move(command.substr(spacePos+1));
-        else if(cmd == commands[1]) // attack
+        if (cmd == commands[0]) // attack
             c->attack();
+        else if(cmd == commands[1]) // activate
+            c->activate(command.substr(spacePos+1));
         else if(cmd == commands[2]) // drop
             c->dropItem(command.substr(spacePos+1));
-        else if(cmd == commands[3]) // pickup
+        else if(cmd == commands[3]) // move
+                c->move(command.substr(spacePos+1));
+        else if(cmd == commands[4]) // pickup
             c->pickupItem(command.substr(spacePos+1));
-        else if(cmd == commands[4]) // activate
-            c->activate(command.substr(spacePos+1));
-        else if(cmd == commands[5]) // use item
-            c->useItem(command.substr(spacePos+1));
-        else if(cmd == commands[6]) // print attributes
+        else if(cmd == commands[5]) // print attributes
             c->print();
+        else if(cmd == commands[6]) // use item
+            c->useItem(command.substr(spacePos+1));
+        else if(cmd == commands[7])
+            displayHelpScreen(helpFile, command.substr(spacePos+1));
         else if(cmd.substr(0,1) == commands[NUM_COMMANDS-1]) // cheat
             c->cheat(command.substr(1,spacePos-1), command.substr(spacePos+1)); // possible cheat commands, "/god" and "/tp x y" without quotes, x y should be ints. to be implemented -> print map, spawn items into inv/equipment
-        
         else;
+
     }
     //catch(const char*) { throw; }
     catch(AdventureErrors::InvalidMove) { throw; }
