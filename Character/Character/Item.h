@@ -1,7 +1,7 @@
 /*******************************************************************
- 
+
  Specification file for the Item class.
- 
+
  */
 
 #ifndef Item_h
@@ -33,24 +33,24 @@ public:
 class Ruby : public PortalGem
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     ~Ruby(){}
 };
 
 class Sapphire : public PortalGem
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     ~Sapphire(){}
 };
 
 class Emerald : public PortalGem
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     ~Emerald(){}
 };
 
@@ -74,8 +74,8 @@ public:
 class HealthPotion : public Potion
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     HealthPotion() : Potion(15){};
     ~HealthPotion(){}
 };
@@ -84,8 +84,8 @@ public:
 class MaxHealthPotion : public Potion
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     MaxHealthPotion() : Potion(5){};
     ~MaxHealthPotion(){}
 };
@@ -94,8 +94,8 @@ public:
 class StrengthPotion : public Potion
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     StrengthPotion() : Potion(1){};
     ~StrengthPotion(){}
 };
@@ -104,8 +104,8 @@ public:
 class IntPotion : public Potion
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     IntPotion() : Potion(1){};
     ~IntPotion(){}
 };
@@ -114,8 +114,8 @@ public:
 class LuckPotion : public Potion
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     LuckPotion() : Potion(1){};
     ~LuckPotion(){}
 };
@@ -124,8 +124,8 @@ public:
 class KillScroll : public Item
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     ~KillScroll(){}
 };
 
@@ -135,6 +135,8 @@ protected:
     int value;
 public:
     int getValue();
+    virtual string name() = 0;
+    virtual string description() = 0;
     Equipment(int n) : value(n){}
     virtual ~Equipment(){}
 };
@@ -150,23 +152,25 @@ protected:
     int matValue;
 public:
     Material(int n) : matValue(n){}
+    virtual string name() = 0;
+    virtual string description() = 0;
     virtual ~Material(){}
 };
 
 class Iron : public Material
 {
 public:
-    virtual string name();
-    virtual string description();
     Iron() : Material(1){}
+    string name() override;
+    string description() override;
     virtual ~Iron(){}
 };
 
 class Steel : public Material
 {
 public:
-    virtual string name();
-    virtual string description();
+    string name() override;
+    string description() override;
     Steel() : Material(2){}
     virtual ~Steel(){}
 };
@@ -174,8 +178,8 @@ public:
 class Mithril : public Material
 {
 public:
-    virtual string name();
-    virtual string description();
+    string name() override;
+    string description() override;
     Mithril() : Material(3){}
     virtual ~Mithril(){}
 };
@@ -183,8 +187,8 @@ public:
 class Adamantine : public Material
 {
 public:
-    virtual string name();
-    virtual string description();
+    string name() override;
+    string description() override;
     Adamantine() : Material(4){}
     virtual ~Adamantine(){}
 };
@@ -196,9 +200,9 @@ public:
 class Helmet : public Equipment
 {
 public:
+    Helmet(int n) : Equipment(n * 4){}
     virtual string name();
     virtual string description();
-    Helmet(int n) : Equipment(n * 4){}
     virtual ~Helmet(){}
 };
 
@@ -206,9 +210,9 @@ public:
 class Armor : public Equipment
 {
 public:
+    Armor(int n) : Equipment(n * 6){}
     virtual string name();
     virtual string description();
-    Armor(int n) : Equipment(n * 6){}
     virtual ~Armor(){}
 };
 
@@ -216,9 +220,9 @@ public:
 class Greaves : public Equipment
 {
 public:
+    Greaves(int n) : Equipment(n * 5){}
     virtual string name();
     virtual string description();
-    Greaves(int n) : Equipment(n * 5){}
     virtual ~Greaves(){}
 };
 
@@ -227,6 +231,8 @@ class Weapon : public Equipment
 {
 public:
     Weapon(int n) : Equipment(n){};
+    virtual string name() = 0;
+    virtual string description() = 0;
     virtual ~Weapon(){}
 };
 
@@ -256,8 +262,8 @@ public:
 class IronHelmet : public Iron, public Helmet
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     IronHelmet() : Iron(), Helmet(matValue){}
     ~IronHelmet(){}
 };
@@ -265,8 +271,8 @@ public:
 class SteelHelmet : public Steel, public Helmet
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     SteelHelmet() : Steel(), Helmet(matValue){}
     ~SteelHelmet(){}
 };
@@ -274,8 +280,8 @@ public:
 class MithrilHelmet : public Mithril, public Helmet
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     MithrilHelmet() : Mithril(), Helmet(matValue){}
     ~MithrilHelmet(){}
 };
@@ -283,8 +289,8 @@ public:
 class AdamantineHelmet : public Adamantine, public Helmet
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     AdamantineHelmet() : Adamantine(), Helmet(matValue){}
     ~AdamantineHelmet(){}
 };
@@ -292,8 +298,8 @@ public:
 class IronArmor : public Iron, public Armor
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     IronArmor() : Iron(), Armor(matValue){}
     ~IronArmor(){}
 };
@@ -301,8 +307,8 @@ public:
 class SteelArmor : public Steel, public Armor
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     SteelArmor() : Steel(), Armor(matValue){}
     ~SteelArmor(){}
 };
@@ -310,8 +316,8 @@ public:
 class MithrilArmor : public Mithril, public Armor
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     MithrilArmor() : Mithril(), Armor(matValue){}
     ~MithrilArmor(){}
 };
@@ -319,8 +325,8 @@ public:
 class AdamantineArmor : public Adamantine, public Armor
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     AdamantineArmor() : Adamantine(), Armor(matValue){}
     ~AdamantineArmor(){}
 };
@@ -328,8 +334,8 @@ public:
 class IronGreaves : public Iron, public Greaves
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     IronGreaves() : Iron(), Greaves(matValue){}
     ~IronGreaves(){}
 };
@@ -337,8 +343,8 @@ public:
 class SteelGreaves : public Steel, public Greaves
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     SteelGreaves() : Steel(), Greaves(matValue){}
     ~SteelGreaves(){}
 };
@@ -346,8 +352,8 @@ public:
 class MithrilGreaves : public Mithril, public Greaves
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     MithrilGreaves() : Mithril(), Greaves(matValue){}
     ~MithrilGreaves(){}
 };
@@ -355,8 +361,8 @@ public:
 class AdamantineGreaves : public Adamantine, public Greaves
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     AdamantineGreaves() : Adamantine(), Greaves(matValue){}
     ~AdamantineGreaves(){}
 };
@@ -364,8 +370,8 @@ public:
 class IronSword : public Iron, public Sword
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     IronSword() : Iron(), Sword(matValue){}
     ~IronSword(){}
 };
@@ -373,8 +379,8 @@ public:
 class SteelSword : public Steel, public Sword
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     SteelSword() : Steel(), Sword(matValue){}
     ~SteelSword(){}
 };
@@ -382,8 +388,8 @@ public:
 class MithrilSword : public Mithril, public Sword
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     MithrilSword() : Mithril(), Sword(matValue){}
     ~MithrilSword(){}
 };
@@ -391,8 +397,8 @@ public:
 class AdamantineSword : public Adamantine, public Sword
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     AdamantineSword() : Adamantine(), Sword(matValue){}
     ~AdamantineSword(){}
 };
@@ -400,8 +406,8 @@ public:
 class IronDagger : public Iron, public Dagger
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     IronDagger() : Iron(), Dagger(matValue){}
     ~IronDagger(){}
 };
@@ -409,8 +415,8 @@ public:
 class SteelDagger : public Steel, public Dagger
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     SteelDagger() : Steel(), Dagger(matValue){}
     ~SteelDagger(){}
 };
@@ -418,8 +424,8 @@ public:
 class MithrilDagger : public Mithril, public Dagger
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     MithrilDagger() : Mithril(), Dagger(matValue){}
     ~MithrilDagger(){}
 };
@@ -427,8 +433,8 @@ public:
 class AdamantineDagger : public Adamantine, public Dagger
 {
 public:
-    string name();
-    string description();
+    string name() override;
+    string description() override;
     AdamantineDagger() : Adamantine(), Dagger(matValue){}
     ~AdamantineDagger(){}
 };

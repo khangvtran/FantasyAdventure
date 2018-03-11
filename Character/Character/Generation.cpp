@@ -26,7 +26,7 @@ Item* Generation::generateItem(ITEMS type)
             return new LuckPotion();
         case KILLSCROLL:
             return new KillScroll();
-            
+
             /** Equipment **/
         case IRONHELMET:
             return new IronHelmet();
@@ -36,7 +36,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilHelmet();
         case ADAMANTINEHELMET:
             return new AdamantineHelmet();
-            
+
         case IRONARMOR:
             return new IronArmor();
         case STEELARMOR:
@@ -45,7 +45,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilArmor();
         case ADAMANTINEARMOR:
             return new AdamantineArmor();
-            
+
         case IRONGREAVES:
             return new IronGreaves();
         case STEELGREAVES:
@@ -54,7 +54,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilGreaves();
         case ADAMANTINEGREAVES:
             return new AdamantineGreaves();
-            
+
             /** Weapons **/
         case IRONSWORD:
             return new IronSword();
@@ -72,7 +72,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilDagger();
         case ADAMANTINEDAGGER:
             return new AdamantineDagger();
-            
+
             /** Non-Consumable Items **/
         case RUBY:
             return new Ruby();
@@ -94,11 +94,11 @@ Monster* Generation::generateMonster(MONSTERS type)
     switch(type)
     {
         case DRAGON:
-            return new Dragon("Dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating.\nIf he's really angry, he'll throw fireballs at you! Watch out!");
+            return new Dragon("dragon", "This giant fire-spewing three-headed winged monster looks strong and intimidating.\nIf he's really angry, he'll throw fireballs at you! Watch out!");
         case TITAN:
-            return new Titan("Titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can knock down your equipment.");
+            return new Titan("titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can deal you a critical hit!");
         case DRAGONBOSS:
-            return new DragonBoss("DragonBoss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures.\n Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for.\nThe only thing you have to do is face this bad-tempered oversized colossus\n Remember he can hurl fireballs your way and knock down any of your equipment.\nGood luck! Become a legend or become dinner!");
+            return new DragonBoss("dragon boss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures.\n Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for.\nThe only thing you have to do is face this bad-tempered oversized colossus\n Remember he can hurl fireballs your way and knock down any of your equipment.\nGood luck! Become a legend or become dinner!");
         default:
         {
             cerr << "monster this should not happen" << endl;
