@@ -3,16 +3,18 @@
  Specification file for the Dungeon class.
  
  The Dungeon class is implemented as a dynamically allocated 2D array (matrix) of Room objects.
- The matrix has dimensions of 10 x 10 units and it is arranged as a labyrinth with walls determining the
- direction of movement of the player.
+ The matrix has dimensions of 10 x 10 units and it is arranged as a labyrinth with walls limiting the
+ direction of the character's movement. The objective of the game is to get to the room with the
+ treasure (0, 4) and collect the three gems (ruby, sapphire, and emerald) neccessary to activate
+ the trasure as well as the kill scroll necessary to kill the dragon boss guarding the treasure.
  Dungeon's layout:
  
  
                                                         0 1 2 3 4 5 6 7 8 9
                                                         _ _ _ _ _ _ _ _ _ _
-                                                     0 |   |   |T |   |   |
+                                                     0 |   |   |T  |   |   |
                                                      1 | | | | | | | | | | |
-                                                     2 | | | | | | | | | | |
+                                                     2 | | | | | | |K| | | |
                                                      3 | |G _|_ _ _ _|_ _| |
                                                      4 |_ _           G _ _|
                                                      5 |   | |  _ _  | |   |
@@ -24,30 +26,7 @@
  
  T - room with the treasure
  G - room with a gem
- 
- Implementation Details:
- 
- Data:
- dungeonPtr - pointer to the dynamically allocated 2D matrix of Room objects
- rows - number of rows in the matrix
- cols - number of columns in the matrix
- int numPopulatedRooms - number of rooms populated with data
- monsters - vector of pointers to all monsters in the dungeon
- item - vector of pointers to all items in the dungeon
- roomObjects - vector of pointers to all room objects in the dungeon
- ruby, sapphire, emerald - pointers to gems (items with special room designations)
- treasure - pointer to the treasure that wins the game (item with special room designation)
- 
- Functions:
- alloc - allocates memory for the matrix
- release - releases memory used by the matrix
- addRoom - sets room data for a new room
- Constructor - initializes rows, cols and numPopulatedRooms, calls alloc, addRoomContents and addRoom functions
- Destructor  - calls release function to free memory used by the matrix
- printMap - prints the layout of the dungeon with the character's current location
- Overloaded operator[][] - returns a reference to a Room located at row and col coordinates
- Overloaded operator<< - prints room contents
- 
+ K - room with a kill scroll
  */
 
 #ifndef Dungeon_h
@@ -74,26 +53,20 @@ private:
     int rows;                                       //row count
     int cols;                                       //column count
     int numPopulatedRooms;                          //number of populated rooms
-    
-    //Room Contents Data
-    vector<Monster*> monsters;                      //vector of pointers to all monsters in the dungeon
-    vector<Item*> items;                            //vector of pointers to all items in the dungeon
-    vector<RoomObject*> roomObjects;                //vector of pointers to all room objects in the dungeon
-    Item* ruby;                                     //pointer to a ruby that must be alocated in a specific room
-    Item* sapphire;                                 //pointer to a sapphire that must be alocated in a specific room
-    Item* emerald;                                  //pointer to a emerald that must be alocated in a specific room
-    RoomObject* treasure;                           //pointer to a treasure that must be allocated in a specific room
-    Monster* dragonBoss;                            //pointer to a dragonBoss that must be allocated in a specific room
-    
+ 
     //Memory Management Functions
     /* Allocates memory for the dungeon matrix of size row x cols */
     void alloc() throw (bad_alloc);
+    
     /* Releases memory used by the dungeon matrix */
     void release();
     
     //Mutators
-    /* Sets room data for Room objects allocated via alloc function */
+    /* Sets wall data data for Room objects allocated via alloc function */
     void addRoom(int r, int c, unsigned char w);
+    
+    /* Initializes monster, room object and item data for Room objects allocated via alloc function */
+    void putThingsIntoDungeon(const int &numMonsters, const int &numPots, const int &numEquipment, const int &numRoomObjs);
     
     //Accessors
     /* Prints room contents of a room at row & col. Returns a char representing specific room contents. */
@@ -111,11 +84,12 @@ private:
     /*  Prints a map with items only */
     void _printItemsMap(int characterRow, int characterCol) const;
     
-    /*  Prints a map with room objects, items and monsters */
+    /*  Prints a map with all room objects, items and monsters located in the dungeon */
     void _printAllMap(int characterRow, int characterCol) const;
     
 public:
-    enum MapType {BASIC, MONSTER, ROOMOBJECT, ITEM, ALL};   //enum flag representing map version passed to the printMap() function
+    /* enum flag representing map version passed to the printMap() function */
+    enum MapType {BASIC, MONSTER, ROOMOBJECT, ITEM, ALL};
     
     //Constructor
     /* Allocates memory for the dungeon matrix and intializes each room with data */
@@ -126,21 +100,17 @@ public:
     ~Dungeon();
     
     //Accessors
-    /* Prints a version dungeon map given an enum flag passed to it and displays character's position inside the dungeon */
+    /* Prints a version of dungeon map given an enum flag passed to it and displays character's position inside the dungeon */
     void printMap(int characterRow, int characterCol, MapType version) const;
-    /* Prints the contents of 4 rooms  adjacent to the room at x, y */
-    void printAdjacentRooms(int characterRow, int characterCol) throw (AdventureErrors::BoundaryError);
-    /* Prints dungeon's walls */
-    void printWalls() const;
     
-    /* Returns a reference to a room at coordinates represented by row and col */
+    /* Prints the contents of 4 rooms adjacent to the room at x, y */
+    void printAdjacentRooms(int characterRow, int characterCol) throw (AdventureErrors::BoundaryError);
+    
+    /* Returns a reference to a room at coordinates row, col */
     Room& getRoom(const int row, const int col)
     {
         return dungeonPtr[row][col];
     }
-    
-    
-    void putthingsintodungeon(const int &numMonsters, const int &numPots, const int &numEquipment, const int &numRoomObjs);
     
     //Overloaded Operator<<
     /* Prints dungeon contents */

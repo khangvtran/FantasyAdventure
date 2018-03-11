@@ -1,87 +1,114 @@
-//#define _CRT_SECURE_NO_WARNINGS
+/*
+ 
+ Implementation file for the RoomObject class.
+ 
+ */
 
 #include <iomanip>
 #include <iostream>
 #include <string>
 #include "RoomObject.h"
+
 /**************************************************************************
- RoomObject class (base class)
- ****************************************************************************/
-RoomObject::RoomObject(string name, string description) :name(name), description(description){
-}
-void RoomObject::setName(string name) {
+ RoomObject's Constructor
+ Initiaizes Room Object data to starting values.
+ **************************************************************************/
+RoomObject::RoomObject(string n, string d) :name(n), description(d) {}
+
+/**************************************************************************
+ setName
+ Sets Room Object's name.
+ **************************************************************************/
+void RoomObject::setName(string n)
+{
     name = name;
 }
-string  RoomObject::getName() const {
+
+/**************************************************************************
+ getName
+ Returns Room Object's name.
+ **************************************************************************/
+string RoomObject::getName() const
+{
     return name;
 }
-void  RoomObject::setDescription(string description) {
+
+/**************************************************************************
+ setDescription
+ Sets Room Object's description.
+ **************************************************************************/
+void  RoomObject::setDescription(string d)
+{
     description = description;
 }
-string  RoomObject::getDescription() const{
+
+/**************************************************************************
+ getDescription
+ Returns Room Object's description.
+ **************************************************************************/
+string  RoomObject::getDescription() const
+{
     return  description;
 }
-/***********************************************************************************
- book class (derive from RoomObject class)
- Using for giving player one of five randomized hints about the game.
- 1 you need to find the Ruby and other four thing to complete the game.
- 2 you need to find the Sapphire to and other four thing to complete the game.
- 3 you need to find the Emerald to and other four thing to complete the game.
- 4 you need to slay the Boss Monster and dong other four thing to complete the game.
- 5 you need to activate the Treasure Room and do other four thing to complete the game.
- ***********************************************************************************/
 
+/**************************************************************************
+ use
+ Prints useful hints on how to win the game.
+ **************************************************************************/
 Book::Book(string name, string description) : RoomObject(name, description) {}
-void Book::use() const {
-    
-    cout << "congratulates! A hints book in this room!!!" << std::endl;
-    
-    
-    std::cout << "Greedy man! You need to find the Ruby,  Sapphire, Emerald, Treasure and" << std::endl;
-    std::cout <<" slay the boss monster to WIN THE GAME!!!!! COME ON!!!!" << std::endl;
-    
+void Book::use() const
+{
+    cout << endl;
+    cout << "You open the book and find the following hints: " << endl;
+    cout << "Hint #1: You need to find 3 gems: Ruby, Sapphire and Emerald to win the game!" << endl;
+    cout << "Hint #2: You need to kill the dragon boss to acquire the treasure." << endl;
+    cout << "Hint #3: Save the kill scroll for the dragon boss." << endl;
+    cout << endl;
 }
-/***********************************************************************************
- Flare class (derive from RoomObject class)
- Using for diplay the adjacent four rooms' object and it is more easy for play to
- which room she/he want to get in.
- ***********************************************************************************/
-Flare::Flare(string name, string description) :RoomObject(name, description) {}
-void Flare::use() const {
-    std::cout << "Wow! man, there is a flare in this room, you can use" << std::endl;
-    std::cout << "it to look each object of adjacent four room. Think wisely before taking action!!!" << std::endl;
-}
-/***********************************************************************************
- Fountain class (derive from RoomObject class)
- Using for increase or decrease player Health when player drink it.
- Plan to +3 or -3.
- ***********************************************************************************/
-Fountain::Fountain(string name, string description) :RoomObject(name, description) {}
-void Fountain::use() const {
-    cout << "This fountain can increase your helth, ... or else.";
-}
-/***********************************************************************************
- Treasure class (derive from RoomObject class)
- Activate the treasure room.
- Player win the game if he/she have already got the other four thing(Ruby, Sapphire, Emerald
- and slay the Boss Monster).
- ***********************************************************************************/
 
-Treasure::Treasure(string name, string description) :RoomObject(name, description) {}
-void Treasure::use() const {
-    // you win the game
-    std::cout << "Congratulation! You won the game!" << std::endl;
-    
+/**************************************************************************
+ use
+ Prints a message that it is being used.
+ **************************************************************************/
+Flare::Flare(string name, string description) :RoomObject(name, description) {}
+void Flare::use() const
+{
+    cout << endl;
+    cout << "You've lit the flare. This is what you can see in four adjacent rooms:" << endl;
+    cout << endl;
+   
 }
-/***********************************************************************************
- Map class (derive from RoomObject class)
- Using for telling player  which room is treasure room.
- ***********************************************************************************/
+/**************************************************************************
+ use
+ Prints a message that it is being used.
+ **************************************************************************/
+Fountain::Fountain(string name, string description) : RoomObject(name, description) {}
+void Fountain::use() const
+{
+    cout << endl;
+    cout << "You take a sip from the fountain and ..." << endl;
+    cout << endl;
+}
+
+/**************************************************************************
+ use
+ Prints a message that it is being used.
+ **************************************************************************/
 Map::Map(string name, string description) :RoomObject(name, description) {}
-void Map::use() const {
-    std::cout << "Well! There is a map hanging on the corner! Go and check it" << std::endl;
-    std::cout << "to see which room have treasure!!! Lucky man!!!" << std::endl;
-    
+void Map::use() const
+{
+    cout << "Looking at the map you see this: " << endl;
 }
+
+/**************************************************************************
+ use
+ Prints that the treasure was used.
+ **************************************************************************/
+Treasure::Treasure(string name, string description) :RoomObject(name, description) {}
+void Treasure::use() const
+{
+    std::cout << "Congratulation! You won the game!" << std::endl;
+}
+
 
 

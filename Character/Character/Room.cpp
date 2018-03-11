@@ -39,12 +39,143 @@ Room::~Room()
     
     if (!items.empty())
     {
-        for (int i = 0; i < items.size(); i++)
+        for (auto i = 0; i < items.size(); i++)
         {
             delete items[i];
         }
         items.erase(items.begin());
     }
+}
+
+/********************************************************************************************
+ setCoordinates
+ Sets room's row and col coordinates.
+ *******************************************************************************************/
+void Room::setCoordinates (int r, int c)
+{
+    coordinates.row = r;
+    coordinates.col = c;
+}
+
+/********************************************************************************************
+ setWalls
+ Sets room's wall data stored as an unsigned char.
+ *******************************************************************************************/
+void Room::setWalls(unsigned char w)
+{
+    walls = w;
+};
+
+/********************************************************************************************
+ setMonsterPtr
+ Initializes MonsterPtr with an address of a Monster object.
+ *******************************************************************************************/
+void Room::setMonsterPtr(Monster* mptr)
+{
+    monsterPtr = mptr;
+}
+
+/********************************************************************************************
+ setRoomObjectPtr
+ Initializes RoomObjectPtr with an address of a RoomObject object.
+ *******************************************************************************************/
+void Room::setRoomObjectPtr(RoomObject* roptr)
+{
+    roomObjectPtr = roptr;
+}
+
+/********************************************************************************************
+ setItem
+ Adds an Item pointer to the vector of items.
+ *******************************************************************************************/
+void Room::setItem(Item* iptr)
+{
+    if (iptr != nullptr)
+    {
+        items.push_back(iptr);
+    }
+}
+
+/********************************************************************************************
+ removeMonster
+ Removes a monster from the room by deleting the monster object and setting MonsterPtr to NULL.
+ *******************************************************************************************/
+void Room::removeMonster()
+{
+    delete monsterPtr;
+    monsterPtr = nullptr;
+}
+
+/********************************************************************************************
+ getRow
+ Returns row coordinate.
+ *******************************************************************************************/
+int Room::getRow() const
+{
+    return coordinates.row;
+}
+
+/********************************************************************************************
+ getCol
+ Returns col coordinate.
+ *******************************************************************************************/
+int Room::getCol() const
+{
+    return coordinates.col;
+}
+
+/********************************************************************************************
+ getRoomCoordinates
+ Returns a reference to a struct with room coordinate.
+ *******************************************************************************************/
+const RoomCoordinates& Room::getRoomCoordinates() const
+{
+    return coordinates;
+}
+
+/********************************************************************************************
+ getWalls
+ Returns an unsigned char storing wall data.
+ *******************************************************************************************/
+const unsigned char Room::getWalls() const
+{
+    return walls;
+}
+
+/********************************************************************************************
+ getMonsterPtr
+ Returns a pointer to a monster if monster is present in the room. Returns nullptr otherwise.
+ *******************************************************************************************/
+Monster* Room::getMonsterPtr() const
+{
+    return monsterPtr;
+}
+
+/********************************************************************************************
+ getRoomObjectPtr
+ Returns a pointer to a monster if monster is present in the room. Returns nullptr otherwise.
+ *******************************************************************************************/
+RoomObject* Room::getRoomObjectPtr() const
+{
+    return roomObjectPtr;
+}
+
+/********************************************************************************************
+ getItems
+ Returns a vector of item pointers if at least one item object is present in the room.
+ *******************************************************************************************/
+vector<Item*> Room::getItems() const
+{
+    return items;
+}
+
+/********************************************************************************************
+ getRoom
+ Returns a pointer to the current room.
+ *******************************************************************************************/
+Room& Room::getRoom()
+{
+    return *this;
 }
 
 /********************************************************************************************
@@ -60,13 +191,9 @@ bool Room::checkNorth() const
     
     if (walls & MASK)
     {
-        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
-        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
-        //Wall -> character cannot move north
         return false;
     }
     
-    //No wall -> character can move north
     return true;
 }
 
@@ -83,13 +210,9 @@ bool Room::checkSouth() const
     
     if (walls & MASK)
     {
-        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
-        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
-        //Wall -> character cannot move north
         return false;
     }
-    
-    //No wall -> character can move north
+ 
     return true;
 }
 
@@ -106,13 +229,9 @@ bool Room::checkEast() const
     
     if (walls & MASK)
     {
-        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
-        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
-        //Wall -> character cannot move north
         return false;
     }
-    
-    //No wall -> character can move north
+
     return true;
 }
 
@@ -129,13 +248,9 @@ bool Room::checkWest() const
     
     if (walls & MASK)
     {
-        //cout << "wall: " << static_cast<unsigned>(walls) << " mask: " << static_cast<unsigned>(MASK) << endl;
-        //cout << "Result: " << boolalpha << (walls & MASK) << endl;
-        //Wall -> character cannot move north
         return false;
     }
-    
-    //No wall -> character can move north
+
     return true;
 }
 
@@ -147,10 +262,10 @@ bool Room::contains(string s)
 {
     if (!(items.empty()))
     {
-        for (int i = 0; i < items.size(); i++)
+        vector<Item*>::const_iterator it;
+        for (it = items.cbegin(); it != items.cend(); ++it)
         {
-            Item* temp = items[i];
-            if (temp->name() == s)
+            if ((*it)->name() == s)
             {
                 return true;
             }
@@ -170,14 +285,16 @@ Item* Room::removeItem(string anItem)
     if (!(items.empty()))
     {
         //Step through the vector and search for the item
-        for (int i = 0; i < items.size(); i++)
+        vector<Item*>::const_iterator it;
+        for (it = items.cbegin(); it != items.cend(); ++it)
         {
-            Item* temp = items[i];
-            if (temp->name() == anItem)
+            if ((*it)->name() == anItem)
             {
                 //If you found the item erase it from the items vector
-                items.erase (items.begin()+ i);
-                return temp;
+                items.erase(it);
+                
+                //Return pointer to the item
+                return *it;
             }
         }
     }
@@ -186,88 +303,44 @@ Item* Room::removeItem(string anItem)
 }
 
 /********************************************************************************************
- setDescription
- Generates room description based on intialized pointers.
- *******************************************************************************************/
-void Room::setDescription()
-{
-    //cout << "WALLS: " << static_cast<unsigned>(walls) << endl;
-    if (getMonsterPtr() || getRoomObjectPtr() || (!items.empty()))
-    {
-        if (getMonsterPtr())
-        {
-            //cout << "monster" << endl;
-            description = "In this room you find a(n) " + getMonsterPtr()->getName() + ".\n" + getMonsterPtr()->getDescription() + "\n";
-        }
-        else if (getRoomObjectPtr())
-        {
-            description = "In this room you find a(n) " + getRoomObjectPtr()->getName() + ".\n" + getRoomObjectPtr()->getDescription() + "\n";
-        }
-        else if(!items.empty())
-        {
-            description = "In this room you find a(n) ";
-            for (int i = 0; i < items.size(); i++)
-            {
-                Item* temp = items[i];
-                {
-                    description += temp->name() + " ";
-                    description += temp->description() + "\n";
-                }
-            }
-        }
-    }
-    else
-    {
-        description = "This room is empty.\n";
-    }
-}
-
-/********************************************************************************************
  Overloaded ostream<< Operator
- Prints room data.
+ Prints room description and data.
  *******************************************************************************************/
 ostream& operator<<(ostream& strm, const Room& room)
 {
     
-    if (room.getMonsterPtr() != nullptr || room.getRoomObjectPtr() != nullptr || (!room.items.empty()))
+    if (room.getMonsterPtr() || room.getRoomObjectPtr() || (!room.items.empty()))
     {
-        if (room.getMonsterPtr() != nullptr)
+        if (room.getMonsterPtr())
         {
             strm << "\n" << endl;
             strm << left << setw(80) << ("In this room you find a(n) " + room.getMonsterPtr()->getName()) << endl;
             strm << setw(80) << room.getMonsterPtr()->getDescription() << endl;
             cout << "\n" << endl;
         }
-        else if (room.getRoomObjectPtr() != nullptr)
+        else if (room.getRoomObjectPtr())
         {
-            //If treasure -> print the treasure name, not description (wait to activate)
             strm << "\n" << endl;
             strm << left << setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << endl;
-            //strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
+            strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
             strm << "\n" << endl;
         }
         else if(!room.items.empty())
         {
             strm << "\n" << endl;
             strm << left << setw(20) << "In this room you find a(n) ";
+            if (room.items.size() > 1)
+            {
+                strm << ": " << endl;
+            }
             for (int i = 0; i < room.items.size(); i++)
             {
                 Item* temp = room.items[i];
                 {
                     strm << temp->name();
-                    if (room.items.size() > 1)
-                    {
-                        strm << " and a(n) ";
-                    }
+                    strm << " : ";
+                    strm << temp->description();
                     cout << endl;
-                }
-            }
-            //strm << "\n\n" << endl;
-            for (int i = 0; i < room.items.size(); i++)
-            {
-                Item* temp = room.items[i];
-                {
-                    strm << setw(80) << temp->description() << endl;
                 }
             }
         }
@@ -275,18 +348,9 @@ ostream& operator<<(ostream& strm, const Room& room)
     else
     {
         strm << "\n" << endl;
-        strm <<  "This room is empty.\n";
+        strm <<  "This room is empty.";
         strm << "\n" << endl;
     }
-    
-    //LEAVING THIS FOR DEBUGGING
-    /*
-    strm << "row: " << setw(2) << room.coordinates.row << " col: " << setw(2) << room.coordinates.col << " walls: "
-    << setw(2) << static_cast<int>(room.walls) << boolalpha << " MonsterPtr: " << setw(20) << room.getMonsterPtr()
-    << setw(20) << " RoomObjectPtr: " << setw(20) << room.getRoomObjectPtr() << " Items: " <<  setw(5) << room.items.empty() << endl;
-     
-     */
-    
     return strm;
 }
 
