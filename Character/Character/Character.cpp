@@ -246,7 +246,7 @@ void Character::setName(const string& name)
 
 void Character::setHealth(const int& newHealth)
 {
-    if(health == maxHealth && !(newHealth < health))
+    if(health == maxHealth && health > newHealth)
         cout << "You were already at full health though.." << endl;
     
     if(newHealth >= maxHealth) // 138 > 132? true
@@ -260,7 +260,7 @@ void Character::setMaxHealth(const int& newMaxHealth)
 {
     if(health == maxHealth)
         health = newMaxHealth;
-    // need to implement what happens if MaxHealth < health??
+    // need to implement what happens if newMaxHealth < health?? // done?
     maxHealth = newMaxHealth;
     
     if(health > newMaxHealth)
@@ -335,7 +335,6 @@ void Character::pickupItem(const string& item)
         cout << "Waste the guarding monster first. No pain no gain, pal" << endl;
         return;
     }
-        
     
     if (currentRoom->contains(item))                    // check if there is an item
     {
