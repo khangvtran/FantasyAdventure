@@ -59,7 +59,7 @@ public:
         RUBY, EMERALD, SAPPHIRE }; // 26-28 gems
     
     std::unordered_map<string, ITEMS> itemContainer {
-        {"health potion", HEALTHPOTION}, {"max health potion", MAXHEALTHPOTION}, {"strength Potion", STRENGTHPOTION}, {"int Potion", INTPOTION},
+        {"health potion", HEALTHPOTION}, {"max health potion", MAXHEALTHPOTION}, {"strength potion", STRENGTHPOTION}, {"int potion", INTPOTION},
         {"luck potion", LUCKPOTION}, {"kill scroll", KILLSCROLL},
         {"iron helmet", IRONHELMET}, {"steel helmet", STEELHELMET}, {"mithril helmet", MITHRILHELMET}, {"adamantine helmet", ADAMANTINEHELMET},
         {"iron armor", IRONARMOR}, {"steel armor", STEELARMOR}, {"mithril armor", MITHRILARMOR}, {"adamantine armor", ADAMANTINEARMOR},
