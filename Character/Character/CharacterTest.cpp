@@ -59,6 +59,7 @@ int main(void)
             initialize(dungeon, c, helpFile);
             restart = false;
         }
+        //cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         cout << "Enter command: ";
         getline(cin, command);
         try {
@@ -66,23 +67,21 @@ int main(void)
                 doCommand(command, c, helpFile);
             else
                 cerr << "Uh oh, that didn't seem like a valid command. You can type 'help' at any time to bring up the help menu." << endl;
-            
-            cout << endl;
-            cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
-            
         }
         catch (AdventureErrors::InvalidMove &err)
         {
-            cerr << err.what() << endl;
+            cerr << err.what() << endl << endl;
+            cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         }
         catch(AdventureErrors::MissingObject &err)
         {
-            cerr << err.what() << endl;
+            cerr << err.what() << endl << endl;
+            cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         }
         catch(AdventureErrors::CharacterDeath &err)
         {
             restart = true;
-            cerr << err.what() << endl;
+            cerr << err.what() << endl << endl;
             replay = again(c); // if player wants to replay (true)
             delete dungeon;
             delete c;
