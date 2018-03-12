@@ -251,9 +251,6 @@ void Character::setName(const string& name)
 
 void Character::setHealth(const int& newHealth)
 {
-    if(health == maxHealth && newHealth > health)
-        cout << "you were already at full health though.." << endl;
-    
     if(newHealth >= maxHealth) // 138 > 132? true
         health = maxHealth; // sets health to 132
     else
@@ -458,7 +455,7 @@ void Character::dropItem(const string& item)
             currentRoom->setItem(itemList.getIterator());
             //currentRoom->removeItem(item);
             itemList.removeIterator();
-            cout << "Removed " << item << " inventory. It's on the ground now." << endl << endl; // debugging
+            cout << "Removed " << item << " from inventory. It's on the ground now." << endl << endl; // debugging
             cout << *currentRoom;
         }
         else
@@ -720,17 +717,22 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
         if (_randomizer())
         {
             fountain->use();
-            if((health + 3 * intelligence) < health)
-                cout << "You were lucky this time! Your health increased from " << getHealth() << " to " << (health + 3 * intelligence) << "." << endl << endl;
+            if(((health + 3 * intelligence) < health) && (health < maxHealth))
+            {
+                cout << "You were lucky this time! Your health increased from " << health;
+                setHealth(health + 3 * intelligence);
+                cout << " to " << health << "." << endl << endl;
+            }
             else
-                cout << "The fountain would've healed you... but ";
-            setHealth(getHealth() + 3 * getIntelligence());
+                cout << "The fountain would've healed you... but you were already at full health.";
+            
             
         }
         else
         {
-            cout << "Ouch! That water might have been slightly poisonous. Lost 10 health." << endl << endl;
-            setHealth(getHealth()-10);
+            cout << "Ouch! That water might have been slightly poisonous. You lost 10 health." << endl;
+            cout << "Your health decreased from " << health << " to " << health - 10 << "." << endl;
+            setHealth(health - 10);
         }
     }
     else

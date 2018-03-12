@@ -79,7 +79,17 @@ private:
     
 public:
     
-    
+    /*
+     In this room you find a(n) mithril greaves : Greaves made from mithril, stronger than iron or steel.
+     
+     In this room you find a(n)
+      - mithril greaves : Greaves made from mithril, stronger than iron or steel.
+     
+     In this room you find a(n)
+     - mithril greaves : Greaves made from mithril, stronger than iron or steel.
+     - health potion : A flask of red liquid that will restore your health.
+     
+     */
     
     /* Constructor */
     /**
