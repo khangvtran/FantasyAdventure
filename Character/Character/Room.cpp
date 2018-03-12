@@ -328,9 +328,15 @@ ostream& operator<<(ostream& strm, const Room& room)
         else if(!room.items.empty())
         {
             strm << "\n" << endl;
-            strm << left << setw(20) << "In this room you find a(n) " << endl;
-
-            for (int i = 0; i < room.items.size(); i++)
+            strm << left << setw(20) << "In this room you find a(n) ";
+            
+            if(room.items.size() == 1)
+            {
+                strm << room.items[0]->name() << " : " << room.items[0]->description() << endl;
+            }
+            else
+                cout << endl;
+            for (int i = 1; i < room.items.size(); i++)
             {
                 Item* temp = room.items[i];
                 {
