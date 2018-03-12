@@ -122,7 +122,7 @@ bool Monster::isAlive() const
 Dragon::Dragon(string mName, string mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality) : Monster(mName, mDescription, mStrength, mHealth,  mLuck, mAlive), vitality(mVitality)
 {
     //Set Dragon strength
-    const int STRENGTH_MIN = 0;
+    const int STRENGTH_MIN = 3;
     const int STRENGTH_MAX = 15;
     strength = (rand() % (STRENGTH_MAX - STRENGTH_MIN + 1) + STRENGTH_MIN);
     setStrength(strength);
@@ -335,7 +335,7 @@ int Titan::attack(double characterLuck)
     //If monster's attack was accurate, compute damage
     if (getHitAccuracy(characterLuck))
     {
-        damage = strength * 1.5;
+        damage = strength * 1.65;
         
         //If titan's agility is > 12 deal a critical hit
         if (agility > 12)
