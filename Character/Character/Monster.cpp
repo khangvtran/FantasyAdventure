@@ -300,19 +300,19 @@ void Dragon::throwFireBall()
  *******************************************************************************************/
 int Dragon::attack(double characterLuck)
 {
-    int damage = 0;
-    
-    //If dragons's vitality is > 12, throw a fireball
-    if (vitality > 12)
-    {
-        cout << "Watch out! Fire coming your way!" << endl;
-        throwFireBall();
-    }
+     int damage = 0;
     
     //If monster's attack was accurate, compute damage
     if (getHitAccuracy(characterLuck))
     {
         damage = strength * 1.5;
+        
+        //If dragons's vitality is > 12, throw a fireball
+        if (vitality > 12)
+        {
+            throwFireBall();
+            cout << "Watch out! Fire coming your way!" << endl;
+        }
         cout << "He hit you! You lost " << damage << " health points." << endl;
     }
     else
@@ -363,25 +363,24 @@ int DragonBoss::attack(double characterLuck)
 {
     int damage = 0;
     
-    //If dragonboss's vitality is > 10, throw a fireball
-    if (vitality > 12)
-    {
-        cout << "Watch out! Fire coming your way!" << endl;
-        throwFireBall();
-    }
-    
-    
     //If monster's attack was accurate, compute damage
-    if (getHitAccuracy(characterLuck))
+    if (getHitAccuracy(characterLuck) && vitality > 12)
     {
         damage = strength * 1.5;
+        
+        //If dragonboss's vitality is > 12, throw a fireball
+        if (vitality > 12)
+        {
+            throwFireBall();
+            cout << "Watch out! Fire coming your way!" << endl;
+        }
     
         //If dragonboss's agility is > 12, deal a critical hit
         if (agility > 12)
         {
             double modifier = (rand()% 10 + 1) / 10.0 + 1;
             damage *= modifier;
-            cout << "He dealt you a critical hit! " << endl;
+            cout << "He also dealt you a critical hit! " << endl;
         }
         cout << "He hit you! You lost " << damage << " health points." << endl;
     }
