@@ -119,7 +119,7 @@ public:
     
     
     /* Manipulator */
-    void setInitialAttributes();
+    void setInitialAttributes(const int&);
     void setName(const string&);
     void setMaxHealth(const int&);
     void setHealth(const int&);
