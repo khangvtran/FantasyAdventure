@@ -210,36 +210,47 @@ void Character::setInitialAttributes()
         cout << "Points remaining: " << totalBaseStat << endl;
         cout << "Enter number of points to allocate for strength: ";
         cin >> temp;
+        
         if(temp < 0 || temp > totalBaseStat)
             cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
         else
         {
             setStrength(temp);
             totalBaseStat -= temp;
+            temp = 0;
             break;
         }
-    } while(temp < 0 || totalBaseStat > 0);
+    } while(temp < 0 || temp > totalBaseStat);
     cout << "You allocated " << strength << " points into strength." << endl << endl;
-    
-    while (temp < 0 || totalBaseStat > 0)
+    cin.clear();
+    do
     {
-        cout << "Points remaining: " << totalBaseStat << endl;
-        cout << "Enter number of points to allocate for intelligence: ";
-        cin >> temp;
-        if(temp < 0 || temp > totalBaseStat)
-            cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
-        else
+        if(totalBaseStat > 0)
         {
-            setIntelligence(temp);
-            totalBaseStat -= temp;
-            break;
+            cout << "Points remaining: " << totalBaseStat << endl;
+            cout << "Enter number of points to allocate for intelligence: ";
+            cin >> temp;
+            
+            if(temp < 0 || temp > totalBaseStat)
+                cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
+            else
+            {
+                setIntelligence(temp);
+                totalBaseStat -= temp;
+                temp = 0;
+                break;
+            }
         }
-    }
-    cout << "You allocated " << intelligence << " points to intelligence" << endl << endl;
+    }   while (temp < 0 || temp > totalBaseStat);
+    cin.ignore(10, '\n');
+    if(intelligence == 0)
+        cout << intelligence << " points were automatically allocated into intelligence." << endl << endl;
+    else
+        cout << "You allocated " << intelligence << " points to intelligence" << endl << endl;
     setLuck(totalBaseStat); // sets remaining
     cout << luck << " points were automatically allocated into luck." << endl;
     cout << "-----------------------------------------------------------------------------------------------" << endl;
-    cin.ignore(10, '\n');
+    
     cin.clear();
 }
 
@@ -262,7 +273,7 @@ void Character::setMaxHealth(const int& newMaxHealth)
 {
     if(health == maxHealth)
         health = newMaxHealth;
-    // need to implement what happens if newMaxHealth < health?? // done?
+    
     maxHealth = newMaxHealth;
     
     if(health > newMaxHealth)
@@ -356,7 +367,7 @@ void Character::pickupItem(const string& item)
             Helmet* helmet = dynamic_cast<Helmet*>(newEquipment);
             if(helmet)
             {
-                setHealth(getHealth() - (equipmentSet["helmet"] != nullptr ? equipmentSet["helmet"]->getValue() : 0));
+                //setHealth(getHealth() - (equipmentSet["helmet"] != nullptr ? equipmentSet["helmet"]->getValue() : 0));
                 dropItem("helmet");
                 equipmentSet["helmet"] = helmet;
                 setMaxHealth(maxHealth + equipmentSet["helmet"]->getValue());
@@ -367,7 +378,8 @@ void Character::pickupItem(const string& item)
             Armor* armor = dynamic_cast<Armor*>(newEquipment);
             if(armor)
             {
-                setHealth(getHealth() - (equipmentSet["armor"] != nullptr ? equipmentSet["armor"]->getValue() : 0));
+
+                //setHealth(getHealth() - (equipmentSet["armor"] != nullptr ? equipmentSet["armor"]->getValue() : 0));
                 dropItem("armor");
                 equipmentSet["armor"] = armor;
                 setMaxHealth(maxHealth + equipmentSet["armor"]->getValue());
@@ -379,7 +391,8 @@ void Character::pickupItem(const string& item)
             Greaves* greaves = dynamic_cast<Greaves*>(newEquipment);
             if(greaves)
             {
-                setHealth(getHealth() - (equipmentSet["greaves"] != nullptr ? equipmentSet["greaves"]->getValue() : 0));
+
+                //setHealth(getHealth() - (equipmentSet["greaves"] != nullptr ? equipmentSet["greaves"]->getValue() : 0));
                 dropItem("greaves");
                 equipmentSet["greaves"] = greaves;
                 setMaxHealth(maxHealth + equipmentSet["greaves"]->getValue());
@@ -414,6 +427,12 @@ void Character::dropItem(const string& item)
     {
         if(equipmentSet["armor"] != nullptr)
         {
+            if((health - equipmentSet["armor"]->getValue()) <= 0)
+            {
+                cout << "Are you sure you want to drop that? Your health is dangerously low." << endl;
+                return;
+            }
+            cout << "Dropped " << equipmentSet["armor"]->name() << " on the ground." << endl << endl;
             setMaxHealth(maxHealth - equipmentSet["armor"]->getValue());
             currentRoom->setItem(equipmentSet["armor"]);
             equipmentSet["armor"] = nullptr;
@@ -424,6 +443,12 @@ void Character::dropItem(const string& item)
     {
         if(equipmentSet["helmet"] != nullptr)
         {
+            if((health - equipmentSet["helmet"]->getValue()) <= 0)
+            {
+                cout << "Are you sure you want to drop that? Your health is dangerously low." << endl;
+                return;
+            }
+            cout << "Dropped " << equipmentSet["helmet"]->name() << " on the ground." << endl << endl;
             setMaxHealth(maxHealth - equipmentSet["helmet"]->getValue());
             currentRoom->setItem(equipmentSet["helmet"]);
             equipmentSet["helmet"] = nullptr;
@@ -434,6 +459,12 @@ void Character::dropItem(const string& item)
     {
         if(equipmentSet["greaves"] != nullptr)
         {
+            if((health - equipmentSet["greaves"]->getValue()) <= 0)
+            {
+                cout << "Are you sure you want to drop that? Your health is dangerously low." << endl;
+                return;
+            }
+            cout << "Dropped " << equipmentSet["greaves"]->name() << " on the ground." << endl << endl;
             setMaxHealth(maxHealth - equipmentSet["greaves"]->getValue());
             currentRoom->setItem(equipmentSet["greaves"]);
             equipmentSet["greaves"] = nullptr;
@@ -442,6 +473,7 @@ void Character::dropItem(const string& item)
     }
     else if((secondWord == "sword" || secondWord == "dagger" || secondWord == "weapon") && equipmentSet["weapon"] != nullptr)
     {
+        cout << "Dropped " << equipmentSet["weapon"]->name() << " on the ground." << endl << endl;
         currentRoom->setItem(equipmentSet["weapon"]);
         equipmentSet["weapon"] = nullptr;
         return;
@@ -714,10 +746,11 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
     Fountain* fountain = dynamic_cast<Fountain*>(roomObjPtr);
     if (fountain)
     {
+        fountain->use();
         if (_randomizer())
         {
-            fountain->use();
-            if(((health + 3 * intelligence) < health) && (health < maxHealth))
+            
+            if(((health + 3 * intelligence) > health) && (health < maxHealth))
             {
                 cout << "You were lucky this time! Your health increased from " << health;
                 setHealth(health + 3 * intelligence);
@@ -725,8 +758,6 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
             }
             else
                 cout << "The fountain would've healed you... but you were already at full health.";
-            
-            
         }
         else
         {
