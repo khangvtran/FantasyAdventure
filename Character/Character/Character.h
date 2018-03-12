@@ -49,10 +49,10 @@ private:
         const int yBound;
         int row; // y coord
         int col; // x coord
-        Location(int yb, int xb) : xBound(xb) ,yBound(yb) {}
+        Location(const int &xb = 0, const int &yb = 0) : xBound(xb) ,yBound(yb) {}
     };
 
-    Location location; // instantiate an inner object from struct location
+    Location* location; // instantiate an inner object from struct location
     
     /** Private Helper Functions **/
     
