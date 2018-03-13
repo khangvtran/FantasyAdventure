@@ -54,7 +54,6 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
         equipmentSet["weapon"] = new IronSword;
     else
         equipmentSet["weapon"] = new IronDagger;
-    cout << "X: " << location->row << " Y: " << location->col << endl;
     cout << *currentRoom;
 }
 
@@ -201,7 +200,7 @@ int Character::getRowPos() const
 
 void Character::setInitialAttributes(const int& max)
 {
-    string junk;
+    string input;
     int temp = -1;
     int totalBaseStat = max;
     cout << endl <<  "-----------------------------------------------------------------------------------------------" << endl;
@@ -210,15 +209,11 @@ void Character::setInitialAttributes(const int& max)
     {
         cout << "Points remaining: " << totalBaseStat << endl;
         cout << "Enter number of points to allocate for strength: ";
-        cin >> temp;
-        cout << temp << endl;
         
-        if(cin.fail())
-        {
-            temp = -1;
-            cin.clear();
-            getline(cin, junk);
-        }
+        getline(cin, input);
+        input.erase(remove_if(input.begin(), input.end(), [](char c) { return !isdigit(c); } ), input.end());
+        temp = stoi(input);
+        
         if(temp < 0 || temp > totalBaseStat || temp > max)
             cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
         else
@@ -236,13 +231,11 @@ void Character::setInitialAttributes(const int& max)
         {
             cout << "Points remaining: " << totalBaseStat << endl;
             cout << "Enter number of points to allocate for intelligence: ";
-            cin >> temp;
-            if(cin.fail())
-            {
-                temp = -1;
-                cin.clear();
-                getline(cin, junk);
-            }
+            
+            getline(cin, input);
+            input.erase(remove_if(input.begin(), input.end(), [](char c) { return !isdigit(c); } ), input.end());
+            temp = stoi(input);
+            
             if(temp < 0 || temp > totalBaseStat || temp > max)
                 cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
             else
@@ -255,13 +248,6 @@ void Character::setInitialAttributes(const int& max)
         }
     }   while (temp < 0 || temp > totalBaseStat || temp > max);
     
-    if(cin.fail())
-    {
-        cin.clear();
-        getline(cin, junk);
-    }
-    else
-        cin.ignore(10, '\n');
     if(intelligence == 0)
         cout << intelligence << " points were automatically allocated into intelligence." << endl << endl;
     else
@@ -431,10 +417,10 @@ void Character::pickupItem(const string& item)
     }
     else
     {
-        if(item.find("pot"))
+        if(item.find("pot") != string::npos)
             cout << "Did you mean some sort of potion? You have to be more specific than that.." << endl << endl;
         else
-            cout << "There doesn't seem to that item in the room!" << endl << endl;
+            cout << "There doesn't seem to be that item in the room!" << endl << endl;
     }
 
 }
@@ -727,25 +713,40 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
     Map* map = dynamic_cast<Map*>(roomObjPtr);
     if(map)
     {
-        map->use();
         string cmd = "";
         do
         {
             cout << endl << "Which map would you like to view? [basic, monster, roomobject, item, all]: ";
             cin >> cmd;
             if(cmd == "basic")
+            {
+                map->use();
                 dungeon->printMap(location->row, location->col, Dungeon::BASIC);
+            }
             else if(cmd == "monster")
+            {
+                map->use();
                 dungeon->printMap(location->row, location->col, Dungeon::MONSTER);
+            }
             else if(cmd == "roomobject")
+            {
+                map->use();
                 dungeon->printMap(location->row, location->col, Dungeon::ROOMOBJECT);
+            }
             else if(cmd == "item")
+            {
+                map->use();
                 dungeon->printMap(location->row, location->col, Dungeon::ITEM);
+            }
             else if(cmd == "all")
+            {
+                map->use();
                 dungeon->printMap(location->row, location->col, Dungeon::ALL);
+            }
             if(cmd == "basic" || cmd == "monster" || cmd == "roomobj" || cmd == "item" || cmd == "all")
                 break;
         } while(cmd != "basic" || cmd != "monster" || cmd != "roomobj" || cmd != "item" || cmd != "all");
+        
         cin.ignore(10, '\n');
         cin.clear();
     }
@@ -858,7 +859,6 @@ void Character::move(const string& direction) throw(AdventureErrors::InvalidMove
         throw;
     }
     cout << endl << endl;
-    cout << "X: " << location->row << " Y: " << location->col << endl;
     cout << *currentRoom;
 }
 
