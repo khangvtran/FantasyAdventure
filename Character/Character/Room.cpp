@@ -320,38 +320,41 @@ ostream& operator<<(ostream& strm, const Room& room)
             strm << setw(80) << room.getMonsterPtr()->getDescription() << endl;
             cout << "\n" << endl;
         }
-        else if (room.getRoomObjectPtr())
+        else if (room.getRoomObjectPtr() || (!room.items.empty()))
         {
-            strm << "\n" << endl;
-            strm << left << setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << endl;
-            strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
-            strm << "\n" << endl;
-        }
-        else if(!room.items.empty())
-        {
-            strm << "\n" << endl;
-            strm << left << setw(20) << "In this room you find a(n) ";
-            
-            if(room.items.size() == 1)
+            if (room.getRoomObjectPtr())
             {
-                strm << room.items[0]->name() << " : " << room.items[0]->description() << endl;
+                strm << "\n" << endl;
+                strm << left << setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << endl;
+                strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
+                strm << "\n" << endl;
             }
-            else
+            if (!room.items.empty())
             {
-                cout << endl;
-                for (int i = 0; i < room.items.size(); i++)
+                strm << "\n" << endl;
+                strm << left << setw(20) << "In this room you find a(n) ";
+
+                if (room.items.size() == 1)
                 {
-                    Item* temp = room.items[i];
+                    strm << room.items[0]->name() << " : " << room.items[0]->description() << endl;
+                }
+                else
+                {
+                    cout << endl;
+                    for (int i = 0; i < room.items.size(); i++)
                     {
-                        strm << " - ";
-                        strm << temp->name();
-                        strm << " : ";
-                        strm << temp->description();
-                        cout << endl;
+                        Item* temp = room.items[i];
+                        {
+                            strm << " - ";
+                            strm << temp->name();
+                            strm << " : ";
+                            strm << temp->description();
+                            cout << endl;
+                        }
                     }
                 }
+                cout << endl;
             }
-            cout << endl;
         }
     }
     else
