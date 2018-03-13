@@ -31,8 +31,8 @@ using namespace std;
 const int ROWS = 10;
 const int COLS = 10;
 
-const string commands[] = {"attack", "activate", "drop", "move", "pickup", "print", "use", "help", "/"};
-const int NUM_COMMANDS = 9;
+const string commands[] = {"attack", "activate", "drop", "move", "pickup", "print", "use", "help", "quit", "/"};
+const int NUM_COMMANDS = 10;
 const string HELP_FILE = "help.bin";
 const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this\ndark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find useful hints that will guide you toward the room with the treasure as well as maps that will show you your location in relation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal. \n\nYou have 3 lives. Use them wisely!\n\n";
 bool again(Character*&);
@@ -44,7 +44,7 @@ void doCommand(const string& command, Character*& c, ifstream&) throw(/*const ch
 
 int main(void)
 {
-
+    
     ifstream helpFile(HELP_FILE.c_str());
     bool replay = true;
     bool restart = true;
@@ -163,9 +163,10 @@ bool isValidCommand(string& command)
 
 void displayHelpScreen(ifstream& input, const string& command)
 {
+    input.clear();
     input.seekg(0, ios::beg);
-    size_t cursor = 0;
-    size_t numLines = 0;
+    int cursor = 0;
+    int numLines = 0;
     if(isdigit(command[0]) || command == "help")
     {
         int pageNum = isdigit(command[0]) ? command[0] - '0' : 1;
@@ -179,15 +180,15 @@ void displayHelpScreen(ifstream& input, const string& command)
         {
             for(int i = 0; i < pageNum; i++)
             {
-                input.read(reinterpret_cast<char*>(&cursor), sizeof(size_t));
-                input.read(reinterpret_cast<char*>(&numLines), sizeof(size_t));
+                input.read(reinterpret_cast<char*>(&cursor), 4);
+                input.read(reinterpret_cast<char*>(&numLines), 4);
             }
             input.seekg(cursor, ios::beg);
             string str;
-            size_t lengthOfStr;
+            int lengthOfStr;
             for(int i = 0; i < numLines; i++)
             {
-                input.read(reinterpret_cast<char*>(&lengthOfStr), sizeof(size_t));
+                input.read(reinterpret_cast<char*>(&lengthOfStr), sizeof(4));
                 str.resize(lengthOfStr);
                 input.read(reinterpret_cast<char*>(&str[0]), lengthOfStr);
                 cout << str << endl;
@@ -198,6 +199,7 @@ void displayHelpScreen(ifstream& input, const string& command)
     }
     else
     {
+        input.clear();
         int counter = 0;
         for(int i = 0; i < NUM_COMMANDS - 2; i++)
         {
@@ -210,17 +212,19 @@ void displayHelpScreen(ifstream& input, const string& command)
             cerr << "There is no such help page. Type 'help' to view the help menu." << endl;
         else
         {
+            input.seekg(0, ios::beg);
+            input.clear();
             for(int i = 0; i < counter+4; i++)
             {
-                input.read(reinterpret_cast<char*>(&cursor), sizeof(size_t));
-                input.read(reinterpret_cast<char*>(&numLines), sizeof(size_t));
+                input.read(reinterpret_cast<char*>(&cursor), 4);
+                input.read(reinterpret_cast<char*>(&numLines), 4);
             }
             input.seekg(cursor, ios::beg);
             string str;
-            size_t lengthOfStr;
+            int lengthOfStr;
             for(int i = 0; i < numLines; i++)
             {
-                input.read(reinterpret_cast<char*>(&lengthOfStr), sizeof(size_t));
+                input.read(reinterpret_cast<char*>(&lengthOfStr), 4);
                 str.resize(lengthOfStr);
                 input.read(reinterpret_cast<char*>(&str[0]), lengthOfStr);
                 cout << str << endl;
@@ -252,6 +256,8 @@ void doCommand(const string &command, Character *&c, ifstream& helpFile) throw(/
             c->useItem(command.substr(spacePos+1));
         else if(cmd == commands[7])
             displayHelpScreen(helpFile, command.substr(spacePos+1));
+        else if(cmd == commands[8])
+            throw AdventureErrors::CharacterDeath("Aww, quiting already?");
         else if(cmd.substr(0,1) == commands[NUM_COMMANDS-1]) // cheat
             c->cheat(command.substr(1,spacePos-1), command.substr(spacePos+1)); // possible cheat commands, "/god" and "/tp x y" without quotes, x y should be ints. to be implemented -> print map, spawn items into inv/equipment
         else;
