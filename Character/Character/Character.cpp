@@ -809,7 +809,7 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
 
 
 
-void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingObject)       // CHANGE: complete
+void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)       // CHANGE: complete
 {
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
     if (!roomObjPtr)   // there is a room object in the room
@@ -830,7 +830,8 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
             cout << "You still have to acquire all three gems: ruby, sapphire, and emerald" << endl;
             return;
         }
-        treasure->use();   // display winning message. Game keeps going on.
+        treasure->use();   // display winning message. Game ends here.
+        throw AdventureErrors::CharacterDeath("");
     }
     else
         throw AdventureErrors::MissingObject("This is not a treasure. Gosh, how did you get this far by being so dumb!");
@@ -906,7 +907,7 @@ void Character::_moveWest() throw(AdventureErrors::InvalidMove)
         throw AdventureErrors::InvalidMove("There's a wall in the West direction!");
 }
 
-void Character::activate(const string& thing) throw(AdventureErrors::MissingObject)
+void Character::activate(const string& thing) throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
 {
     if(thing == "map")
         _readMap();
@@ -989,13 +990,14 @@ void Character::_useKillScroll() {
     Monster* m = currentRoom->getMonsterPtr();
     if(m == nullptr)
     {
-        cout << "There is no monster. What are you using that Kill Scroll for, pal? " << endl;
+        cout << "There is no monster. What are you using that kill scroll for, pal? " << endl;
         return;
     }
     else
     {
         m->modifyHealth(m->getHealth() + 1);    // kill the monster
         currentRoom->removeMonster();           // remove monster from the room
+        cout << *currentRoom;
     }
 }
 

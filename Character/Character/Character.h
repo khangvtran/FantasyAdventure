@@ -75,7 +75,7 @@ private:
     void _readMap() const throw(AdventureErrors::MissingObject);
     void _useFlare() const throw(AdventureErrors::MissingObject);
     void _drinkFromFountain() throw(AdventureErrors::MissingObject);
-    void _activateEndgameTreasure() const throw(AdventureErrors::MissingObject);
+    void _activateEndgameTreasure() const throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
     
 public:
     
@@ -147,7 +147,7 @@ public:
     /* Moving */
     void move(const string&) throw(AdventureErrors::InvalidMove);
     
-    void activate(const string&) throw(AdventureErrors::MissingObject);
+    void activate(const string&) throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
     void print() const;
     
     /* Cheat */
