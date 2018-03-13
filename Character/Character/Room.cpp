@@ -308,7 +308,9 @@ Item* Room::removeItem(string anItem)
  *******************************************************************************************/
 ostream& operator<<(ostream& strm, const Room& room)
 {
-    
+    cout << setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << endl << endl;
+    cout << setw(70) << "Room: " << "[row: " << room.getRow() << "] " << "[col: " << room.getCol() << "]" << endl;
+    cout << setw(70);
     if (room.getMonsterPtr() || room.getRoomObjectPtr() || (!room.items.empty()))
     {
         if (room.getMonsterPtr())
@@ -358,6 +360,9 @@ ostream& operator<<(ostream& strm, const Room& room)
         strm <<  "This room is empty.";
         strm << "\n" << endl;
     }
+    
+    cout << right << setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << endl << endl;
+    
     return strm;
 }
 

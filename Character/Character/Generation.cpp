@@ -98,7 +98,7 @@ Monster* Generation::generateMonster(MONSTERS type)
         case TITAN:
             return new Titan("titan", "This gigantic humanlike creature can crush you in no time. If you're not careful, he can deal you a critical hit!");
         case DRAGONBOSS:
-            return new DragonBoss("dragon boss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures.\n Only a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for.\nThe only thing you have to do is face this bad-tempered oversized colossus\n Remember he can hurl fireballs your way and knock down any of your equipment.\nGood luck! Become a legend or become dinner!");
+            return new DragonBoss("dragon boss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures.\nOnly a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for.\nThe only thing you have to do is face this bad-tempered oversized colossus\nRemember he can hurl fireballs your way and knock down any of your equipment.\nGood luck! Become a legend or become dinner!");
         default:
         {
             cerr << "monster this should not happen" << endl;
@@ -114,13 +114,13 @@ RoomObject* Generation::generateRoomObj(ROOMOBJ type)
         case BOOK:
             return new Book("book","This black leather book contains hints about how to win the game.");
         case FLARE:
-            return new Flare("flare","You can use this flare to check what's inside four adjacent rooms!!!");
+            return new Flare("flare","You can use this flare to check what's inside four adjacent rooms!");
         case FOUNTAIN:
             return new Fountain("fountain","This fountain may help you recover or make you ill. Do you want to take the risk?");
         case MAP:
-            return new Map("map", "You find this large map hanging on the wall.\nYou can use it to check where the gems, monsters, and treaseure are.");
+            return new Map("map", "You find this large map hanging on the wall.\nYou can use it to check where the gems, monsters, and treasure are.");
         case TREASURE:
-            return new Treasure("treasure", "You have found your riches!\nIn front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission.\nAll you have to do is activate it.\n");
+            return new Treasure("treasure", "You have found your riches!\nIn front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission.\nAll you have to do is activate the treasure.\n");
         default:
         {
             cerr << "roomobj this should not happen" << endl;
