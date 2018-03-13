@@ -335,16 +335,18 @@ ostream& operator<<(ostream& strm, const Room& room)
                 strm << room.items[0]->name() << " : " << room.items[0]->description() << endl;
             }
             else
-                cout << endl;
-            for (int i = 1; i < room.items.size(); i++)
             {
-                Item* temp = room.items[i];
+                cout << endl;
+                for (int i = 0; i < room.items.size(); i++)
                 {
-                    strm << " - ";
-                    strm << temp->name();
-                    strm << " : ";
-                    strm << temp->description();
-                    cout << endl;
+                    Item* temp = room.items[i];
+                    {
+                        strm << " - ";
+                        strm << temp->name();
+                        strm << " : ";
+                        strm << temp->description();
+                        cout << endl;
+                    }
                 }
             }
             cout << endl;
