@@ -211,8 +211,14 @@ void Character::setInitialAttributes(const int& max)
         cout << "Points remaining: " << totalBaseStat << endl;
         cout << "Enter number of points to allocate for strength: ";
         cin >> temp;
-        getline(cin, junk);
-        cin.clear();
+        cout << temp << endl;
+        
+        if(cin.fail())
+        {
+            temp = -1;
+            cin.clear();
+            getline(cin, junk);
+        }
         if(temp < 0 || temp > totalBaseStat || temp > max)
             cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
         else
@@ -231,8 +237,12 @@ void Character::setInitialAttributes(const int& max)
             cout << "Points remaining: " << totalBaseStat << endl;
             cout << "Enter number of points to allocate for intelligence: ";
             cin >> temp;
-            getline(cin, junk);
-            cin.clear();
+            if(cin.fail())
+            {
+                temp = -1;
+                cin.clear();
+                getline(cin, junk);
+            }
             if(temp < 0 || temp > totalBaseStat || temp > max)
                 cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
             else
@@ -244,6 +254,14 @@ void Character::setInitialAttributes(const int& max)
             }
         }
     }   while (temp < 0 || temp > totalBaseStat || temp > max);
+    
+    if(cin.fail())
+    {
+        cin.clear();
+        getline(cin, junk);
+    }
+    else
+        cin.ignore(10, '\n');
     if(intelligence == 0)
         cout << intelligence << " points were automatically allocated into intelligence." << endl << endl;
     else
@@ -360,6 +378,7 @@ void Character::pickupItem(const string& item)
             itemList.insertStart(newItem);
             
             cout << endl << "Picked up " << item << ". It's now in your inventory" << endl << endl;
+            
             return;
         }
         else               // if this is equipment, do swap
