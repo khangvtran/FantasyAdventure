@@ -71,12 +71,12 @@ int main(void)
         catch (AdventureErrors::InvalidMove &err)
         {
             cerr << err.what() << endl << endl;
-            cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
+            //cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         }
         catch(AdventureErrors::MissingObject &err)
         {
             cerr << err.what() << endl << endl;
-            cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
+            //cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         }
         catch(AdventureErrors::CharacterDeath &err)
         {
