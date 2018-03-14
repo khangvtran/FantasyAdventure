@@ -45,7 +45,7 @@ void doCommand(const string& command, Character*& c, ifstream&) throw(/*const ch
 int main(void)
 {
     
-    ifstream helpFile(HELP_FILE.c_str());
+    ifstream helpFile(HELP_FILE.c_str(), ios::in | ios::binary);
     bool replay = true;
     bool restart = true;
     srand(time(0));
@@ -123,7 +123,7 @@ void initialize(Dungeon* &d, Character* &c, ifstream& helpFile)
         helpFile.clear();
         cout << "Enter another file: ";
         getline(cin, newFile);
-        helpFile.open(newFile.c_str());
+        helpFile.open(newFile.c_str(), ios::in | ios::binary);
         if (!helpFile)
         {
             cout << "File Open Error" << endl;
@@ -188,7 +188,7 @@ void displayHelpScreen(ifstream& input, const string& command)
             int lengthOfStr;
             for(int i = 0; i < numLines; i++)
             {
-                input.read(reinterpret_cast<char*>(&lengthOfStr), sizeof(4));
+                input.read(reinterpret_cast<char*>(&lengthOfStr), 4);
                 str.resize(lengthOfStr);
                 input.read(reinterpret_cast<char*>(&str[0]), lengthOfStr);
                 cout << str << endl;
