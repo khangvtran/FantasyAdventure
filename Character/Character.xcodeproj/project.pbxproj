@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* CharacterTest.cpp */; };
+		76DC514B2024DFFB00A45484 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC514A2024DFFB00A45484 /* main.cpp */; };
 		76DC51532024E33800A45484 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76DC51512024E33800A45484 /* Character.cpp */; };
 		B258B3022049C192008F0B35 /* Generation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B258B3002049C192008F0B35 /* Generation.cpp */; };
 		B2868A8D20462D7900CB8B84 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2868A7B20462D7700CB8B84 /* Monster.cpp */; };
@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		76DC51472024DFFB00A45484 /* Character */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Character; sourceTree = BUILT_PRODUCTS_DIR; };
-		76DC514A2024DFFB00A45484 /* CharacterTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterTest.cpp; sourceTree = "<group>"; };
+		76DC514A2024DFFB00A45484 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		76DC51512024E33800A45484 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
 		76DC51522024E33800A45484 /* Character.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
 		76DC51582024FF4E00A45484 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				76DC51582024FF4E00A45484 /* LinkedList.h */,
-				76DC514A2024DFFB00A45484 /* CharacterTest.cpp */,
+				76DC514A2024DFFB00A45484 /* main.cpp */,
 				76DC51512024E33800A45484 /* Character.cpp */,
 				76DC51522024E33800A45484 /* Character.h */,
 				B2868A8A20462D7800CB8B84 /* Dungeon.cpp */,
@@ -170,7 +170,7 @@
 				B2A5A77B2052FD9C004894D6 /* Item.cpp in Sources */,
 				B2868A9320462D7900CB8B84 /* Room.cpp in Sources */,
 				B2868A9420462D7900CB8B84 /* Dungeon.cpp in Sources */,
-				76DC514B2024DFFB00A45484 /* CharacterTest.cpp in Sources */,
+				76DC514B2024DFFB00A45484 /* main.cpp in Sources */,
 				B258B3022049C192008F0B35 /* Generation.cpp in Sources */,
 				B2868A9220462D7900CB8B84 /* RoomObject.cpp in Sources */,
 				B2868A8D20462D7900CB8B84 /* Monster.cpp in Sources */,

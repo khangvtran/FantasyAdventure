@@ -132,14 +132,14 @@ void initialize(Dungeon* &d, Character* &c, ifstream& helpFile)
     }
     
     //Create a Dungeon
-    d = new Dungeon(ROWS, COLS);
+    d = new Dungeon{ROWS, COLS};
     
     cout << "Enter a name: ";
     string name;
     getline(cin, name);
     
     //Create a Character
-    c = new Character(name, ROWS, COLS, *d);
+    c = new Character{name, ROWS, COLS, *d};
 }
 
 bool isInvalidChar(int i)
