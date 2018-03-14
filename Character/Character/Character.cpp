@@ -363,7 +363,7 @@ void Character::pickupItem(const string& item)
         {
             itemList.insertStart(newItem);
             
-            cout << endl << "Picked up " << item << ". It's now in your inventory" << endl << endl;
+            cout << endl << "Picked up " << item << ". It's now in your inventory." << endl << endl;
             
             return;
         }
@@ -537,7 +537,7 @@ void Character::useItem(const string& item)
             {
                 cout << "You took a sip from the health potion." << endl;
                 if(health < maxHealth)
-                    cout << "Your health increased by " << potionValue * ((getIntelligence() / 10.)+1) << endl;
+                    cout << "Your health increased by " << potionValue * ((getIntelligence() / 10.)+1) << "." << endl;
                 setHealth(getHealth() + potionValue * ((getIntelligence() / 10.)+1));
 
             }
@@ -743,9 +743,9 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
                 map->use();
                 dungeon->printMap(location->row, location->col, Dungeon::ALL);
             }
-            if(cmd == "basic" || cmd == "monster" || cmd == "roomobj" || cmd == "item" || cmd == "all")
+            if(cmd == "basic" || cmd == "monster" || cmd == "roomobject" || cmd == "item" || cmd == "all") // fixed this
                 break;
-        } while(cmd != "basic" || cmd != "monster" || cmd != "roomobj" || cmd != "item" || cmd != "all");
+        } while(cmd != "basic" || cmd != "monster" || cmd != "roomobject" || cmd != "item" || cmd != "all"); // fixed this
         
         cin.ignore(10, '\n');
         cin.clear();

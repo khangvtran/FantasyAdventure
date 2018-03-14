@@ -12,14 +12,14 @@
 #define Character_h
 
 #include <iostream>
-# include <string>
+#include <string>
 
 #include <unordered_map>
 #include <vector>
 
 using namespace std;
 
-# include "Item.h"
+#include "Item.h"
 #include "Dungeon.h"
 #include "Room.h"
 #include "LinkedList.h"
@@ -63,6 +63,7 @@ private:
     void _printEquipmentSet() const;
     
     void _useKillScroll();
+    int equipmentHealth() const;
     
     /* Helper move functions */
     void _moveNorth() throw(AdventureErrors::InvalidMove);
@@ -78,18 +79,6 @@ private:
     void _activateEndgameTreasure() const throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
     
 public:
-    
-    /*
-     In this room you find a(n) mithril greaves : Greaves made from mithril, stronger than iron or steel.
-     
-     In this room you find a(n)
-      - mithril greaves : Greaves made from mithril, stronger than iron or steel.
-     
-     In this room you find a(n)
-     - mithril greaves : Greaves made from mithril, stronger than iron or steel.
-     - health potion : A flask of red liquid that will restore your health.
-     
-     */
     
     /* Constructor */
     /**
@@ -136,8 +125,6 @@ public:
     void pickupItem(const string& item);    // CHANGE: swapEquipment is now a part of this
     void dropItem(const string& item);
     void useItem(const string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
-    int equipmentHealth() const;
-    
     
     
     /* Interactions with Monsters */
