@@ -682,7 +682,7 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
  */
 bool Character::_randomizer() const // CHANGE: AccuracyHit() changed into HitOrHeal()
 {
-    double accuracyRange = pow(luck, log10(100)/log10(18/* "MAX LUCK"*/));
+    double accuracyRange = pow(luck, log10(100)/log10(16/* "MAX LUCK"*/));
     return (rand()%100 <= accuracyRange);
 }
 
