@@ -50,7 +50,7 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     alloc();
     
     //Set room coordinates and wall data for each room
-    const char fileName[] = "/Users/Agnieszka Rynkiewicz/Desktop/Computer Science/1.7 C++/1.1 C++ Courses/1.3 Advanced C++/1.0 Group Project/3.0 Code/walls.bin";
+    const char fileName[] = "walls.bin";
     
     //Open file with room data
     fstream file;
@@ -69,7 +69,7 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
         file.clear();
         cout << "Enter another file: ";
         getline(cin, newFile);
-        file.open(newFile.c_str());
+        file.open(newFile.c_str(), ios::in | ios::binary);
         if (!file)
         {
             cout << "File Open Error" << endl;

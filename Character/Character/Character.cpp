@@ -13,22 +13,6 @@
 #include <iomanip>
 #include "Generation.h"
 
-// DRAGON HEALTH : 50
-// TITAN HEALTH : 40
-// DRAGON BOSS HEALTH : 150
-// implement if health < maxhealth
-/*
- 
- 
- X: 0 Y: 4
- Enter command: attack
- DIRECT HIT!
- MONSTER HEALTH before: 50You dealt 72 to DragonBoss.
- DragonBoss fainted.
-
- */
-
-
 /* Constructor */
 Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon)
 {
@@ -42,8 +26,8 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
     health = maxHealth = 100 + equipmentHealth();
     
     lives = 3;
-    setRowPos(rand() % row-1);
-    setColPos(rand() % col-1);
+    setRowPos(rand() % (row - 5) + 5);
+    setColPos(rand() % col);
     
     // dungeon->getRoom(x, y) will return a pointer to the room at row y, column x of the 2D array
     currentRoom = &(this->dungeon->getRoom(location->row, location->col));
