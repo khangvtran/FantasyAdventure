@@ -14,30 +14,31 @@
 #include "Generation.h"
 
 /* Constructor */
-Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon)
+Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), strength(0), intelligence(0), luck(0), alive(true), lives(3)
 {
-    equipmentSet = {{"helmet", new IronHelmet},
-                    {"armor", new IronArmor},
-                    {"greaves", new IronGreaves},
-                    {"weapon", nullptr}
-    };
-
-    health = maxHealth = 100 + equipmentHealth(); // sets health and maxhealth to 100 + sum equipment health (100 + 6+5+4)
-    lives = 3; // players start with 3 lives
-
+    currentRoom = &(this->dungeon->getRoom(location->row, location->col));
+    
     location = new Location(row, col);
     setRowPos(rand() % (row - 5) + 5); // spawns player at row (5-9)
     setColPos(rand() % col); // spawns player anywhere at col (0-9)
-
-    // sets current room for later use
-    currentRoom = &(this->dungeon->getRoom(location->row, location->col));
+    
+    maxHealth = 100 + _equipmentHealth(); // sets health and maxhealth to 100 + sum equipment health (100 + 6+5+4)
+    health = maxHealth;
+    
+    equipmentSet = {{"helmet", new IronHelmet},
+        {"armor", new IronArmor},
+        {"greaves", new IronGreaves},
+        {"weapon", nullptr}
+    };
 
     setInitialAttributes(24);
-
+    
     if(_randomizer())
         equipmentSet["weapon"] = new IronSword;
     else
         equipmentSet["weapon"] = new IronDagger;
+    
+
     cout << *currentRoom;
 }
 
@@ -89,7 +90,7 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
             return;
         }
         // check if all gems are in itemList
-        if (itemList.linearSearch("ruby") == -1 || itemList.linearSearch("sapphire") == -1 || itemList.linearSearch("emerald") == -1)
+        if (inventory.linearSearch("ruby") == -1 || inventory.linearSearch("sapphire") == -1 || inventory.linearSearch("emerald") == -1)
         {
             cout << "You still have to acquire all three gems: ruby, sapphire, and emerald" << endl;
             return;
@@ -248,10 +249,10 @@ void Character::_printEquipmentSet() const
 
 void Character::_printInventory() const
 {
-    if(!itemList.isEmpty())
+    if(!inventory.isEmpty())
     {
         cout << "Character Inventory: " << endl;
-        itemList.printNumberedList();
+        inventory.printNumberedList();
         cout << endl;
     }
 }
@@ -484,7 +485,7 @@ void Character::cheat(const string& cmd, const string& cmd2)
             dungeon->printMap(location->row, location->col, Dungeon::ALL);
     }
 }
-void Character::dropItem(const string& item)
+void Character::dropItem(const string& item, bool fromPickup)
 {
     size_t spacePos = item.find(" ");
     string secondWord = item.substr(spacePos+1);
@@ -498,7 +499,7 @@ void Character::dropItem(const string& item)
                 cout << "Are you sure you want to drop that? Your health is dangerously low." << endl << endl;
                 return;
             }
-            if(item == armor->name())
+            if(item == armor->name() || fromPickup)
             {
                 cout << "Dropped " << armor->name() << " on the ground." << endl << endl;
                 setMaxHealth(maxHealth - armor->getValue());
@@ -523,7 +524,7 @@ void Character::dropItem(const string& item)
                 cout << "Are you sure you want to drop that? Your health is dangerously low." << endl << endl;
                 return;
             }
-            if(item == helmet->name())
+            if(item == helmet->name() || fromPickup)
             {
                 cout << "Dropped " << helmet->name() << " on the ground." << endl << endl;
                 setMaxHealth(maxHealth - helmet->getValue());
@@ -548,7 +549,7 @@ void Character::dropItem(const string& item)
                 cout << "Are you sure you want to drop that? Your health is dangerously low." << endl << endl;
                 return;
             }
-            if(item == greaves->name())
+            if(item == greaves->name() || fromPickup)
             {
                 cout << "Dropped " << greaves->name() << " on the ground." << endl << endl;
                 setMaxHealth(maxHealth - greaves->getValue());
@@ -563,12 +564,12 @@ void Character::dropItem(const string& item)
         else
             cout << "You got no greaves to drop." << endl << endl;
     }
-    else if((secondWord == "sword" || secondWord == "dagger" || secondWord == "weapon"))
+    else if(secondWord == "sword" || secondWord == "dagger")
     {
         Equipment* weapon = equipmentSet["weapon"];
         if(weapon != nullptr)
         {
-            if(item == weapon->name())
+            if(item == weapon->name() || fromPickup)
             {
                 cout << "Dropped " << equipmentSet["weapon"]->name() << " on the ground." << endl << endl;
                 currentRoom->setItem(equipmentSet["weapon"]);
@@ -584,13 +585,12 @@ void Character::dropItem(const string& item)
     }
     else
     {
-        int index = itemList.linearSearch(item);
+        int index = inventory.linearSearch(item);
         if(index != -1)
         {
-            itemList.advanceToIndex(index);
-            currentRoom->setItem(itemList.getIterator());
-            //currentRoom->removeItem(item);
-            itemList.removeIterator();
+            inventory.advanceToIndex(index);
+            currentRoom->setItem(inventory.getIterator());
+            inventory.removeIterator();
             cout << "Removed " << item << " from inventory. It's on the ground now." << endl << endl; // debugging
             cout << *currentRoom;
         }
@@ -600,7 +600,7 @@ void Character::dropItem(const string& item)
 }
 
 
-int Character::equipmentHealth() const
+int Character::_equipmentHealth() const
 {
     int sum = 0;
     try
@@ -697,7 +697,7 @@ void Character::pickupItem(const string& item)
 
         if (!newEquipment) // if this is consumable item, do insert
         {
-            itemList.insertStart(newItem);
+            inventory.insertStart(newItem);
 
             cout << endl << "Picked up " << item << ". It's now in your inventory." << endl << endl;
 
@@ -709,7 +709,7 @@ void Character::pickupItem(const string& item)
             if(helmet)
             {
                 //setHealth(getHealth() - (equipmentSet["helmet"] != nullptr ? equipmentSet["helmet"]->getValue() : 0));
-                dropItem(helmet->name());
+                dropItem(helmet->name(), true);
                 equipmentSet["helmet"] = helmet;
                 setMaxHealth(maxHealth + equipmentSet["helmet"]->getValue());
                 setHealth(getHealth() + helmet->getValue());
@@ -721,7 +721,7 @@ void Character::pickupItem(const string& item)
             {
 
                 //setHealth(getHealth() - (equipmentSet["armor"] != nullptr ? equipmentSet["armor"]->getValue() : 0));
-                dropItem(armor->name());
+                dropItem(armor->name(), true);
                 equipmentSet["armor"] = armor;
                 setMaxHealth(maxHealth + equipmentSet["armor"]->getValue());
                 setHealth(getHealth() + armor->getValue());
@@ -734,7 +734,7 @@ void Character::pickupItem(const string& item)
             {
 
                 //setHealth(getHealth() - (equipmentSet["greaves"] != nullptr ? equipmentSet["greaves"]->getValue() : 0));
-                dropItem(greaves->name());
+                dropItem(greaves->name(), true);
                 equipmentSet["greaves"] = greaves;
                 setMaxHealth(maxHealth + equipmentSet["greaves"]->getValue());
                 setHealth(getHealth() + greaves->getValue());
@@ -744,7 +744,7 @@ void Character::pickupItem(const string& item)
             Weapon* weapon = dynamic_cast<Weapon*>(newEquipment);
             if(weapon)
             {
-                dropItem("weapon");
+                dropItem(weapon->name(), true);
                 equipmentSet["weapon"] = weapon;
                 cout << "You wielded " << weapon->name() << "!" << endl << endl;
                 return;
@@ -770,10 +770,10 @@ void Character::print() const
 }
 
 /* Manipulator */
-void Character::setColPos(const int& x)
+void Character::setColPos(const int& col)
 {
-    if(x >= 0 && x < location->xBound)
-        location->col = x;
+    if(col >= 0 && col < location->colBound)
+        location->col = col;
 }
 void Character::setHealth(const int& newHealth)
 {
@@ -882,10 +882,10 @@ void Character::setName(const string& name)
 {
     this->name = name;
 }
-void Character::setRowPos(const int& y)
+void Character::setRowPos(const int& row)
 {
-    if(y >= 0 && y < location->yBound)
-        location->row = y;
+    if(row >= 0 && row < location->rowBound)
+        location->row = row;
 }
 
 
@@ -898,12 +898,12 @@ void Character::setStrength(const int& str)
 void Character::useItem(const string& item)
 {
     // check if item in inventory,
-    int index = itemList.linearSearch(item);
+    int index = inventory.linearSearch(item);
 
     if (index != -1)
     {
-        itemList.advanceToIndex(index);
-        Item* itemPtr = itemList.getIterator();
+        inventory.advanceToIndex(index);
+        Item* itemPtr = inventory.getIterator();
 
         Potion* potionPtr = dynamic_cast<Potion*>(itemPtr);
         if (potionPtr)
@@ -944,7 +944,7 @@ void Character::useItem(const string& item)
                 setLuck(getLuck() + potionValue);
             }
             delete potionPtr;               // remove iterator no longer realease memory
-            itemList.removeIterator();      // remove the pointer from the linkedlist
+            inventory.removeIterator();      // remove the pointer from the linkedlist
             return;
         }
 
@@ -953,7 +953,7 @@ void Character::useItem(const string& item)
         {
             _useKillScroll();
             killScrollPtr = nullptr;
-            itemList.removeIterator();
+            inventory.removeIterator();
             return;
         }
         else

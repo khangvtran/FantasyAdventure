@@ -26,31 +26,30 @@
 class Character
 {
 private:
+    struct Location
+    {
+        const int rowBound;
+        const int colBound;
+        int row; // y coord
+        int col; // x coord
+        Location(const int &rb = 0, const int &cb = 0) : rowBound(rb) ,colBound(cb) {}
+    };
+    
     std::string name;
-    int maxHealth;
-    int health;
+    Dungeon* dungeon;
+    Room* currentRoom;
     int strength;
     int intelligence;
     int luck;
-    bool alive = true;
+    bool alive;
     int lives;
-
-    List<Item*> itemList;
-    unordered_map<string, Equipment*> equipmentSet;
-
-    Dungeon* dungeon;
-    Room* currentRoom;
-    struct Location
-    {
-        const int xBound;
-        const int yBound;
-        int row; // y coord
-        int col; // x coord
-        Location(const int &xb = 0, const int &yb = 0) : xBound(xb) ,yBound(yb) {}
-    };
-
     Location* location; // instantiate an inner object from struct location
-
+    int maxHealth;
+    int health;
+    
+    unordered_map<string, Equipment*> equipmentSet;
+    List<Item*> inventory;
+    
     /** Private Helper Functions **/
 
     void _die();
@@ -60,7 +59,7 @@ private:
     void _printEquipmentSet() const;
 
     void _useKillScroll();
-    int equipmentHealth() const;
+    int _equipmentHealth() const;
 
     /* Helper move functions */
     void _moveNorth() throw(AdventureErrors::InvalidMove);
@@ -120,7 +119,7 @@ public:
     /* Interaction with Items - Equipment */
 
     void pickupItem(const std::string& item);    // CHANGE: swapEquipment is now a part of this
-    void dropItem(const std::string& item);
+    void dropItem(const std::string& item, bool fromPickup = false);
     void useItem(const std::string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
 
 
