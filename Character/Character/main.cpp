@@ -98,6 +98,7 @@ bool again(Character* &c)
         }
         
     } while(!(replay != 'y' || replay != 'Y' || replay != 'n' || replay != 'N'));
+    cout << "Okay, hold on a second... Restarting the game." << endl << endl << endl;
     return true;
 }
 
