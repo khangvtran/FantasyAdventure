@@ -1,7 +1,7 @@
 /*
- 
+
  Implementation file for the Room class.
- 
+
  */
 
 #include "Room.h"
@@ -15,7 +15,7 @@ Room::Room(int row, int col, unsigned char wall)
     //Set row, col, and wall data
     setCoordinates(row, col);
     setWalls(wall);
-    
+
     //Set Monster and RoomObject pointers to NULL
     setMonsterPtr();
     setRoomObjectPtr();
@@ -23,7 +23,7 @@ Room::Room(int row, int col, unsigned char wall)
 
 /********************************************************************************************
  Destructor
- Releases dynamic memory used by monster, room object and item objects.
+ Releases dynamic memory used by monster, room object and item list.
  *******************************************************************************************/
 Room::~Room()
 {
@@ -31,151 +31,37 @@ Room::~Room()
     {
         delete monsterPtr;
     }
-    
     if (roomObjectPtr)
     {
         delete roomObjectPtr;
     }
-    
     if (!items.empty())
     {
-        for (auto i = 0; i < items.size(); i++)
+        for (auto listIt = items.cbegin(); listIt != items.cend(); ++listIt)
         {
-            delete items[i];
+            delete *listIt;
         }
-        items.erase(items.begin());
+        items.clear();
     }
 }
 
 /********************************************************************************************
- setCoordinates
- Sets room's row and col coordinates.
+ checkEast
+ Returns true if movement west is possible. (i.e. no wall exists to the north of player's
+ position) Wall data is stored in the last nibble of an unsigned char in the following bit
+ pattern: 0000 W E S N
  *******************************************************************************************/
-void Room::setCoordinates (int r, int c)
+bool Room::checkEast() const
 {
-    coordinates.row = r;
-    coordinates.col = c;
-}
-
-/********************************************************************************************
- setWalls
- Sets room's wall data stored as an unsigned char.
- *******************************************************************************************/
-void Room::setWalls(unsigned char w)
-{
-    walls = w;
-};
-
-/********************************************************************************************
- setMonsterPtr
- Initializes MonsterPtr with an address of a Monster object.
- *******************************************************************************************/
-void Room::setMonsterPtr(Monster* mptr)
-{
-    monsterPtr = mptr;
-}
-
-/********************************************************************************************
- setRoomObjectPtr
- Initializes RoomObjectPtr with an address of a RoomObject object.
- *******************************************************************************************/
-void Room::setRoomObjectPtr(RoomObject* roptr)
-{
-    roomObjectPtr = roptr;
-}
-
-/********************************************************************************************
- setItem
- Adds an Item pointer to the vector of items.
- *******************************************************************************************/
-void Room::setItem(Item* iptr)
-{
-    if (iptr != nullptr)
+    //Mask: 0000 0100
+    const unsigned char MASK = 4;
+    
+    if (walls & MASK)
     {
-        items.push_back(iptr);
+        return false;
     }
-}
-
-/********************************************************************************************
- removeMonster
- Removes a monster from the room by deleting the monster object and setting MonsterPtr to NULL.
- *******************************************************************************************/
-void Room::removeMonster()
-{
-    delete monsterPtr;
-    monsterPtr = nullptr;
-}
-
-/********************************************************************************************
- getRow
- Returns row coordinate.
- *******************************************************************************************/
-int Room::getRow() const
-{
-    return coordinates.row;
-}
-
-/********************************************************************************************
- getCol
- Returns col coordinate.
- *******************************************************************************************/
-int Room::getCol() const
-{
-    return coordinates.col;
-}
-
-/********************************************************************************************
- getRoomCoordinates
- Returns a reference to a struct with room coordinate.
- *******************************************************************************************/
-const RoomCoordinates& Room::getRoomCoordinates() const
-{
-    return coordinates;
-}
-
-/********************************************************************************************
- getWalls
- Returns an unsigned char storing wall data.
- *******************************************************************************************/
-const unsigned char Room::getWalls() const
-{
-    return walls;
-}
-
-/********************************************************************************************
- getMonsterPtr
- Returns a pointer to a monster if monster is present in the room. Returns nullptr otherwise.
- *******************************************************************************************/
-Monster* Room::getMonsterPtr() const
-{
-    return monsterPtr;
-}
-
-/********************************************************************************************
- getRoomObjectPtr
- Returns a pointer to a monster if monster is present in the room. Returns nullptr otherwise.
- *******************************************************************************************/
-RoomObject* Room::getRoomObjectPtr() const
-{
-    return roomObjectPtr;
-}
-
-/********************************************************************************************
- getItems
- Returns a vector of item pointers if at least one item object is present in the room.
- *******************************************************************************************/
-vector<Item*> Room::getItems() const
-{
-    return items;
-}
-
-/********************************************************************************************
- getRoom
- Returns a pointer to the current room.
- *******************************************************************************************/
-Room& Room::getRoom()
-{
-    return *this;
+    
+    return true;
 }
 
 /********************************************************************************************
@@ -212,26 +98,7 @@ bool Room::checkSouth() const
     {
         return false;
     }
- 
-    return true;
-}
-
-/********************************************************************************************
- checkEast
- Returns true if movement west is possible. (i.e. no wall exists to the north of player's
- position) Wall data is stored in the last nibble of an unsigned char in the following bit
- pattern: 0000 W E S N
- *******************************************************************************************/
-bool Room::checkEast() const
-{
-    //Mask: 0000 0100
-    const unsigned char MASK = 4;
     
-    if (walls & MASK)
-    {
-        return false;
-    }
-
     return true;
 }
 
@@ -250,19 +117,19 @@ bool Room::checkWest() const
     {
         return false;
     }
-
+    
     return true;
 }
 
 /********************************************************************************************
  contains
- Searches items vector for a specific item. Returns true if the item is found.
+ Searches items list for a specific item. Returns true if the item is found.
  *******************************************************************************************/
 bool Room::contains(string s)
 {
     if (!(items.empty()))
     {
-        vector<Item*>::const_iterator it;
+        list<Item*>::const_iterator it;
         for (it = items.cbegin(); it != items.cend(); ++it)
         {
             if ((*it)->name() == s)
@@ -276,31 +143,166 @@ bool Room::contains(string s)
 }
 
 /********************************************************************************************
+ setCoordinates
+ Sets room's row and col coordinates.
+ *******************************************************************************************/
+void Room::setCoordinates (int r, int c)
+{
+    coordinates.row = r;
+    coordinates.col = c;
+}
+/********************************************************************************************
+ setItem
+ Adds an Item pointer to the list of items.
+ *******************************************************************************************/
+void Room::setItem(Item* iptr)
+{
+    if (iptr != nullptr)
+    {
+        items.push_back(iptr);
+    }
+}
+
+/********************************************************************************************
+ setMonsterPtr
+ Initializes MonsterPtr with an address of a Monster object.
+ *******************************************************************************************/
+void Room::setMonsterPtr(Monster* mptr)
+{
+    monsterPtr = mptr;
+}
+
+/********************************************************************************************
+ setRoomObjectPtr
+ Initializes RoomObjectPtr with an address of a RoomObject object.
+ *******************************************************************************************/
+void Room::setRoomObjectPtr(RoomObject* roptr)
+{
+    roomObjectPtr = roptr;
+}
+
+/********************************************************************************************
+ setWalls
+ Sets room's wall data stored as an unsigned char.
+ *******************************************************************************************/
+void Room::setWalls(unsigned char w)
+{
+    walls = w;
+};
+
+/********************************************************************************************
+ getCol
+ Returns col coordinate.
+ *******************************************************************************************/
+int Room::getCol() const
+{
+    return coordinates.col;
+}
+
+/********************************************************************************************
+ getItems
+ Returns a list of item pointers if at least one item object is present in the room.
+ *******************************************************************************************/
+list<Item*> Room::getItems() const
+{
+    return items;
+}
+
+/********************************************************************************************
+ getMonsterPtr
+ Returns a pointer to a monster if monster is present in the room. Returns nullptr otherwise.
+ *******************************************************************************************/
+Monster* Room::getMonsterPtr() const
+{
+    return monsterPtr;
+}
+
+/********************************************************************************************
+ getRoom
+ Returns a pointer to the current room.
+ *******************************************************************************************/
+Room& Room::getRoom()
+{
+    return *this;
+}
+
+/********************************************************************************************
+ getRow
+ Returns row coordinate.
+ *******************************************************************************************/
+int Room::getRow() const
+{
+    return coordinates.row;
+}
+
+/********************************************************************************************
+ getRoomCoordinates
+ Returns a reference to a struct with room coordinate.
+ *******************************************************************************************/
+const RoomCoordinates& Room::getRoomCoordinates() const
+{
+    return coordinates;
+}
+
+/********************************************************************************************
+ getRoomObjectPtr
+ Returns a pointer to a monster if monster is present in the room. Returns nullptr otherwise.
+ *******************************************************************************************/
+RoomObject* Room::getRoomObjectPtr() const
+{
+    return roomObjectPtr;
+}
+
+/********************************************************************************************
+ getWalls
+ Returns an unsigned char storing wall data.
+ *******************************************************************************************/
+const unsigned char Room::getWalls() const
+{
+    return walls;
+}
+
+/********************************************************************************************
  removeItem
- Removes a specific item from the vector of items. Returns nullptr if item is not found.
+ Searches for and removes a specific item from the list of items. If item is found, returns
+ a pointer to the item. If item is not found, returns nullptr.
  *******************************************************************************************/
 Item* Room::removeItem(string anItem)
 {
-    
+    Item* temp = nullptr;       //Store pointer to the searched item
+    //cout << "temp: " << temp << endl;             //DEBUG
     if (!(items.empty()))
     {
-        //Step through the vector and search for the item
-        vector<Item*>::const_iterator it;
+        //Step through the list and search for the item
+        list<Item*>::const_iterator it;
         for (it = items.cbegin(); it != items.cend(); ++it)
         {
             if ((*it)->name() == anItem)
             {
-                //If you found the item erase it from the items vector
-                items.erase(it);
+                //If found, store item pointer to be returned
+                temp = *it;
                 
-                //Return pointer to the item
-                return *it;
+                //Erase the item from list
+                items.erase(it);
+                break;
             }
         }
     }
-    //If item is not found, return nullptr
-    return nullptr;
+
+    //Return pointer to the searched item
+    return temp;
 }
+
+/********************************************************************************************
+ removeMonster
+ Removes a monster from the room by deleting the monster object and setting MonsterPtr to NULL.
+ *******************************************************************************************/
+void Room::removeMonster()
+{
+    delete monsterPtr;
+    monsterPtr = nullptr;
+}
+
 
 /********************************************************************************************
  Overloaded ostream<< Operator
@@ -336,7 +338,7 @@ ostream& operator<<(ostream& strm, const Room& room)
 
                 if (room.items.size() == 1)
                 {
-                    strm << room.items[0]->name() << " : " << room.items[0]->description() << endl;
+                    strm << room.items.front()->name() << " : " << room.items.front()->description() << endl;
                 }
                 else
                 {
@@ -362,9 +364,9 @@ ostream& operator<<(ostream& strm, const Room& room)
         strm <<  "This room is empty.";
         strm << "\n" << endl;
     }
-    
+
     cout << right << setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << endl << endl;
-    
+
     return strm;
 }
 

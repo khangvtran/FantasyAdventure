@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <list>
 #include <algorithm>
 #include <iomanip>
 #include "Monster.h"
@@ -32,10 +32,10 @@ private:
     RoomCoordinates coordinates;                             //Room ID represented by row and col coordinates
     unsigned char walls;                                     //stores wall positions in the last nibble of the 8-bit unsigned char
     
-    //Pointers to monster, room object and vector of items
+    //Pointers to monster, room object and list of items
     Monster* monsterPtr;                                     //stores a pointer to a monster
     RoomObject* roomObjectPtr;                               //stores a pointer to a room object
-    vector<Item*> items;                                     //stores a vector of pointers to items present in the room
+    list<Item*> items;                                       //stores a list of pointers to items present in the room
     
 public:
     //Constructor
@@ -43,7 +43,7 @@ public:
     Room(int row = 0, int col = 0, unsigned char wall = 0);
     
     //Destructor
-    /* Sets Monster and RoomObject pointers to NULL, clears Items vector */
+    /* Sets Monster and RoomObject pointers to NULL, clears Items list */
     ~Room();
     
     //Mutators
@@ -59,13 +59,13 @@ public:
     /* Initializes RoomObjectPtr with an address of a RoomObject object */
     void setRoomObjectPtr(RoomObject* roptr = nullptr);
     
-    /* Adds an Item pointer to the vector of items */
+    /* Adds an Item pointer to the list of items */
     void setItem(Item* iptr = nullptr);
     
     /* Removes a monster from the room by deleting the monster object and setting MonsterPtr to NULL */
     void removeMonster();
     
-    /* Removes an item from the vector of items. Returns pointer to the removed item.*/
+    /* Removes an item from the list of items. Returns pointer to the removed item.*/
     Item* removeItem(string anItem);
     
     //Accessors
@@ -87,8 +87,8 @@ public:
     /* Returns a pointer to a room object if a room object is present in the room. Returns nullptr otherwise. */
     RoomObject* getRoomObjectPtr() const;
     
-    /* Returns a vector of item pointers if at least one item object is present in the room */
-    vector<Item*> getItems() const;
+    /* Returns a list of item pointers if at least one item object is present in the room */
+    list<Item*> getItems() const;
     
     /* Returns a pointer to the current room */
     Room& getRoom();
@@ -104,7 +104,7 @@ public:
     bool checkWest() const;
     
     //Item Transfer Functions
-    /* Searches Item vector for a specific item. Returns true if the item is found.*/
+    /* Searches Item list for a specific item. Returns true if the item is found.*/
     bool contains(string s);
     
     //Overloaded Operator<<

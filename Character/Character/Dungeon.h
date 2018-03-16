@@ -3,10 +3,10 @@
  Specification file for the Dungeon class.
  
  The Dungeon class is implemented as a dynamically allocated 2D array (matrix) of Room objects.
- The matrix has dimensions of 10 x 10 units and it is arranged as a labyrinth with walls limiting the
- direction of the character's movement. The objective of the game is to get to the room with the
+ The matrix has dimensions of 10 x 10 units and it is arranged as a labyrinth with walls limiting
+ character's directional movement. The objective of the game is to get to the room with the
  treasure (0, 4) and collect the three gems (ruby, sapphire, and emerald) neccessary to activate
- the trasure as well as the kill scroll necessary to kill the dragon boss guarding the treasure.
+ the trasure as well as get the kill scroll necessary to kill the dragon boss guarding the treasure.
  Dungeon's layout:
  
  
