@@ -21,10 +21,10 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     const char fileName[] = "walls.bin";
     
     //Open file with room data
-    fstream file;
+    std::fstream file;
     try
     {
-        file.open(fileName, ios::in | ios::binary);
+        file.open(fileName, std::ios::in | std::ios::binary);
         if (!file)
         {
             throw AdventureErrors::FileOpenError(fileName);
@@ -32,15 +32,15 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     }
     catch (const AdventureErrors::FileOpenError& e)
     {
-        string newFile;
-        cout << e.what() << endl;
+        std::string newFile;
+        std::cout << e.what() << std::endl;
         file.clear();
-        cout << "Enter another file: ";
-        getline(cin, newFile);
-        file.open(newFile.c_str(), ios::in | ios::binary);
+        std::cout << "Enter another file: ";
+        getline(std::cin, newFile);
+        file.open(newFile.c_str(), std::ios::in | std::ios::binary);
         if (!file)
         {
-            cout << "File Open Error" << endl;
+            std::cout << "File Open Error" << std::endl;
             exit(EXIT_FAILURE);
         }
     }
@@ -102,7 +102,7 @@ void Dungeon::addRoom(int r, int c, unsigned char w)
  alloc
  Allocates memory for a 2D matix of Room objects representing the Dungeon.
  *******************************************************************************************/
-void Dungeon::alloc() throw(bad_alloc)
+void Dungeon::alloc() throw(std::bad_alloc)
 {
     try
     {
@@ -112,9 +112,9 @@ void Dungeon::alloc() throw(bad_alloc)
             dungeonPtr[i] = new Room[cols];
         }
     }
-    catch (bad_alloc)
+    catch (std::bad_alloc)
     {
-        cout << "Insufficient memory." << endl;
+        std::cout << "Insufficient memory." << std::endl;
     }
 }
 
@@ -138,17 +138,17 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
     }
     catch (const AdventureErrors::BoundaryError& e)
     {
-        cout << e.what() << endl;
+        std::cout << e.what() << std::endl;
     }
     
-    cout << "\n\n\n" << endl;
-    cout << right << setw(102) << "               ~~***   4 ADJACENT ROOMS   ***~~               \n" << endl;
-    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    std::cout << "\n\n\n" << std::endl;
+    std::cout << std::right << std::setw(102) << "               ~~***   4 ADJACENT ROOMS   ***~~               \n" << std::endl;
+    std::cout << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
     
     //Check for room object
     for (int r = 0; r < 10; r++)
     {
-        cout << right << setw(55) << r;
+        std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Room to the NORTH
@@ -167,7 +167,7 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
             //Print Character's location
             else if (r == characterRow && c == characterCol)
             {
-                cout << " * ";
+                std::cout << " * ";
             }
             //Print Room to the EAST
             else if (r == characterRow && c == characterCol + 1)
@@ -184,22 +184,22 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
         
-        cout << left << r;
-        cout << "\n";
+        std::cout << std::left << r;
+        std::cout << "\n";
         if (r < 9)
         {
-            cout << endl;
+            std::cout << std::endl;
         }
     }
-    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-    cout << left << "\n\n" << endl;
+    std::cout << std::right << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
+    std::cout << std::left << "\n\n" << std::endl;
     
-    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
-    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "LEGEND: " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << std::endl;
     bool bookused = false;
     bool flareUsed = false;
     bool fountainUsed = false;
@@ -212,55 +212,55 @@ void Dungeon::printAdjacentRooms(int characterRow, int characterCol) throw (Adve
     {
         if (toupper(roomContents[i]) == 'T')
         {
-            cout << right << setw(55) << " " << left << "T - Treasure " << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "T - Treasure " << std::endl;
         }
         else if (toupper(roomContents[i]) == 'B' && !bookused)
         {
-            cout << right << setw(55) << " " << left << "B - Book " << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "B - Book " << std::endl;
             bookused = false;
         }
         else if (toupper(roomContents[i]) == 'F' && !flareUsed)
         {
-            cout << right << setw(55) << " " << left << "F - Flare " << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "F - Flare " << std::endl;
             flareUsed = true;
         }
         else if (toupper(roomContents[i]) == 'R' && !fountainUsed)
         {
-            cout << right << setw(55) << " " << left << "R - Fountain " << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "R - Fountain " << std::endl;
             fountainUsed = true;
         }
         else if (toupper(roomContents[i]) == 'D' && !mapUsed)
         {
-            cout << right << setw(55) << " " << left << "D - Map " << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "D - Map " << std::endl;
             mapUsed = true;
         }
         else if (toupper(roomContents[i]) == 'M' && !monsterUsed)
         {
-            cout << right << setw(55) << " " << left << "M - Monster " << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "M - Monster " << std::endl;
             monsterUsed = true;
         }
         else if (toupper(roomContents[i]) == 'G')
         {
-            cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)" << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "G - Gem (Ruby, Sapphire, Emerald)" << std::endl;
         }
         else if (toupper(roomContents[i]) == 'Q' && !equipUsed)
         {
-            cout << right << setw(55) << " " << left << "Q - Equipment" << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "Q - Equipment" << std::endl;
             equipUsed = true;
         }
         else if (toupper(roomContents[i]) == 'P' && !potUsed)
         {
-            cout << right << setw(55) << " " << left << "P - Potion" << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "P - Potion" << std::endl;
             potUsed = true;
         }
         else if (toupper(roomContents[i] == 'K'))
         {
-            cout << right << setw(55) << " " << left << "K - Kill Scroll" << endl;
+            std::cout << std::right << std::setw(55) << " " << std::left << "K - Kill Scroll" << std::endl;
         }
     }
-    cout << endl;
-    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
-    cout << "\n\n\n" << endl;
+    std::cout << std::endl;
+    std::cout << std::setw(96) << std::right << "              ~~***   ***   ***~~               \n" << std::endl;
+    std::cout << "\n\n\n" << std::endl;
     
 }
 
@@ -298,7 +298,7 @@ void Dungeon::printMap(int characterRow, int characterCol, MapType version) cons
     }
     else
     {
-        cout << "Not a valid option!" << endl;
+        std::cout << "Not a valid option!" << std::endl;
     }
 }
 
@@ -308,19 +308,19 @@ void Dungeon::printMap(int characterRow, int characterCol, MapType version) cons
  *******************************************************************************************/
 void Dungeon::_printAllMap(int characterRow, int characterCol) const
 {
-    cout << "\n\n\n" << endl;
-    cout << right << setw(100) << "               ~~***   GENERAL MAP   ***~~               \n" << endl;
-    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    std::cout << "\n\n\n" << std::endl;
+    std::cout << std::right << std::setw(100) << "               ~~***   GENERAL MAP   ***~~               \n" << std::endl;
+    std::cout << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
     
     for (int r = 0; r < 10; r++)
     {
-        cout << right << setw(55) << r;
+        std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Character's location
             if (r == characterRow && c == characterCol)
             {
-                cout << " * ";
+                std::cout << " * ";
             }
             //Print all room object locations
             else if (dungeonPtr[r][c].getRoomObjectPtr())
@@ -335,37 +335,37 @@ void Dungeon::_printAllMap(int characterRow, int characterCol) const
                 //Treasure
                 if (tPtr)
                 {
-                    cout << " T ";
+                    std::cout << " T ";
                 }
                 //Book
                 else if (bPtr)
                 {
-                    cout << " B ";
+                    std::cout << " B ";
                 }
                 //Flare
                 else if (fPtr)
                 {
-                    cout << " F ";
+                    std::cout << " F ";
                 }
                 //Map
                 else if (mPtr)
                 {
-                    cout << " D ";
+                    std::cout << " D ";
                 }
                 //Fountain
                 else if (ftPtr)
                 {
-                    cout << " R ";
+                    std::cout << " R ";
                 }
                 else
                 {
-                    cout << "   ";
+                    std::cout << "   ";
                 }
             }
             //Print all monsters locations
             else if (dungeonPtr[r][c].getMonsterPtr())
             {
-                cout << " M ";
+                std::cout << " M ";
             }
             //Print all items locations
             else if (!dungeonPtr[r][c].getItems().empty())
@@ -373,12 +373,12 @@ void Dungeon::_printAllMap(int characterRow, int characterCol) const
                 //Gems
                 if (dungeonPtr[r][c].contains("ruby") || dungeonPtr[r][c].contains("sapphire") || dungeonPtr[r][c].contains("emerald"))
                 {
-                    cout << " G ";
+                    std::cout << " G ";
                 }
                 //Kill scroll
                 else if (dungeonPtr[r][c].contains("kill scroll"))
                 {
-                    cout << " K ";
+                    std::cout << " K ";
                 }
                 //Equipment & Potions
                 else
@@ -388,47 +388,47 @@ void Dungeon::_printAllMap(int characterRow, int characterCol) const
                     
                     if (ePtr)
                     {
-                        cout << " E ";
+                        std::cout << " E ";
                     }
                     else if (pPtr)
                     {
-                        cout << " P ";
+                        std::cout << " P ";
                     }
                     else
                     {
-                        cout << "   ";
+                        std::cout << "   ";
                     }
                 }
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
-        cout << left << r;
-        cout << "\n";
+        std::cout << std::left << r;
+        std::cout << "\n";
         if (r < 9)
         {
-            cout << endl;
+            std::cout << std::endl;
         }
     }
-    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-    cout << left << "\n" << endl;
-    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
-    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
-    cout << right << setw(55) << " " << left << "T - Treasure " << endl;
-    cout << right << setw(55) << " " << left << "B - Book " << endl;
-    cout << right << setw(55) << " " << left << "F - Flare " << endl;
-    cout << right << setw(55) << " " << left << "D - Map " << endl;
-    cout << right << setw(55) << " " << left << "R - Fountain " << endl;
-    cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)" << endl;
-    cout << right << setw(55) << " " << left << "K - Kill Scroll " << endl;
-    cout << right << setw(55) << " " << left << "E - Equipment " << endl;
-    cout << right << setw(55) << " " << left << "P - Potion " << endl;
-    cout << right << setw(55) << " " << left << "M - Monster " << endl;
-    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    std::cout << std::right << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
+    std::cout << std::left << "\n" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "LEGEND: " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "T - Treasure " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "B - Book " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "F - Flare " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "D - Map " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "R - Fountain " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "G - Gem (Ruby, Sapphire, Emerald)" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "K - Kill Scroll " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "E - Equipment " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "P - Potion " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "M - Monster " << std::endl;
+    std::cout << std::setw(96) << std::right << "              ~~***   ***   ***~~               \n" << std::endl;
     
-    cout << "\n\n\n" << endl;
+    std::cout << "\n\n\n" << std::endl;
     
     
 }
@@ -439,19 +439,19 @@ void Dungeon::_printAllMap(int characterRow, int characterCol) const
  *******************************************************************************************/
 void Dungeon::_printBasicMap(int characterRow, int characterCol) const
 {
-    cout << "\n\n\n" << endl;
-    cout << right << setw(98) << "               ~~***   BASIC MAP   ***~~               \n" << endl;
-    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    std::cout << "\n\n\n" << std::endl;
+    std::cout << std::right << std::setw(98) << "               ~~***   BASIC MAP   ***~~               \n" << std::endl;
+    std::cout << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
     
     for (int r = 0; r < 10; r++)
     {
-        cout << right << setw(55) << r;
+        std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Character's location
             if (r == characterRow && c == characterCol)
             {
-                cout << " * ";
+                std::cout << " * ";
             }
             //Print treasure's location
             else if (dungeonPtr[r][c].getRoomObjectPtr())
@@ -460,11 +460,11 @@ void Dungeon::_printBasicMap(int characterRow, int characterCol) const
                 Treasure* tPtr = dynamic_cast<Treasure*>(temp);
                 if (tPtr)
                 {
-                    cout << " T ";
+                    std::cout << " T ";
                 }
                 else
                 {
-                    cout << "   ";
+                    std::cout << "   ";
                 }
             }
             //Print gem's location and kill scroll's location
@@ -472,40 +472,40 @@ void Dungeon::_printBasicMap(int characterRow, int characterCol) const
             {
                 if (dungeonPtr[r][c].contains("ruby") || dungeonPtr[r][c].contains("sapphire") || dungeonPtr[r][c].contains("emerald"))
                 {
-                    cout << " G ";
+                    std::cout << " G ";
                 }
                 else if (dungeonPtr[r][c].contains("kill scroll"))
                 {
-                    cout << " K ";
+                    std::cout << " K ";
                 }
                 else
                 {
-                    cout << "   ";
+                    std::cout << "   ";
                     
                 }
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
-        cout << left << r;
-        cout << "\n";
+        std::cout << std::left << r;
+        std::cout << "\n";
         if (r < 9)
         {
-            cout << endl;
+            std::cout << std::endl;
         }
     }
-    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-    cout << left << "\n" << endl;
-    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
-    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
-    cout << right << setw(55) << " " << left << "T - Treasure " << endl;
-    cout << right << setw(55) << " " << left << "K - Kill Scroll " << endl;
-    cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)\n" << endl;
-    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    std::cout << std::right << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
+    std::cout << std::left << "\n" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "LEGEND: " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "T - Treasure " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "K - Kill Scroll " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "G - Gem (Ruby, Sapphire, Emerald)\n" << std::endl;
+    std::cout << std::setw(96) << std::right << "              ~~***   ***   ***~~               \n" << std::endl;
     
-    cout << "\n\n\n" << endl;
+    std::cout << "\n\n\n" << std::endl;
     
 }
 
@@ -515,19 +515,19 @@ void Dungeon::_printBasicMap(int characterRow, int characterCol) const
  *******************************************************************************************/
 void Dungeon::_printItemsMap(int characterRow, int characterCol) const
 {
-    cout << "\n\n\n" << endl;
-    cout << right << setw(98) << "               ~~***   ITEMS MAP   ***~~               \n" << endl;
-    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    std::cout << "\n\n\n" << std::endl;
+    std::cout << std::right << std::setw(98) << "               ~~***   ITEMS MAP   ***~~               \n" << std::endl;
+    std::cout << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
     
     for (int r = 0; r < 10; r++)
     {
-        cout << right << setw(55) << r;
+        std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Character's location
             if (r == characterRow && c == characterCol)
             {
-                cout << " * ";
+                std::cout << " * ";
             }
             //Print all items location
             else if (!dungeonPtr[r][c].getItems().empty())
@@ -535,12 +535,12 @@ void Dungeon::_printItemsMap(int characterRow, int characterCol) const
                 //Gem
                 if (dungeonPtr[r][c].contains("ruby") || dungeonPtr[r][c].contains("sapphire") || dungeonPtr[r][c].contains("emerald"))
                 {
-                    cout << " G ";
+                    std::cout << " G ";
                 }
                 //Kill scroll
                 else if (dungeonPtr[r][c].contains("kill scroll"))
                 {
-                    cout << " K ";
+                    std::cout << " K ";
                 }
                 //Equipment & Potion
                 else
@@ -549,41 +549,41 @@ void Dungeon::_printItemsMap(int characterRow, int characterCol) const
                     Potion* pPtr = dynamic_cast<Potion*>(*dungeonPtr[r][c].getItems().cbegin());
                     if (ePtr)
                     {
-                        cout << " E ";
+                        std::cout << " E ";
                     }
                     else if (pPtr)
                     {
-                        cout << " P ";
+                        std::cout << " P ";
                     }
                     else
                     {
-                        cout << "   ";
+                        std::cout << "   ";
                     }
                 }
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
-        cout << left << r;
-        cout << "\n";
+        std::cout << std::left << r;
+        std::cout << "\n";
         if (r < 9)
         {
-            cout << endl;
+            std::cout << std::endl;
         }
     }
-    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-    cout << left << "\n" << endl;
-    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
-    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
-    cout << right << setw(55) << " " << left << "G - Gem (Ruby, Sapphire, Emerald)" << endl;
-    cout << right << setw(55) << " " << left << "K - Kill Scroll " << endl;
-    cout << right << setw(55) << " " << left << "E - Equipment " << endl;
-    cout << right << setw(55) << " " << left << "P - Potion " << endl;
-    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    std::cout << std::right << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
+    std::cout << std::left << "\n" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "LEGEND: " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "G - Gem (Ruby, Sapphire, Emerald)" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "K - Kill Scroll " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "E - Equipment " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "P - Potion " << std::endl;
+    std::cout << std::setw(96) << std::right << "              ~~***   ***   ***~~               \n" << std::endl;
     
-    cout << "\n\n\n" << endl;
+    std::cout << "\n\n\n" << std::endl;
     
 }
 
@@ -593,45 +593,45 @@ void Dungeon::_printItemsMap(int characterRow, int characterCol) const
  *******************************************************************************************/
 void Dungeon::_printMonsterMap(int characterRow, int characterCol) const
 {
-    cout << "\n\n\n" << endl;
-    cout << right << setw(100) << "               ~~***   MONSTER MAP   ***~~               \n" << endl;
-    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    std::cout << "\n\n\n" << std::endl;
+    std::cout << std::right << std::setw(100) << "               ~~***   MONSTER MAP   ***~~               \n" << std::endl;
+    std::cout << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
     
     for (int r = 0; r < 10; r++)
     {
-        cout << right << setw(55) << r;
+       std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Character's location
             if (r == characterRow && c == characterCol)
             {
-                cout << " * ";
+                std::cout << " * ";
             }
             //Print monster's location
             else if (dungeonPtr[r][c].getMonsterPtr())
             {
-               cout << " M ";
+               std::cout << " M ";
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
-        cout << left << r;
-        cout << "\n";
+        std::cout << std::left << r;
+        std::cout << "\n";
         if (r < 9)
         {
-            cout << endl;
+            std::cout << std::endl;
         }
     }
-    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-    cout << left << "\n" << endl;
-    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
-    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
-    cout << right << setw(55) << " " << left << "M - Monster " << endl;
-    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    std::cout << std::right << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
+    std::cout << std::left << "\n" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "LEGEND: " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "M - Monster " << std::endl;
+    std::cout << std::setw(96) << std::right << "              ~~***   ***   ***~~               \n" << std::endl;
     
-    cout << "\n\n\n" << endl;
+    std::cout << "\n\n\n" << std::endl;
     
 }
 
@@ -641,19 +641,19 @@ void Dungeon::_printMonsterMap(int characterRow, int characterCol) const
  *******************************************************************************************/
 void Dungeon::_printRoomObjectMap(int characterRow, int characterCol) const
 {
-    cout << "\n\n\n" << endl;
-    cout << right << setw(102) << "               ~~***   ROOM OBJECT MAP   ***~~               \n" << endl;
-    cout << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
+    std::cout << "\n\n\n" << std::endl;
+    std::cout << std::right << std::setw(102) << "               ~~***   ROOM OBJECT MAP   ***~~               \n" << std::endl;
+    std::cout << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
     
     for (int r = 0; r < 10; r++)
     {
-        cout << right << setw(55) << r;
+        std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Character's location
             if (r == characterRow && c == characterCol)
             {
-                cout << " * ";
+                std::cout << " * ";
             }
             //Print room object's location
             else if (dungeonPtr[r][c].getRoomObjectPtr())
@@ -668,57 +668,57 @@ void Dungeon::_printRoomObjectMap(int characterRow, int characterCol) const
                 //Book
                 if (bPtr)
                 {
-                    cout << " B ";
+                    std::cout << " B ";
                 }
                 //Flare
                 else if (fPtr)
                 {
-                    cout << " F ";
+                    std::cout << " F ";
                 }
                 //Map
                 else if (mPtr)
                 {
-                    cout << " M ";
+                    std::cout << " M ";
                 }
                 //Fountain
                 else if (ftPtr)
                 {
-                    cout << " R ";
+                    std::cout << " R ";
                 }
                 //Treasure
                 else if (tPtr)
                 {
-                    cout << " T ";
+                    std::cout << " T ";
                 }
                 else
                 {
-                    cout << "   ";
+                    std::cout << "   ";
                 }
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
-        cout << left << r;
-        cout << "\n";
+        std::cout << std::left << r;
+        std::cout << "\n";
         if (r < 9)
         {
-            cout << endl;
+            std::cout << std::endl;
         }
     }
-    cout << right << setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << endl;
-    cout << left << "\n" << endl;
-    cout << right << setw(55) << " " << left << "LEGEND: " << endl;
-    cout << right << setw(55) << " " << left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << endl;
-    cout << right << setw(55) << " " << left << "T - Treasure " << endl;
-    cout << right << setw(55) << " " << left << "B - Book " << endl;
-    cout << right << setw(55) << " " << left << "F - Flare " << endl;
-    cout << right << setw(55) << " " << left << "M - Map " << endl;
-    cout << right << setw(55) << " " << left << "R - Fountain " << endl;
-    cout << setw(96) << right << "              ~~***   ***   ***~~               \n" << endl;
+    std::cout << std::right << std::setw(86) << " 0  1  2  3  4  5  6  7  8  9  " << std::endl;
+    std::cout << std::left << "\n" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "LEGEND: " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "* - You are here (row " << characterRow << ", col " << characterCol << ")" << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "T - Treasure " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "B - Book " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "F - Flare " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "M - Map " << std::endl;
+    std::cout << std::right << std::setw(55) << " " << std::left << "R - Fountain " << std::endl;
+    std::cout << std::setw(96) << std::right << "              ~~***   ***   ***~~               \n" << std::endl;
     
-    cout << "\n\n\n" << endl;
+    std::cout << "\n\n\n" << std::endl;
     
 }
 
@@ -743,31 +743,31 @@ char Dungeon::_printContents(int r, int c)
         //Treasure
         if (tPtr)
         {
-            cout << " T ";
+            std::cout << " T ";
             return 'T';
         }
         //Book
         else if (bPtr)
         {
-            cout << " B ";
+            std::cout << " B ";
             return 'B';
         }
         //Flare
         else if (fPtr)
         {
-            cout << " F ";
+            std::cout << " F ";
             return 'F';
         }
         //Fountain
         else if (ftPtr)
         {
-            cout << " R ";
+            std::cout << " R ";
             return 'R';
         }
         //Map
         else if (mPtr)
         {
-            cout << " D ";
+            std::cout << " D ";
             return 'D';
         }
     }
@@ -775,7 +775,7 @@ char Dungeon::_printContents(int r, int c)
     //Check for Monsters
     else if (dungeonPtr[r][c].getMonsterPtr())
     {
-        cout << " M ";
+        std::cout << " M ";
         return 'M';
     }
     //Check for Items
@@ -784,13 +784,13 @@ char Dungeon::_printContents(int r, int c)
         //Gems
         if (dungeonPtr[r][c].contains("ruby") || dungeonPtr[r][c].contains("sapphire") || dungeonPtr[r][c].contains("emerald"))
         {
-            cout << " G ";
+            std::cout << " G ";
             return 'G';
         }
         //Kill scroll
         else if (dungeonPtr[r][c].contains("kill scroll"))
         {
-            cout << " K ";
+            std::cout << " K ";
             return 'K';
         }
         //Equipment & Potions
@@ -800,23 +800,23 @@ char Dungeon::_printContents(int r, int c)
             Potion* pPtr = dynamic_cast<Potion*>(*dungeonPtr[r][c].getItems().cbegin());
             if (ePtr)
             {
-                cout << " Q ";
+                std::cout << " Q ";
                 return 'Q';
             }
             else if (pPtr)
             {
-                cout << " P ";
+                std::cout << " P ";
                 return 'P';
             }
             else
             {
-                cout << "   ";
+                std::cout << "   ";
             }
         }
     }
     else
     {
-        cout << "   ";
+        std::cout << "   ";
     }
     
     return '1';
@@ -923,7 +923,7 @@ void Dungeon::release()
  Overloaded ostream Operator<<
  Prints data for each room in the dungeon.
  *******************************************************************************************/
-ostream& operator<<(ostream& strm, const Dungeon& dungeon)
+std::ostream& operator<<(std::ostream& strm, const Dungeon& dungeon)
 {
     for (int i = 0; i < dungeon.rows; i++)
     {

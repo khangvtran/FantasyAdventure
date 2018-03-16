@@ -82,7 +82,7 @@ Item* Generation::generateItem(ITEMS type)
             return new Sapphire();
         default:
         {
-            cerr << "item this shouldn't happen" << endl;
+            std::cerr << "item this shouldn't happen" << std::endl;
             return nullptr;
         }
     }
@@ -101,7 +101,7 @@ Monster* Generation::generateMonster(MONSTERS type)
             return new DragonBoss("dragon boss", "So you have found the biggest and scariest dragon in this dungeon that guards this place's treasures.\nOnly a few moments separate you from becoming rich and winning the fame and glory of a great warrior you came here for.\nThe only thing you have to do is face this bad-tempered oversized colossus\nRemember he can hurl fireballs your way and knock down any of your equipment.\nGood luck! Become a legend or become dinner!");
         default:
         {
-            cerr << "monster this should not happen" << endl;
+            std::cerr << "monster this should not happen" << std::endl;
             return nullptr;
         }
     }
@@ -123,7 +123,7 @@ RoomObject* Generation::generateRoomObj(ROOMOBJ type)
             return new Treasure("treasure", "You have found your riches!\nIn front of you is a chest full of gold coins, gemstones and other valuables! You have successfully accomplished your mission.\nAll you have to do is activate the treasure.\n");
         default:
         {
-            cerr << "roomobj this should not happen" << endl;
+            std::cerr << "roomobj this should not happen" << std::endl;
             return nullptr;
         }
     }

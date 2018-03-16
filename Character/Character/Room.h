@@ -17,7 +17,6 @@
 #include "Monster.h"
 #include "RoomObject.h"
 #include "Item.h"
-using namespace std;
 
 struct RoomCoordinates
 {
@@ -35,7 +34,7 @@ private:
     //Pointers to monster, room object and list of items
     Monster* monsterPtr;                                     //stores a pointer to a monster
     RoomObject* roomObjectPtr;                               //stores a pointer to a room object
-    list<Item*> items;                                       //stores a list of pointers to items present in the room
+    std::list<Item*> items;                                       //stores a list of pointers to items present in the room
     
 public:
     //Constructor
@@ -66,7 +65,7 @@ public:
     void removeMonster();
     
     /* Removes an item from the list of items. Returns pointer to the removed item.*/
-    Item* removeItem(string anItem);
+    Item* removeItem(const std::string& anItem);
     
     //Accessors
     /* Returns row coordinate */
@@ -88,7 +87,7 @@ public:
     RoomObject* getRoomObjectPtr() const;
     
     /* Returns a list of item pointers if at least one item object is present in the room */
-    list<Item*> getItems() const;
+    std::list<Item*> getItems() const;
     
     /* Returns a pointer to the current room */
     Room& getRoom();
@@ -105,13 +104,12 @@ public:
     
     //Item Transfer Functions
     /* Searches Item list for a specific item. Returns true if the item is found.*/
-    bool contains(string s);
+    bool contains(const std::string& s);
     
     //Overloaded Operator<<
     /* Prints room contents/description */
-    friend ostream& operator<<(ostream& strm, const Room& room);
+    friend std::ostream& operator<<(std::ostream& strm, const Room& room);
 };
 
 #endif
-
 

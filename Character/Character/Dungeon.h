@@ -43,7 +43,7 @@
 #include "Room.h"
 #include "Exceptions.h"
 #include "Generation.h"
-using namespace std;
+
 
 class Dungeon
 {
@@ -56,7 +56,7 @@ private:
  
     //Memory Management Functions
     /* Allocates memory for the dungeon matrix of size row x cols */
-    void alloc() throw (bad_alloc);
+    void alloc() throw (std::bad_alloc);
     
     /* Releases memory used by the dungeon matrix */
     void release();
@@ -114,7 +114,7 @@ public:
     
     //Overloaded Operator<<
     /* Prints dungeon contents */
-    friend ostream& operator<<(ostream& strm, const Dungeon& dungeon);
+    friend std::ostream& operator<<(std::ostream& strm, const Dungeon& dungeon);
     
     //Overloaded Operator[][]
     /* Returns a reference to a room at coordinates represented by row and col */

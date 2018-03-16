@@ -125,11 +125,11 @@ bool Room::checkWest() const
  contains
  Searches items list for a specific item. Returns true if the item is found.
  *******************************************************************************************/
-bool Room::contains(string s)
+bool Room::contains(const std::string& s)
 {
     if (!(items.empty()))
     {
-        list<Item*>::const_iterator it;
+        std::list<Item*>::const_iterator it;
         for (it = items.cbegin(); it != items.cend(); ++it)
         {
             if ((*it)->name() == s)
@@ -203,7 +203,7 @@ int Room::getCol() const
  getItems
  Returns a list of item pointers if at least one item object is present in the room.
  *******************************************************************************************/
-list<Item*> Room::getItems() const
+std::list<Item*> Room::getItems() const
 {
     return items;
 }
@@ -267,14 +267,14 @@ const unsigned char Room::getWalls() const
  Searches for and removes a specific item from the list of items. If item is found, returns
  a pointer to the item. If item is not found, returns nullptr.
  *******************************************************************************************/
-Item* Room::removeItem(string anItem)
+Item* Room::removeItem(const std::string& anItem)
 {
     Item* temp = nullptr;       //Store pointer to the searched item
     //cout << "temp: " << temp << endl;             //DEBUG
     if (!(items.empty()))
     {
         //Step through the list and search for the item
-        list<Item*>::const_iterator it;
+        std::list<Item*>::const_iterator it;
         for (it = items.cbegin(); it != items.cend(); ++it)
         {
             if ((*it)->name() == anItem)
@@ -308,41 +308,41 @@ void Room::removeMonster()
  Overloaded ostream<< Operator
  Prints room description and data.
  *******************************************************************************************/
-ostream& operator<<(ostream& strm, const Room& room)
+std::ostream& operator<<(std::ostream& strm, const Room& room)
 {
-    cout << setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << endl << endl;
-    cout << setw(70) << "Room: " << "[row: " << room.getRow() << "] " << "[col: " << room.getCol() << "]" << endl;
-    cout << setw(70);
+    std::cout << std::setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << std::endl << std::endl;
+    std::cout << std::setw(70) << "Room: " << "[row: " << room.getRow() << "] " << "[col: " << room.getCol() << "]" << std::endl;
+    std::cout << std::setw(70);
     if (room.getMonsterPtr() || room.getRoomObjectPtr() || (!room.items.empty()))
     {
         if (room.getMonsterPtr())
         {
-            strm << "\n" << endl;
-            strm << left << setw(80) << ("In this room you find a(n) " + room.getMonsterPtr()->getName()) << endl;
-            strm << setw(80) << room.getMonsterPtr()->getDescription() << endl;
-            cout << "\n" << endl;
+            strm << "\n" << std::endl;
+            strm << std::left << std::setw(80) << ("In this room you find a(n) " + room.getMonsterPtr()->getName()) << std::endl;
+            strm << std::setw(80) << room.getMonsterPtr()->getDescription() << std::endl;
+            std::cout << "\n" << std::endl;
         }
         else if (room.getRoomObjectPtr() || (!room.items.empty()))
         {
             if (room.getRoomObjectPtr())
             {
-                strm << "\n" << endl;
-                strm << left << setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << endl;
-                strm << setw(80) << room.getRoomObjectPtr()->getDescription() << endl;
-                strm << "\n" << endl;
+                strm << "\n" << std::endl;
+                strm << std::left << std::setw(80) << ("In this room you find a(n) " + room.getRoomObjectPtr()->getName()) << std::endl;
+                strm << std::setw(80) << room.getRoomObjectPtr()->getDescription() << std::endl;
+                strm << "\n" << std::endl;
             }
             if (!room.items.empty())
             {
-                strm << "\n" << endl;
-                strm << left << setw(20) << "In this room you find a(n) ";
+                strm << "\n" << std::endl;
+                strm << std::left << std::setw(20) << "In this room you find a(n) ";
 
                 if (room.items.size() == 1)
                 {
-                    strm << room.items.front()->name() << " : " << room.items.front()->description() << endl;
+                    strm << room.items.front()->name() << " : " << room.items.front()->description() << std::endl;
                 }
                 else
                 {
-                    cout << endl;
+                    std::cout << std::endl;
                     for (auto i: room.items)
                     {
                         {
@@ -350,22 +350,22 @@ ostream& operator<<(ostream& strm, const Room& room)
                             strm << i->name();
                             strm << " : ";
                             strm << i->description();
-                            cout << endl;
+                            std::cout << std::endl;
                         }
                     }
                 }
-                cout << endl;
+                std::cout << std::endl;
             }
         }
     }
     else
     {
-        strm << "\n" << endl;
+        strm << "\n" << std::endl;
         strm <<  "This room is empty.";
-        strm << "\n" << endl;
+        strm << "\n" << std::endl;
     }
 
-    cout << right << setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << endl << endl;
+    std::cout << std::right << std::setw(100) << "~~~~~~~~~~~~********** **** ********** ~~~~~~~~~~~~" << std::endl << std::endl;
 
     return strm;
 }

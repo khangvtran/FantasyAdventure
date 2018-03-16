@@ -9,9 +9,8 @@
 # ifndef LIST_H_
 # define LIST_H_
 # include <cstddef> //for NULL
-# include <assert.h>
 # include <iostream>
-using namespace std;
+
 
 template <class listdata> //list stores generic listdata, not any specific C++ type
 class List {
@@ -96,7 +95,7 @@ public:
     //Pre: length != 0
     //Post: The iterator location has not been changed
     
-    int linearSearch(string data) const;
+    int linearSearch(std::string data) const;
     
     int binarySearch(listdata data) const;
     //Returns the index where data is located in the List
@@ -194,7 +193,7 @@ public:
     // each node's data are printed on a separated file
     
     
-    bool operator==(const List& list);
+    bool operator== (const List& list);
     // Overloading to == comparison to compare 2 lists
 };
 
@@ -251,14 +250,14 @@ List<listdata>::~List()
 template <class listdata>
 listdata List<listdata>::getStart() const   //access function, return the data value of the first node
 {
-    assert(!isEmpty());      // enforce the precondition
+    // assert(!isEmpty());      // enforce the precondition
     return start->data;      // Note to self: To access member of structure through a pointer, use arrow operator
 }
 
 template <class listdata>
 listdata List<listdata>::getStop() const
 {
-    assert(!isEmpty());    // enforce the precondition
+    // assert(!isEmpty());    // enforce the precondition
     return stop->data;
 }
 
@@ -302,14 +301,14 @@ bool List<listdata>::offEnd() const
 template <class listdata>
 listdata List<listdata>::getIterator() const
 {
-    assert(!offEnd());                // enforce precondition
+    // assert(!offEnd());                // enforce precondition
     return iterator->data;
 }
 
 template <class listdata>
 int List<listdata>::getIndex() const
 {
-    assert(!offEnd());
+    // assert(!offEnd());
     int i = 1;
     Node* temp = iterator;
     while (temp->linkprevious != NULL)
@@ -323,7 +322,7 @@ int List<listdata>::getIndex() const
 template <class listdata>
 int List<listdata>::linearSearch(listdata data) const
 {
-    assert(!isEmpty());
+    // assert(!isEmpty());
     Node* temp = start;
     int index = 1;
     while (temp != NULL)
@@ -336,9 +335,9 @@ int List<listdata>::linearSearch(listdata data) const
 }
 
 template <class listdata>
-int List<listdata>::linearSearch(string data) const
+int List<listdata>::linearSearch(std::string data) const
 {
-    //assert(!isEmpty());
+    // // assert(!isEmpty());
     Node* temp = start;
     int index = 1;
     while (temp != NULL)
@@ -353,8 +352,8 @@ int List<listdata>::linearSearch(string data) const
 template <class listdata>
 int List<listdata>::binarySearch(listdata data) const
 {
-    assert(!isEmpty());
-    assert(isSorted());
+    // assert(!isEmpty());
+    // assert(isSorted());
     return binarySearch(1, size, data);
 }
 
@@ -362,12 +361,12 @@ template <class listdata>
 int List<listdata>::binarySearch(int low, int high, listdata data) const
 {
     if ( low > high) return -1;
-    int mid = low + (high -low)/2;
+    int mid = low + (high -low) / 2;
     Node* temp = start;
     for (int i = 1; i < mid; i++) temp = temp->linknext;
     if (temp->data == data) return mid;
-    else if (data < temp->data) return(binarySearch(low, mid-1, data));
-    else return(binarySearch(mid+1, high, data));
+    else if (data < temp->data) return(binarySearch(low, mid - 1, data));
+    else return(binarySearch(mid + 1, high, data));
 }
 
 /*************************************************************************/
@@ -413,12 +412,12 @@ void List<listdata>::removeStart()
 {    /*
       if (size == 0)
       {
-      cout << "removeStart : List is empty, no data to remove." << endl;
+      std::cout << "removeStart : List is empty, no data to remove." << std::endl;
       return;   // since this is a void function, just a return will do
       }
       */
     if (iterator == start) iterator = NULL;  // To redirect iterator if it is pointing to start
-    assert(!isEmpty());
+    // assert(!isEmpty());
     if (size == 1)
     {
         delete start;    // ******** alternatively, can we delete stop???? What about the pointer N pointing to the node itself?
@@ -438,7 +437,7 @@ void List<listdata>::removeStart()
 template <class listdata>
 void List<listdata>::removeStop()
 {
-    assert(!isEmpty());
+    // assert(!isEmpty());
     if (iterator == stop) iterator = NULL;
     if (size == 1)
     {
@@ -459,7 +458,7 @@ void List<listdata>::removeStop()
 template <class listdata>
 void List<listdata>::pointIterator()
 {
-    assert(!isEmpty());
+    // assert(!isEmpty());
     iterator = start;
 }
 
@@ -467,22 +466,22 @@ void List<listdata>::pointIterator()
 template <class listdata>
 void List<listdata>::advanceIterator()
 {
-    assert(!offEnd());
+    // assert(!offEnd());
     iterator = iterator->linknext;
 }
 
 template <class listdata>
 void List<listdata>::reverseIterator()
 {
-    assert(!offEnd());
+    // assert(!offEnd());
     iterator = iterator->linkprevious;
-    //if (offEnd()) cout << "Iterator is now pointing at NULL" << endl;
+    //if (offEnd()) std::cout << "Iterator is now pointing at NULL" << std::endl;
 }
 
 template <class listdata>
 void List<listdata>::insertIterator(listdata data)
 {
-    assert(!offEnd());          // enforce the precondition
+    // assert(!offEnd());          // enforce the precondition
     if (iterator == stop) insertStop(data);
     else
     {
@@ -499,7 +498,7 @@ void List<listdata>::insertIterator(listdata data)
 template <class listdata>
 void List<listdata>::removeIterator()
 {
-    assert(!offEnd());
+    // assert(!offEnd());
     if (iterator == start) removeStart();     // size-- and iterator = NULL is enforced inside
     else if (iterator == stop) removeStop();  // size-- and iterator = NULL is enforced inside
     else
@@ -515,9 +514,9 @@ void List<listdata>::removeIterator()
 template <class listdata>
 void List<listdata>::advanceToIndex(int index)
 {
-    assert(size != 0);
-    assert(0 < index);     // I think this is necessary
-    assert(index <= size);
+    // // assert(size != 0);
+    // // assert(0 < index);     // I think this is necessary
+    // assert(index <= size);
     pointIterator();
     for (int i = 0; i < index - 1; i++) advanceIterator();
     /*
@@ -545,10 +544,10 @@ void List<listdata>::print() const
     Node* temp = start;
     while (temp != NULL)
     {
-        cout << temp->data << " ";
+        std::cout << temp->data << " ";
         temp = temp->linknext;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 template <class listdata>
@@ -559,10 +558,10 @@ void List<listdata>::printNumberedList() const
     while(temp != NULL)
     {
         lineIndex++;
-        cout << lineIndex << ": " << temp->data->name() << endl;
+        std::cout << lineIndex << ": " << temp->data->name() << std::endl;
         temp = temp->linknext;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 template <class listdata>
@@ -577,12 +576,12 @@ void List<listdata>::reversePrint(Node* node) const    // PRIVATE
     Node* temp = node;
     if (temp == NULL)
     {
-        cout << " " << endl;         // base case
+        std::cout << " " << std::endl;         // base case
         return;
     }
     else
     {
-        cout << temp->data << " ";
+        std::cout << temp->data << " ";
         reversePrint(temp->linkprevious);   // recursive steps
     }
 }

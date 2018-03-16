@@ -45,7 +45,7 @@ private:
     int lives;
     Location* location; // instantiate an inner object from struct location
     Room* currentRoom;
-    unordered_map<string, Equipment*> equipmentSet;
+    std::unordered_map<std::string, Equipment*> equipmentSet;
     List<Item*> inventory;
     int maxHealth;
     int health;

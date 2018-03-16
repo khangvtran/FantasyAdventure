@@ -1,8 +1,6 @@
 #include <string>
-
 #include "Item.h"
 
-using namespace std;
 
 int Potion::getValue()
 {
@@ -16,204 +14,204 @@ int Equipment::getValue()
 
 /*******************************************************************
  Abstract class name() functions
- */
+ *******************************************************************/
 
 /*Materials*/
-string Iron::name()
+std::string Iron::name()
 {
     return "iron";
 }
 
-string Steel::name()
+std::string Steel::name()
 {
     return "steel";
 }
 
-string Mithril::name()
+std::string Mithril::name()
 {
     return "mithril";
 }
 
-string Adamantine::name()
+std::string Adamantine::name()
 {
     return "adamantine";
 }
 
 /*Equipment*/
-string Helmet::name()
+std::string Helmet::name()
 {
     return "helmet";
 }
 
-string Armor::name()
+std::string Armor::name()
 {
     return "armor";
 }
 
-string Greaves::name()
+std::string Greaves::name()
 {
     return "greaves";
 }
 
-string Sword::name()
+std::string Sword::name()
 {
     return "sword";
 }
 
-string Dagger::name()
+std::string Dagger::name()
 {
     return "dagger";
 }
 
 /*******************************************************************
  Derived class name() functions
- */
+ *******************************************************************/
 
 /*Portal Gems*/
-string Ruby::name()
+std::string Ruby::name()
 {
     return "ruby";
 }
 
-string Sapphire::name()
+std::string Sapphire::name()
 {
     return "sapphire";
 }
 
-string Emerald::name()
+std::string Emerald::name()
 {
     return "emerald";
 }
 
 /*Potions*/
-string HealthPotion::name()
+std::string HealthPotion::name()
 {
     return "health potion";
 }
 
-string MaxHealthPotion::name()
+std::string MaxHealthPotion::name()
 {
     return "max health potion";
 }
 
-string StrengthPotion::name()
+std::string StrengthPotion::name()
 {
     return "strength potion";
 }
 
-string IntPotion::name()
+std::string IntPotion::name()
 {
     return "intelligence potion";
 }
 
-string LuckPotion::name()
+std::string LuckPotion::name()
 {
     return "luck potion";
 }
 
 /*Other*/
-string KillScroll::name()
+std::string KillScroll::name()
 {
     return "kill scroll";
 }
 
 /*Equipment*/
-string IronHelmet::name()
+std::string IronHelmet::name()
 {
     return Iron::name() + " " + Helmet::name();
 }
 
-string SteelHelmet::name()
+std::string SteelHelmet::name()
 {
     return Steel::name() + " " + Helmet::name();
 }
 
-string MithrilHelmet::name()
+std::string MithrilHelmet::name()
 {
     return Mithril::name() + " " + Helmet::name();
 }
 
-string AdamantineHelmet::name()
+std::string AdamantineHelmet::name()
 {
     return Adamantine::name() + " " + Helmet::name();
 }
 
-string IronArmor::name()
+std::string IronArmor::name()
 {
     return Iron::name() + " " + Armor::name();
 }
 
-string SteelArmor::name()
+std::string SteelArmor::name()
 {
     return Steel::name() + " " + Armor::name();
 }
 
-string MithrilArmor::name()
+std::string MithrilArmor::name()
 {
     return Mithril::name() + " " + Armor::name();
 }
 
-string AdamantineArmor::name()
+std::string AdamantineArmor::name()
 {
     return Adamantine::name() + " " + Armor::name();
 }
 
-string IronGreaves::name()
+std::string IronGreaves::name()
 {
     return Iron::name() + " " + Greaves::name();
 }
 
-string SteelGreaves::name()
+std::string SteelGreaves::name()
 {
     return Steel::name() + " " + Greaves::name();
 }
 
-string MithrilGreaves::name()
+std::string MithrilGreaves::name()
 {
     return Mithril::name() + " " + Greaves::name();
 }
 
-string AdamantineGreaves::name()
+std::string AdamantineGreaves::name()
 {
     return Adamantine::name() + " " + Greaves::name();
 }
 
-string IronSword::name()
+std::string IronSword::name()
 {
     return Iron::name() + " " + Sword::name();
 }
 
-string SteelSword::name()
+std::string SteelSword::name()
 {
     return Steel::name() + " " + Sword::name();
 }
 
-string MithrilSword::name()
+std::string MithrilSword::name()
 {
     return Mithril::name() + " " + Sword::name();
 }
 
-string AdamantineSword::name()
+std::string AdamantineSword::name()
 {
     return Adamantine::name() + " " + Sword::name();
 }
 
-string IronDagger::name()
+std::string IronDagger::name()
 {
     return Iron::name() + " " + Dagger::name();
 }
 
-string SteelDagger::name()
+std::string SteelDagger::name()
 {
     return Steel::name() + " " + Dagger::name();
 }
 
-string MithrilDagger::name()
+std::string MithrilDagger::name()
 {
     return Mithril::name() + " " + Dagger::name();
 }
 
-string AdamantineDagger::name()
+std::string AdamantineDagger::name()
 {
     return Adamantine::name() + " " + Dagger::name();
 }
@@ -222,207 +220,207 @@ string AdamantineDagger::name()
  Abstract class description() functions
  */
 
-string PortalGem::description()
+std::string PortalGem::description()
 {
     return "gem that seems to sparkle with an inner light.";
 }
 
 /*Materials*/
-string Iron::description()
+std::string Iron::description()
 {
     return "iron, the most basic material.";
 }
 
-string Steel::description()
+std::string Steel::description()
 {
     return "steel, stronger than iron.";
 }
 
-string Mithril::description()
+std::string Mithril::description()
 {
     return "mithril, stronger than iron or steel.";
 }
 
-string Adamantine::description()
+std::string Adamantine::description()
 {
     return "adamantine, the strongest material.";
 }
 
 /*Equipment*/
-string Helmet::description()
+std::string Helmet::description()
 {
     return "A helmet made from";
 }
 
-string Armor::description()
+std::string Armor::description()
 {
     return "Armor made from";
 }
 
-string Greaves::description()
+std::string Greaves::description()
 {
     return "Greaves made from";
 }
 
-string Sword::description()
+std::string Sword::description()
 {
     return "A sword made from";
 }
 
-string Dagger::description()
+std::string Dagger::description()
 {
     return "A dagger made from";
 }
 
 /*******************************************************************
  Derived class description() functions
- */
+ *******************************************************************/
 
 /*Portal Gems*/
-string Ruby::description()
+std::string Ruby::description()
 {
     return "A large, blood red " + PortalGem::description();
 }
 
-string Sapphire::description()
+std::string Sapphire::description()
 {
     return "A large, deep blue " + PortalGem::description();
 }
 
-string Emerald::description()
+std::string Emerald::description()
 {
     return "A large, bright green " + PortalGem::description();
 }
 
 /*Potions*/
-string HealthPotion::description()
+std::string HealthPotion::description()
 {
     return "A flask of red liquid that will restore your health.";
 }
 
-string MaxHealthPotion::description()
+std::string MaxHealthPotion::description()
 {
     return "A flask of purple liquid that will increase your maximum health.";
 }
 
-string StrengthPotion::description()
+std::string StrengthPotion::description()
 {
     return "A flask of yellow liquid that will strengthen you.";
 }
 
-string IntPotion::description()
+std::string IntPotion::description()
 {
     return "A flask of blue liquid that will sharpen your wits.";
 }
 
-string LuckPotion::description()
+std::string LuckPotion::description()
 {
     return "A flask of opaque white liquid that will increase your luck.";
 }
 
 /*Other*/
-string KillScroll::description()
+std::string KillScroll::description()
 {
     return "A yellowing, tattered scroll inscribed with eldritch runes that will kill any monster when read.";
 }
 
 /*Equipment*/
-string IronHelmet::description()
+std::string IronHelmet::description()
 {
     return Helmet::description() + " " + Iron::description();
 }
 
-string SteelHelmet::description()
+std::string SteelHelmet::description()
 {
     return Helmet::description() + " " + Steel::description();
 }
 
-string MithrilHelmet::description()
+std::string MithrilHelmet::description()
 {
     return Helmet::description() + " " + Mithril::description();
 }
 
-string AdamantineHelmet::description()
+std::string AdamantineHelmet::description()
 {
     return Helmet::description() + " " + Adamantine::description();
 }
 
-string IronArmor::description()
+std::string IronArmor::description()
 {
     return Armor::description() + " " + Iron::description();
 }
 
-string SteelArmor::description()
+std::string SteelArmor::description()
 {
     return Armor::description() + " " + Steel::description();
 }
 
-string MithrilArmor::description()
+std::string MithrilArmor::description()
 {
     return Armor::description() + " " + Mithril::description();
 }
 
-string AdamantineArmor::description()
+std::string AdamantineArmor::description()
 {
     return Armor::description() + " " + Adamantine::description();
 }
 
-string IronGreaves::description()
+std::string IronGreaves::description()
 {
     return Greaves::description() + " " + Iron::description();
 }
 
-string SteelGreaves::description()
+std::string SteelGreaves::description()
 {
     return Greaves::description() + " " + Steel::description();
 }
 
-string MithrilGreaves::description()
+std::string MithrilGreaves::description()
 {
     return Greaves::description() + " " + Mithril::description();
 }
 
-string AdamantineGreaves::description()
+std::string AdamantineGreaves::description()
 {
     return Greaves::description() + " " + Adamantine::description();
 }
 
-string IronSword::description()
+std::string IronSword::description()
 {
     return Sword::description() + " " + Iron::description();
 }
 
-string SteelSword::description()
+std::string SteelSword::description()
 {
     return Sword::description() + " " + Steel::description();
 }
 
-string MithrilSword::description()
+std::string MithrilSword::description()
 {
     return Sword::description() + " " + Mithril::description();
 }
 
-string AdamantineSword::description()
+std::string AdamantineSword::description()
 {
     return Sword::description() + " " + Adamantine::description();
 }
 
-string IronDagger::description()
+std::string IronDagger::description()
 {
     return Dagger::description() + " " + Iron::description();
 }
 
-string SteelDagger::description()
+std::string SteelDagger::description()
 {
     return Dagger::description() + " " + Steel::description();
 }
 
-string MithrilDagger::description()
+std::string MithrilDagger::description()
 {
     return Dagger::description() + " " + Mithril::description();
 }
 
-string AdamantineDagger::description()
+std::string AdamantineDagger::description()
 {
     return Dagger::description() + " " + Adamantine::description();
 }

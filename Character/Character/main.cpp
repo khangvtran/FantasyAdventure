@@ -143,12 +143,12 @@ bool isValidCommand(string& command)
 {
     command.erase(remove_if (command.begin(), command.end(), isInvalidChar), command.end());
     string firstWord = command.substr(0, command.find(" "));
-    for(int i = 0; i < NUM_COMMANDS-1; i++)
+    for(int i = 0; i < NUM_COMMANDS - 1; i++)
     {
         if(firstWord == commands[i])
             return true;
     }
-    if(command.substr(0,1) == commands[NUM_COMMANDS-1])
+    if(command.substr(0,1) == commands[NUM_COMMANDS - 1])
         return true;
     return false;
 }
@@ -236,23 +236,23 @@ void doCommand(const string &command, Character *&c, ifstream& helpFile) throw(/
         if (cmd == commands[0]) // attack
             c->attack();
         else if(cmd == commands[1]) // activate
-            c->activate(command.substr(spacePos+1));
+            c->activate(command.substr(spacePos + 1));
         else if(cmd == commands[2]) // drop
-            c->dropItem(command.substr(spacePos+1));
+            c->dropItem(command.substr(spacePos + 1));
         else if(cmd == commands[3]) // move
-                c->move(command.substr(spacePos+1));
+                c->move(command.substr(spacePos + 1));
         else if(cmd == commands[4]) // pickup
-            c->pickupItem(command.substr(spacePos+1));
+            c->pickupItem(command.substr(spacePos + 1));
         else if(cmd == commands[5]) // print attributes
             c->print();
         else if(cmd == commands[6]) // use item
-            c->useItem(command.substr(spacePos+1));
+            c->useItem(command.substr(spacePos + 1));
         else if(cmd == commands[7])
-            displayHelpScreen(helpFile, command.substr(spacePos+1));
+            displayHelpScreen(helpFile, command.substr(spacePos + 1));
         else if(cmd == commands[8])
             throw AdventureErrors::CharacterDeath("Aww, quiting already?");
-        else if(cmd.substr(0,1) == commands[NUM_COMMANDS-1]) // cheat
-            c->cheat(command.substr(1,spacePos-1), command.substr(spacePos+1)); // possible cheat commands, "/god" and "/tp x y" without quotes, x y should be ints. to be implemented -> print map, spawn items into inv/equipment
+        else if(cmd.substr(0,1) == commands[NUM_COMMANDS - 1]) // cheat
+            c->cheat(command.substr(1, spacePos - 1), command.substr(spacePos + 1)); // possible cheat commands, "/god" and "/tp x y" without quotes, x y should be ints. to be implemented -> print map, spawn items into inv/equipment
         else;
 
     }

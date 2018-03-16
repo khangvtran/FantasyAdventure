@@ -57,7 +57,7 @@ bool Monster::modifyHealth(double mDamage)
     if (health <= 0)
     {
         alive = false;
-        cout << name << " burnt in flames and died." << endl;
+        std::cout << name << " burnt in flames and died." << std::endl;
     }
     return alive;
 }
@@ -66,7 +66,7 @@ bool Monster::modifyHealth(double mDamage)
  getName
  Returns monster name.
  *******************************************************************************************/
-string Monster::getName() const
+std::string Monster::getName() const
 {
     return name;
 }
@@ -74,7 +74,7 @@ string Monster::getName() const
  getDescription
  Returns monster description
  *******************************************************************************************/
-string Monster::getDescription() const
+std::string Monster::getDescription() const
 {
     return description;
 }
@@ -119,7 +119,7 @@ bool Monster::isAlive() const
  Dragon's Constructor
  Initializes dragon attributes to starting values
  *******************************************************************************************/
-Dragon::Dragon(string mName, string mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality) : Monster(mName, mDescription, mStrength, mHealth,  mLuck, mAlive), vitality(mVitality)
+Dragon::Dragon(const std::string& mName, const std::string& mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality) : Monster(mName, mDescription, mStrength, mHealth,  mLuck, mAlive), vitality(mVitality)
 {
     //Set Dragon strength
     const int STRENGTH_MIN = 3;
@@ -179,7 +179,7 @@ double Dragon::getVitality() const
  Titan's Constructor
  Sets Titan's attributes to starting values 
  *******************************************************************************************/
-Titan::Titan(string mName, string mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mAgility) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), agility(mAgility)
+Titan::Titan(const std::string& mName, const std::string& mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mAgility) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), agility(mAgility)
 {
     //Set Titan strength
     const int STRENGTH_MIN = 0;
@@ -239,7 +239,7 @@ double Titan::getAgility() const
  DragonBoss's Constructor
  Initializes DragonBoss's attrubutes to starting values
  *******************************************************************************************/
-DragonBoss::DragonBoss(string mName, string mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality, double mAgility) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), Dragon(mAgility), Titan(mVitality)
+DragonBoss::DragonBoss(const std::string& mName, const std::string& mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality, double mAgility) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), Dragon(mAgility), Titan(mVitality)
 {
     //Set DragonBoss strength
     const int STRENGTH_MIN = 15;        
@@ -311,13 +311,13 @@ int Dragon::attack(double characterLuck)
         if (vitality > 12)
         {
             throwFireBall();
-            cout << "Watch out! Fire coming your way!" << endl;
+            std::cout << "Watch out! Fire coming your way!" << std::endl;
         }
-        cout << "He hit you! You lost " << damage << " health points." << endl;
+        std::cout << "He hit you! You lost " << damage << " health points." << std::endl;
     }
     else
     {
-        cout << "Luckily, he missed this time!" << endl;
+        std::cout << "Luckily, he missed this time!" << std::endl;
     }
     
     return damage;
@@ -342,13 +342,13 @@ int Titan::attack(double characterLuck)
         {
             double modifier = (rand()% 10 + 1) / 10.0 + 1;
             damage *= modifier;
-            cout << "He dealt you a critical hit! " << endl;
+            std::cout << "He dealt you a critical hit! " << std::endl;
         }
-        cout << "He hit you! You lost " << damage << " health points." << endl;
+        std::cout << "He hit you! You lost " << damage << " health points." << std::endl;
     }
     else
     {
-        cout << "Luckily, he missed this time!" << endl;
+        std::cout << "Luckily, he missed this time!" << std::endl;
     }
     return damage;
 }
@@ -372,21 +372,21 @@ int DragonBoss::attack(double characterLuck)
         if (vitality > 12)
         {
             throwFireBall();
-            cout << "Watch out! Fire coming your way!" << endl;
+            std::cout << "Watch out! Fire coming your way!" << std::endl;
         }
     
         //If dragonboss's agility is > 12, deal a critical hit
         if (agility > 12)
         {
-            double modifier = (rand()% 10 + 1) / 10.0 + 1;
+            double modifier = (rand() % 10 + 1) / 10.0 + 1;
             damage *= modifier;
-            cout << "He also dealt you a critical hit! " << endl;
+            std::cout << "He also dealt you a critical hit! " << std::endl;
         }
-        cout << "He hit you! You lost " << damage << " health points." << endl;
+        std::cout << "He hit you! You lost " << damage << " health points." << std::endl;
     }
     else
     {
-        cout << "Luckily, he missed this time!" << endl;
+        std::cout << "Luckily, he missed this time!" << std::endl;
     }
     
     return damage;

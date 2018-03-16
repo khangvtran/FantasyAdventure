@@ -30,21 +30,20 @@
 
 #include <iostream>
 #include <string>
-using namespace std;
 
 class Monster
 {
 protected:
-    string name;                    //stores monster name
-    string description;             //stores monster description
-    double strength;                //stores monster's strength
-    double health;                  //stores monster's health
-    double luck;                    //stores monster's luck
-    double alive;                   //flag to indicate whether a monster is dead or alive
+    std::string name;                    //stores monster name
+    std::string description;             //stores monster description
+    double strength;                     //stores monster's strength
+    double health;                       //stores monster's health
+    double luck;                         //stores monster's luck
+    double alive;                        //flag to indicate whether a monster is dead or alive
 public:
     //Constructor
     /* Initializes monster data with starting values */
-    Monster(string mName = "", string mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true) : name(mName), description(mDescription), strength(mStrength), health(mHealth), luck(mLuck), alive(mAlive) {}
+    Monster(const std::string& mName = "", const std::string& mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true) : name(mName), description(mDescription), strength(mStrength), health(mHealth), luck(mLuck), alive(mAlive) {}
     
     //Destructor
     virtual ~Monster() {}
@@ -67,10 +66,10 @@ public:
     
     //Getters
     /* Returns monster name */
-    string getName() const;
+    std::string getName() const;
     
     /* Returns monster description */
-    string getDescription() const;
+    std::string getDescription() const;
     
     /* Returns monster strength */
     double getStrength() const;
@@ -100,7 +99,7 @@ protected:
 public:
     //Constructors
     /* Initializes dragon attributes to starting values */
-    Dragon(string mName = "", string mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mVitality = 0);
+    Dragon(const std::string& mName = "", const std::string& mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mVitality = 0);
     
     /* Specialized constructor: Initializes Dragon's vitality - data not inherited from the Monster class */
     Dragon(double mVitality);
@@ -131,7 +130,7 @@ protected:
 public:
     //Constructors
     /* Sets Titan's attributes to starting values */
-    Titan(string mName = "", string mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mAgility = 0);
+    Titan(const std::string& mName = "", const std::string& mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mAgility = 0);
     
     /* Specialized Constructor: Sets Titan's agility to a starting value */
     Titan(double mAgility);
@@ -157,7 +156,7 @@ class DragonBoss: public Dragon, public Titan
 public:
     //Constructor
     /* Initializes DragonBoss's attrubutes to starting values */
-    DragonBoss(string mName = "", string mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mVitality = 0, double mAgility = 0);
+    DragonBoss(const std::string& mName = "", const std::string& mDescription = "", double mStrength = 0, double mHealth = 0, double mLuck = 0, bool mAlive = true, double mVitality = 0, double mAgility = 0);
     
     //Destructor
     virtual ~DragonBoss() {}

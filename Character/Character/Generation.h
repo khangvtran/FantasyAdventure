@@ -58,7 +58,7 @@ public:
         ADAMANTINEHELMET, ADAMANTINEARMOR, ADAMANTINEGREAVES, ADAMANTINESWORD, ADAMANTINEDAGGER, // 21-25 adamantine things
         RUBY, EMERALD, SAPPHIRE }; // 26-28 gems
     
-    std::unordered_map<string, ITEMS> itemContainer {
+    std::unordered_map<std::string, ITEMS> itemContainer {
         {"health potion", HEALTHPOTION}, {"max health potion", MAXHEALTHPOTION}, {"strength potion", STRENGTHPOTION}, {"intelligence potion", INTPOTION},
         {"luck potion", LUCKPOTION}, {"kill scroll", KILLSCROLL},
         {"iron helmet", IRONHELMET}, {"steel helmet", STEELHELMET}, {"mithril helmet", MITHRILHELMET}, {"adamantine helmet", ADAMANTINEHELMET},
@@ -70,12 +70,12 @@ public:
     };
     
     enum MONSTERS {DRAGON, TITAN, DRAGONBOSS};
-    std::unordered_map<string, MONSTERS> monsterContainer {
+    std::unordered_map<std::string, MONSTERS> monsterContainer {
         {"Dragon", DRAGON}, {"Titan", TITAN}, {"DragonBoss", DRAGONBOSS}
     };
     
     enum ROOMOBJ {BOOK, FLARE, FOUNTAIN, MAP, TREASURE};
-    std::unordered_map<string, ROOMOBJ> roomObjContainer {
+    std::unordered_map<std::string, ROOMOBJ> roomObjContainer {
         {"Book", BOOK}, {"Flare", FLARE}, {"Fountain", FOUNTAIN}, {"Map", MAP}, {"Treasure", TREASURE}
     };
     

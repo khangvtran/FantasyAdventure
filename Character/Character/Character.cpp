@@ -14,7 +14,7 @@
 #include "Generation.h"
 
 /* Constructor */
-Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), strength(0), intelligence(0), luck(0), alive(true), lives(3)
+Character::Character(const std::string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), strength(0), intelligence(0), luck(0), alive(true), lives(3)
 {
     
     
@@ -24,9 +24,9 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
     currentRoom = &(this->dungeon->getRoom(location->row, location->col));
     
     equipmentSet = {{"helmet", new IronHelmet},
-        {"armor", new IronArmor},
-        {"greaves", new IronGreaves},
-        {"weapon", nullptr}
+                    {"armor", new IronArmor},
+                    {"greaves", new IronGreaves},
+                    {"weapon", nullptr}
     };
     
     maxHealth = 100 + _equipmentHealth(); // sets health and maxhealth to 100 + sum equipment health (100 + 6+5+4)
@@ -42,7 +42,7 @@ Character::Character(const string& Name, const int& row, const int& col, Dungeon
         equipmentSet["weapon"] = new IronDagger;
     
 
-    cout << *currentRoom;
+    std::cout << *currentRoom;
 }
 
 
@@ -89,13 +89,13 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
         // check if boss is dead
         if (currentRoom->getMonsterPtr() != nullptr)
         {
-            cout << "Maybe it's just me but do you see that colossal monster guarding the treasure there, mate??" << endl;
+            std::cout << "Maybe it's just me but do you see that colossal monster guarding the treasure there, mate??" << std::endl;
             return;
         }
         // check if all gems are in itemList
         if (inventory.linearSearch("ruby") == -1 || inventory.linearSearch("sapphire") == -1 || inventory.linearSearch("emerald") == -1)
         {
-            cout << "You still have to acquire all three gems: ruby, sapphire, and emerald" << endl;
+            std::cout << "You still have to acquire all three gems: ruby, sapphire, and emerald" << std::endl;
             return;
         }
         treasure->use();   // display winning message. Game ends here.
@@ -108,8 +108,8 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
 
 void Character::_die()
 {
-    cout << endl << endl << "***** YOU DIED *****" << endl << endl;
-    cout << "What a shame.. Should've tried harder than that!" << endl;
+    std::cout << std::endl << std::endl << "***** YOU DIED *****" << std::endl << std::endl;
+    std::cout << "What a shame.. Should've tried harder than that!" << std::endl;
     lives--;
     if(lives < 0)
     {
@@ -120,15 +120,15 @@ void Character::_die()
     {
         health = maxHealth; // ALSO NEED TO IMPLEMENT EXTRA HEALTH BASED ON EQUIPMENT
         if(lives == 0)
-            cout << "You're on your last life! What are you doing‽" << endl;
+            std::cout << "You're on your last life! What are you doing‽" << std::endl;
         else
         {
-            cout << "Luckily, you seem to have " << lives;
+            std::cout << "Luckily, you seem to have " << lives;
             if(lives > 1)
-                cout << " lives";
+                std::cout << " lives";
             else
-                cout  << " life";
-             cout << " remaining." << endl;
+                std::cout  << " life";
+             std::cout << " remaining." << std::endl;
         }
     }
 }
@@ -148,17 +148,17 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
 
             if(((health + 3 * intelligence) > health) && (health < maxHealth))
             {
-                cout << "You were lucky this time! Your health increased from " << health;
+                std::cout << "You were lucky this time! Your health increased from " << health;
                 setHealth(health + 3 * intelligence);
-                cout << " to " << health << "." << endl << endl;
+                std::cout << " to " << health << "." << std::endl << std::endl;
             }
             else
-                cout << "The fountain would've healed you... but you were already at full health.";
+                std::cout << "The fountain would've healed you... but you were already at full health.";
         }
         else
         {
-            cout << "Ouch! That water might have been slightly poisonous. You lost 10 health." << endl;
-            cout << "Your health decreased from " << health << " to " << health - 10 << "." << endl;
+            std::cout << "Ouch! That water might have been slightly poisonous. You lost 10 health." << std::endl;
+            std::cout << "Your health decreased from " << health << " to " << health - 10 << "." << std::endl;
             setHealth(health - 10);
         }
     }
@@ -171,7 +171,7 @@ void Character::_moveEast() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkEast())
     {
-        setColPos(location->col+1);
+        setColPos(location->col + 1);
         currentRoom = &(dungeon->getRoom(location->row, location->col));
     }
     else // exception, handled by main
@@ -182,7 +182,7 @@ void Character::_moveNorth() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkNorth())
     {
-        setRowPos(location->row-1);
+        setRowPos(location->row - 1);
         currentRoom = &(dungeon->getRoom(location->row, location->col));
     }
     else // exception, handled by main
@@ -193,7 +193,7 @@ void Character::_moveSouth() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkSouth())
     {
-        setRowPos(location->row+1);
+        setRowPos(location->row + 1);
         currentRoom = &(dungeon->getRoom(location->row, location->col));
     }
     else // exception, handled by main
@@ -204,7 +204,7 @@ void Character::_moveWest() throw(AdventureErrors::InvalidMove)
 {
     if(currentRoom->checkWest())
     {
-        setColPos(location->col-1);
+        setColPos(location->col - 1);
         currentRoom = &(dungeon->getRoom(location->row, location->col));
     }
     else // exception, handled by main
@@ -216,36 +216,36 @@ void Character::_moveWest() throw(AdventureErrors::InvalidMove)
 
 void Character::_printAttributes() const
 {
-    cout << "Character Attributes: " << endl;
-    cout << "Lives remaining: " << lives << endl;
-    cout << "Health: " << health << endl;
-    cout << "Max Health: " << maxHealth << endl;
-    cout << "Strength: " << strength << endl;
-    cout << "Intelligence: " << intelligence << endl;
-    cout << "Luck: " << luck << endl;
-    cout << endl;
+    std::cout << "Character Attributes: " << std::endl;
+    std::cout << "Lives remaining: " << lives << std::endl;
+    std::cout << "Health: " << health << std::endl;
+    std::cout << "Max Health: " << maxHealth << std::endl;
+    std::cout << "Strength: " << strength << std::endl;
+    std::cout << "Intelligence: " << intelligence << std::endl;
+    std::cout << "Luck: " << luck << std::endl;
+    std::cout << std::endl;
 }
 
 void Character::_printEquipmentSet() const
 {
     if(equipmentSet.size() > 0)
-        cout << "Character Equipment: " << endl;
+        std::cout << "Character Equipment: " << std::endl;
     try
     {
         if(equipmentSet.at("helmet")!= nullptr)
-            cout << equipmentSet.at("helmet")->name() << " (+" << equipmentSet.at("helmet")->getValue() << " max health)"<< endl;
+            std::cout << equipmentSet.at("helmet")->name() << " (+" << equipmentSet.at("helmet")->getValue() << " max health)"<< std::endl;
         if(equipmentSet.at("armor")!= nullptr)
-            cout << equipmentSet.at("armor")->name() << " (+" << equipmentSet.at("armor")->getValue() << " max health)"<< endl;
+            std::cout << equipmentSet.at("armor")->name() << " (+" << equipmentSet.at("armor")->getValue() << " max health)"<< std::endl;
         if(equipmentSet.at("greaves")!= nullptr)
-            cout << equipmentSet.at("greaves")->name() << " (+" << equipmentSet.at("greaves")->getValue() << " max health)"<< endl;
+            std::cout << equipmentSet.at("greaves")->name() << " (+" << equipmentSet.at("greaves")->getValue() << " max health)"<< std::endl;
         if(equipmentSet.at("weapon")!= nullptr)
-            cout << setprecision(2) << equipmentSet.at("weapon")->name() << " (+" << equipmentSet.at("weapon")->getValue() << " damage)";
+            std::cout << std::setprecision(2) << equipmentSet.at("weapon")->name() << " (+" << equipmentSet.at("weapon")->getValue() << " damage)";
         if(equipmentSet.at("weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("weapon")) != nullptr)
-            cout << " [Chance to do critical hit! (x2)]";
+            std::cout << " [Chance to do critical hit! (x2)]";
 
-    } catch (out_of_range &err)
+    } catch (std::out_of_range &err)
     {
-        cerr << err.what() << endl;
+        std::cerr << err.what() << std::endl;
     }
 
 }
@@ -254,9 +254,9 @@ void Character::_printInventory() const
 {
     if(!inventory.isEmpty())
     {
-        cout << "Character Inventory: " << endl;
+        std::cout << "Character Inventory: " << std::endl;
         inventory.printNumberedList();
-        cout << endl;
+        std::cout << std::endl;
     }
 }
 
@@ -267,8 +267,8 @@ void Character::_printInventory() const
  */
 bool Character::_randomizer() const // CHANGE: AccuracyHit() changed into HitOrHeal()
 {
-    double accuracyRange = pow(luck, log10(100)/log10(16/* "MAX LUCK"*/));
-    return (rand()%100 <= accuracyRange);
+    double accuracyRange = pow(luck, log10(100) / log10(16));
+    return (rand() % 100 <= accuracyRange);
 }
 
 void Character::_readBook() const throw(AdventureErrors::MissingObject)
@@ -293,11 +293,11 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
     Map* map = dynamic_cast<Map*>(roomObjPtr);
     if(map)
     {
-        string cmd = "";
+        std::string cmd = "";
         do
         {
-            cout << endl << "Which map would you like to view? [basic, monster, roomobject, item, all]: ";
-            cin >> cmd;
+            std::cout << std::endl << "Which map would you like to view? [basic, monster, roomobject, item, all]: ";
+            std::cin >> cmd;
             if(cmd == "basic")
             {
                 map->use();
@@ -327,8 +327,8 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
                 break;
         } while(cmd != "basic" || cmd != "monster" || cmd != "roomobject" || cmd != "item" || cmd != "all"); // fixed this
 
-        cin.ignore(10, '\n');
-        cin.clear();
+        std::cin.ignore(10, '\n');
+        std::cin.clear();
     }
     else
         throw AdventureErrors::MissingObject("This is not a map. Are you high, mate?");
@@ -355,14 +355,14 @@ void Character::_useKillScroll()
     Monster* m = currentRoom->getMonsterPtr();
     if(m == nullptr)
     {
-        cout << "There is no monster. What are you using that kill scroll for, pal? " << endl;
+        std::cout << "There is no monster. What are you using that kill scroll for, pal? " << std::endl;
         return;
     }
     else
     {
         m->modifyHealth(m->getHealth() + 1);    // kill the monster
         currentRoom->removeMonster();           // remove monster from the room
-        cout << *currentRoom;
+        std::cout << *currentRoom;
     }
 }
 
@@ -385,7 +385,7 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
     Monster* m = currentRoom->getMonsterPtr();
     if(m == nullptr)
     {
-        cout << endl << "There's no monster in the room." << endl;
+        std::cout << std::endl << "There's no monster in the room." << std::endl;
         return;
     }
     if(_randomizer())
@@ -394,28 +394,28 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
         double damage = 1.2 * strength + modifier;
         if(_randomizer() && dynamic_cast<Dagger*>(equipmentSet.at("weapon")) != nullptr)
         {
-            cout << "Your dagger dealt double damage to " << m->getName() << "!" << endl;
+            std::cout << "Your dagger dealt double damage to " << m->getName() << "!" << std::endl;
             damage *= 2;
         }
-        // put in miss cout
-        cout << endl << "You dealt " << static_cast<int>(damage) << " damage to " << m->getName() << "." << endl;
+        // put in miss std::cout
+        std::cout << std::endl << "You dealt " << static_cast<int>(damage) << " damage to " << m->getName() << "." << std::endl;
         if(!m->modifyHealth(damage))
         {
             currentRoom->removeMonster(); // modify health COULD return a true/false to indicate monster is alive or dead, then we can call ROOM's REMOVE on monster to set to nullptr
-            cout << *currentRoom; // ADDED
+            std::cout << *currentRoom; // ADDED
             return;
         }
     }
     else
-        cout << endl << "You missed the " << m->getName() << " this time around!" << endl;
+        std::cout << std::endl << "You missed the " << m->getName() << " this time around!" << std::endl;
     double monsterDamage = m->attack(luck);
     if(monsterDamage != 0)
     {
         setHealth(health - monsterDamage);
-        cout << "Your health is now: " << health << endl << endl;
+        std::cout << "Your health is now: " << health << std::endl << std::endl;
     }
     else
-        cout << endl << endl;
+        std::cout << std::endl << std::endl;
 
     if(!isAlive())
         throw AdventureErrors::CharacterDeath("You messed up. You definitely didn't win this time!"); //throw exception (died);
@@ -423,7 +423,7 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
 }
 
 
-void Character::activate(const string& thing) throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
+void Character::activate(const std::string& thing) throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath)
 {
     if(thing == "map")
         _readMap();
@@ -436,11 +436,11 @@ void Character::activate(const string& thing) throw(AdventureErrors::MissingObje
     else if(thing == "flare")
         _useFlare();
     else
-        cout << "You can't activate that!";
-    cout << endl << endl;
+        std::cout << "You can't activate that!";
+    std::cout << std::endl << std::endl;
 }
 
-void Character::cheat(const string& cmd, const string& cmd2)
+void Character::cheat(const std::string& cmd, const std::string& cmd2)
 {
     if(cmd == "god")
     {
@@ -449,7 +449,7 @@ void Character::cheat(const string& cmd, const string& cmd2)
         setStrength(90);
         setIntelligence(90);
         setLuck(90);
-        cout << "God mode activated. You suck." << endl;
+        std::cout << "God mode activated. You suck." << std::endl;
         return;
     }
     else if(cmd == "tp")
@@ -459,9 +459,9 @@ void Character::cheat(const string& cmd, const string& cmd2)
         is >> row >> col;
         setRowPos(row);
         setColPos(col);
-        cout << "Teleported to (" << location->row << "," << location->col << ")." << endl;
+        std::cout << "Teleported to (" << location->row << "," << location->col << ")." << std::endl;
         currentRoom = &(this->dungeon->getRoom(location->row, location->col));
-        cout << *currentRoom;
+        std::cout << *currentRoom;
     }
     else if(cmd == "spawn")
     {
@@ -470,11 +470,11 @@ void Character::cheat(const string& cmd, const string& cmd2)
             Item* thing = spawner.generateItem(spawner.itemContainer.at(cmd2));
             currentRoom->setItem(thing);
             if(currentRoom->getMonsterPtr() != nullptr)
-                cout << thing->name() << " was spawned on the ground. \nYou can't pick it up until you kill the " << currentRoom->getMonsterPtr()->getName() << " though." << endl << endl;
+                std::cout << thing->name() << " was spawned on the ground. \nYou can't pick it up until you kill the " << currentRoom->getMonsterPtr()->getName() << " though." << std::endl << std::endl;
             else
                 pickupItem(thing->name());
-        } catch (out_of_range &err) {
-            cerr << "Invalid type " << cmd2 << "." << endl << endl;
+        } catch (std::out_of_range &err) {
+            std::cerr << "Invalid type " << cmd2 << "." << std::endl << std::endl;
         }
     }
     else if(cmd == "map")
@@ -491,10 +491,10 @@ void Character::cheat(const string& cmd, const string& cmd2)
             dungeon->printMap(location->row, location->col, Dungeon::ALL);
     }
 }
-void Character::dropItem(const string& item, bool fromPickup)
+void Character::dropItem(const std::string& item, bool fromPickup)
 {
     size_t spacePos = item.find(" ");
-    string secondWord = item.substr(spacePos+1);
+    std::string secondWord = item.substr(spacePos + 1);
     if(secondWord == "armor")
     {
         Equipment* armor = equipmentSet["armor"];
@@ -502,23 +502,23 @@ void Character::dropItem(const string& item, bool fromPickup)
         {
             if((health - armor->getValue()) <= 0)
             {
-                cout << "Are you sure you want to drop that? Your health is dangerously low." << endl << endl;
+                std::cout << "Are you sure you want to drop that? Your health is dangerously low." << std::endl << std::endl;
                 return;
             }
             if(item == armor->name() || fromPickup)
             {
-                cout << "Dropped " << armor->name() << " on the ground." << endl << endl;
+                std::cout << "Dropped " << armor->name() << " on the ground." << std::endl << std::endl;
                 setMaxHealth(maxHealth - armor->getValue());
                 currentRoom->setItem(armor);
                 equipmentSet["armor"] = nullptr;
-                cout << *currentRoom;
+                std::cout << *currentRoom;
                 return;
             }
             else
-                 cout << "You have to be more specific than that! Did you mean " << armor->name() << "?" << endl << endl;
+                 std::cout << "You have to be more specific than that! Did you mean " << armor->name() << "?" << std::endl << std::endl;
         }
         else
-            cout << "You got no armor to drop." << endl << endl;
+            std::cout << "You got no armor to drop." << std::endl << std::endl;
     }
     else if(secondWord == "helmet")
     {
@@ -527,23 +527,23 @@ void Character::dropItem(const string& item, bool fromPickup)
         {
             if((health - helmet->getValue()) <= 0)
             {
-                cout << "Are you sure you want to drop that? Your health is dangerously low." << endl << endl;
+                std::cout << "Are you sure you want to drop that? Your health is dangerously low." << std::endl << std::endl;
                 return;
             }
             if(item == helmet->name() || fromPickup)
             {
-                cout << "Dropped " << helmet->name() << " on the ground." << endl << endl;
+                std::cout << "Dropped " << helmet->name() << " on the ground." << std::endl << std::endl;
                 setMaxHealth(maxHealth - helmet->getValue());
                 currentRoom->setItem(helmet);
                 equipmentSet["helmet"] = nullptr;
-                cout << *currentRoom;
+                std::cout << *currentRoom;
                 return;
             }
             else
-                 cout << "You have to be more specific than that! Did you mean " << helmet->name() << "?" << endl << endl;
+                 std::cout << "You have to be more specific than that! Did you mean " << helmet->name() << "?" << std::endl << std::endl;
         }
         else
-            cout << "You got no helmet to drop." << endl << endl;
+            std::cout << "You got no helmet to drop." << std::endl << std::endl;
     }
     else if(secondWord == "greaves")
     {
@@ -552,23 +552,23 @@ void Character::dropItem(const string& item, bool fromPickup)
         {
             if((health - greaves->getValue()) <= 0)
             {
-                cout << "Are you sure you want to drop that? Your health is dangerously low." << endl << endl;
+                std::cout << "Are you sure you want to drop that? Your health is dangerously low." << std::endl << std::endl;
                 return;
             }
             if(item == greaves->name() || fromPickup)
             {
-                cout << "Dropped " << greaves->name() << " on the ground." << endl << endl;
+                std::cout << "Dropped " << greaves->name() << " on the ground." << std::endl << std::endl;
                 setMaxHealth(maxHealth - greaves->getValue());
                 currentRoom->setItem(greaves);
                 equipmentSet["greaves"] = nullptr;
-                cout << *currentRoom;
+                std::cout << *currentRoom;
                 return;
             }
             else
-                cout << "You have to be more specific than that! Did you mean " << greaves->name() << "?" << endl << endl;
+                std::cout << "You have to be more specific than that! Did you mean " << greaves->name() << "?" << std::endl << std::endl;
         }
         else
-            cout << "You got no greaves to drop." << endl << endl;
+            std::cout << "You got no greaves to drop." << std::endl << std::endl;
     }
     else if(secondWord == "sword" || secondWord == "dagger")
     {
@@ -577,17 +577,17 @@ void Character::dropItem(const string& item, bool fromPickup)
         {
             if(item == weapon->name() || fromPickup)
             {
-                cout << "Dropped " << equipmentSet["weapon"]->name() << " on the ground." << endl << endl;
+                std::cout << "Dropped " << equipmentSet["weapon"]->name() << " on the ground." << std::endl << std::endl;
                 currentRoom->setItem(equipmentSet["weapon"]);
                 equipmentSet["weapon"] = nullptr;
-                cout << *currentRoom;
+                std::cout << *currentRoom;
                 return;
             }
             else
-                cout << "You have to be more specific than that! Did you mean " << weapon->name() << "?" << endl << endl;
+                std::cout << "You have to be more specific than that! Did you mean " << weapon->name() << "?" << std::endl << std::endl;
         }
         else
-            cout << "You got no weapon to drop." << endl << endl;
+            std::cout << "You got no weapon to drop." << std::endl << std::endl;
     }
     else
     {
@@ -597,11 +597,11 @@ void Character::dropItem(const string& item, bool fromPickup)
             inventory.advanceToIndex(index);
             currentRoom->setItem(inventory.getIterator());
             inventory.removeIterator();
-            cout << "Removed " << item << " from inventory. It's on the ground now." << endl << endl; // debugging
-            cout << *currentRoom;
+            std::cout << "Removed " << item << " from inventory. It's on the ground now." << std::endl << std::endl; // debugging
+            std::cout << *currentRoom;
         }
         else
-            cout << "Are you really sure you have " << item << " in your inventory?" << endl;
+            std::cout << "Are you really sure you have " << item << " in your inventory?" << std::endl;
     }
 }
 
@@ -619,9 +619,9 @@ int Character::_equipmentHealth() const
 
         if(equipmentSet.at("greaves") != nullptr)
             sum += equipmentSet.at("greaves")->getValue();
-    } catch (out_of_range &err)
+    } catch (std::out_of_range &err)
     {
-        cerr << err.what() << endl;
+        std::cerr << err.what() << std::endl;
     }
     return sum;
 }
@@ -647,7 +647,7 @@ int Character::getMaxHealth() const
 {
     return maxHealth;
 }
-string Character::getName() const
+std::string Character::getName() const
 {
     return name;
 }
@@ -666,7 +666,7 @@ bool Character::isAlive() const
 
 /* Navigating */
 
-void Character::move(const string& direction) throw(AdventureErrors::InvalidMove)
+void Character::move(const std::string& direction) throw(AdventureErrors::InvalidMove)
 {
     try {
         if(direction == "north")
@@ -678,20 +678,20 @@ void Character::move(const string& direction) throw(AdventureErrors::InvalidMove
         else if(direction == "east")
             _moveEast();
         else
-            throw AdventureErrors::InvalidMove(string("Invalid move direction: " +direction).c_str());
+            throw AdventureErrors::InvalidMove(std::string("Invalid move direction: " + direction).c_str());
     } catch (AdventureErrors::InvalidMove) {
         throw;
     }
-    cout << endl << endl;
-    cout << *currentRoom;
+    std::cout << std::endl << std::endl;
+    std::cout << *currentRoom;
 }
 
  /* Interaction with Items - Equipment */
-void Character::pickupItem(const string& item)
+void Character::pickupItem(const std::string& item)
 {
     if (currentRoom->getMonsterPtr() != nullptr)
     {
-        cout << "Waste the guarding monster first. No pain no gain, pal." << endl << endl;
+        std::cout << "Waste the guarding monster first. No pain no gain, pal." << std::endl << std::endl;
         return;
     }
 
@@ -705,7 +705,7 @@ void Character::pickupItem(const string& item)
         {
             inventory.insertStart(newItem);
 
-            cout << endl << "Picked up " << item << ". It's now in your inventory." << endl << endl;
+            std::cout << std::endl << "Picked up " << item << ". It's now in your inventory." << std::endl << std::endl;
 
             return;
         }
@@ -719,7 +719,7 @@ void Character::pickupItem(const string& item)
                 equipmentSet["helmet"] = helmet;
                 setMaxHealth(maxHealth + equipmentSet["helmet"]->getValue());
                 setHealth(getHealth() + helmet->getValue());
-                cout << "You picked up " << helmet->name() << " and put it on!" << endl << endl;
+                std::cout << "You picked up " << helmet->name() << " and put it on!" << std::endl << std::endl;
                 return;
             }
             Armor* armor = dynamic_cast<Armor*>(newEquipment);
@@ -731,7 +731,7 @@ void Character::pickupItem(const string& item)
                 equipmentSet["armor"] = armor;
                 setMaxHealth(maxHealth + equipmentSet["armor"]->getValue());
                 setHealth(getHealth() + armor->getValue());
-                cout << "You picked up " << armor->name() << " and put it on!" << endl << endl;
+                std::cout << "You picked up " << armor->name() << " and put it on!" << std::endl << std::endl;
                 return;
             }
 
@@ -744,7 +744,7 @@ void Character::pickupItem(const string& item)
                 equipmentSet["greaves"] = greaves;
                 setMaxHealth(maxHealth + equipmentSet["greaves"]->getValue());
                 setHealth(getHealth() + greaves->getValue());
-                cout << "You picked up " << greaves->name() << " and put it on!" << endl;
+                std::cout << "You picked up " << greaves->name() << " and put it on!" << std::endl;
                 return;
             }
             Weapon* weapon = dynamic_cast<Weapon*>(newEquipment);
@@ -752,27 +752,27 @@ void Character::pickupItem(const string& item)
             {
                 dropItem(weapon->name(), true);
                 equipmentSet["weapon"] = weapon;
-                cout << "You wielded " << weapon->name() << "!" << endl << endl;
+                std::cout << "You wielded " << weapon->name() << "!" << std::endl << std::endl;
                 return;
             }
         }
     }
     else
     {
-        if(item.find("pot") != string::npos)
-            cout << "Did you mean some sort of potion? You have to be more specific than that.." << endl << endl;
+        if(item.find("pot") != std::string::npos)
+            std::cout << "Did you mean some sort of potion? You have to be more specific than that.." << std::endl << std::endl;
         else
-            cout << "There doesn't seem to be that item in the room!" << endl << endl;
+            std::cout << "There doesn't seem to be that item in the room!" << std::endl << std::endl;
     }
 
 }
 void Character::print() const
 {
-    cout << endl <<  "-----------------------------------------------------------------------------------------------" << endl;
+    std::cout << std::endl <<  "-----------------------------------------------------------------------------------------------" << std::endl;
     _printAttributes();
     _printInventory();
     _printEquipmentSet();
-    cout << endl <<  "-----------------------------------------------------------------------------------------------" << endl;
+    std::cout << std::endl <<  "-----------------------------------------------------------------------------------------------" << std::endl;
 }
 
 /* Manipulator */
@@ -794,26 +794,26 @@ void Character::setHealth(const int& newHealth)
 void Character::setInitialAttributes(const int& max)
 {
     int temp = -1;
-    string input;
+    std::string input;
     int totalBaseStat = max;
-    cout << endl <<  "-----------------------------------------------------------------------------------------------" << endl;
-    cout << "You have " << totalBaseStat << " points to allocate into Strength (affecting damage), Intelligence (affecting healing), and Luck (affecting accuracy)" << endl << endl;
+    std::cout << std::endl <<  "-----------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "You have " << totalBaseStat << " points to allocate into Strength (affecting damage), Intelligence (affecting healing), and Luck (affecting accuracy)" << std::endl << std::endl;
     do
     {
-        cout << "Points remaining: " << totalBaseStat << endl;
-        cout << "Enter number of points to allocate for strength: ";
+        std::cout << "Points remaining: " << totalBaseStat << std::endl;
+        std::cout << "Enter number of points to allocate for strength: ";
 
-        getline(cin, input);
+        getline(std::cin, input);
         input.erase(remove_if(input.begin(), input.end(), [](char c) { return !isdigit(c); } ), input.end());
         try
         {
             temp = stoi(input);
         }
-        catch(invalid_argument){ temp = -1; }
-        catch(out_of_range) { temp = -1; }
+        catch(std::invalid_argument){ temp = -1; }
+        catch(std::out_of_range) { temp = -1; }
 
         if(temp < 0 || temp > totalBaseStat || temp > max)
-            cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
+            std::cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << std::endl;
         else
         {
             setStrength(temp);
@@ -822,42 +822,42 @@ void Character::setInitialAttributes(const int& max)
             break;
         }
     } while(temp < 0 || temp > totalBaseStat || temp > max);
-    cout << "You allocated " << strength << " point" << (strength == 1 ? "" : "s") << " into strength." << endl << endl;
+    std::cout << "You allocated " << strength << " point" << (strength == 1 ? "" : "s") << " into strength." << std::endl << std::endl;
     do
     {
         if(totalBaseStat > 0)
         {
-            cout << "Points remaining: " << totalBaseStat << endl;
-            cout << "Enter number of points to allocate for intelligence: ";
+            std::cout << "Points remaining: " << totalBaseStat << std::endl;
+            std::cout << "Enter number of points to allocate for intelligence: ";
 
-            getline(cin, input);
+            getline(std::cin, input);
             input.erase(remove_if(input.begin(), input.end(), [](char c) { return !isdigit(c); } ), input.end());
 
             try
             {
                 temp = stoi(input);
             }
-            catch(invalid_argument){ temp = -1; }
-            catch(out_of_range) { temp = -1; }
+            catch(std::invalid_argument){ temp = -1; }
+            catch(std::out_of_range) { temp = -1; }
 
             if(temp < 0 || temp > totalBaseStat || temp > max)
-                cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << endl;
+                std::cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << std::endl;
             else
             {
                 setIntelligence(temp);
-                cout << "You allocated " << intelligence << " point" << (intelligence == 1 ? "" : "s") << " into intelligence." << endl << endl;
+                std::cout << "You allocated " << intelligence << " point" << (intelligence == 1 ? "" : "s") << " into intelligence." << std::endl << std::endl;
                 totalBaseStat -= temp;
                 temp = 0;
                 break;
             }
         }
         else
-            cout << intelligence << " points were automatically allocated into intelligence." << endl << endl;
+            std::cout << intelligence << " points were automatically allocated into intelligence." << std::endl << std::endl;
     }   while (temp < 0 || temp > totalBaseStat || temp > max);
 
     setLuck(totalBaseStat); // sets remaining
-    cout << luck << " point" << (luck == 1 ? " was" : "s were") << " automatically allocated into luck." << endl;
-    cout << "-----------------------------------------------------------------------------------------------" << endl;
+    std::cout << luck << " point" << (luck == 1 ? " was" : "s were") << " automatically allocated into luck." << std::endl;
+    std::cout << "-----------------------------------------------------------------------------------------------" << std::endl;
 
 }
 
@@ -881,7 +881,7 @@ void Character::setMaxHealth(const int& newMaxHealth)
         setHealth(newMaxHealth);
 
 }
-void Character::setName(const string& name)
+void Character::setName(const std::string& name)
 {
     this->name = name;
 }
@@ -898,7 +898,7 @@ void Character::setStrength(const int& str)
 }
 
 
-void Character::useItem(const string& item)
+void Character::useItem(const std::string& item)
 {
     // check if item in inventory,
     int index = inventory.linearSearch(item);
@@ -912,38 +912,38 @@ void Character::useItem(const string& item)
         if (potionPtr)
         {
             int potionValue = potionPtr->getValue();
-            string potionName = potionPtr->name();
+            std::string potionName = potionPtr->name();
 
             if (potionName == "health potion")
             {
-                cout << "You took a sip from the health potion." << endl;
+                std::cout << "You took a sip from the health potion." << std::endl;
                 if(health < maxHealth)
-                    cout << "Your health increased by " << potionValue * ((getIntelligence() / 10.)+1) << "." << endl;
-                setHealth(getHealth() + potionValue * ((getIntelligence() / 10.)+1));
+                    std::cout << "Your health increased by " << potionValue * ((getIntelligence() / 10.) + 1) << "." << std::endl;
+                setHealth(getHealth() + potionValue * ((getIntelligence() / 10.) + 1));
 
             }
             else if (potionName == "max health potion")
             {
-                cout << "You sipped the max health potion and you feel more energized." << endl;
-                cout << "Max health increased by " << potionValue << "." << endl << endl;
+                std::cout << "You sipped the max health potion and you feel more energized." << std::endl;
+                std::cout << "Max health increased by " << potionValue << "." << std::endl << std::endl;
                 setMaxHealth(getMaxHealth() + potionValue);
             }
             else if (potionName == "strength potion")
             {
-                cout << "You gulped down the strength potion and you feel stronger." << endl;
-                cout << "Strength increased by " << potionValue << "." << endl << endl;
+                std::cout << "You gulped down the strength potion and you feel stronger." << std::endl;
+                std::cout << "Strength increased by " << potionValue << "." << std::endl << std::endl;
                 setStrength(getStrength() + potionValue);
             }
             else if (potionName == "intelligence potion")
             {
-                cout << "You look at the blue liquid and cautiously take a sip." << endl;
-                cout << "Intelligence increased by " << potionValue << "." << endl << endl;
+                std::cout << "You look at the blue liquid and cautiously take a sip." << std::endl;
+                std::cout << "Intelligence increased by " << potionValue << "." << std::endl << std::endl;
                 setIntelligence(getIntelligence() + potionValue);
             }
             else if (potionName == "luck potion")
             {
-                cout << "Ew, this looks disgusting. You drink it anyway." << endl;
-                cout << "Luck increased by " << potionValue << "." << endl << endl;
+                std::cout << "Ew, this looks disgusting. You drink it anyway." << std::endl;
+                std::cout << "Luck increased by " << potionValue << "." << std::endl << std::endl;
                 setLuck(getLuck() + potionValue);
             }
             delete potionPtr;               // remove iterator no longer realease memory
@@ -961,7 +961,7 @@ void Character::useItem(const string& item)
         }
         else
         {
-            cout << "You can not use that item directly." << endl << endl;
+            std::cout << "You can not use that item directly." << std::endl << std::endl;
             return;
         }
 
@@ -969,8 +969,8 @@ void Character::useItem(const string& item)
     else
     {
         if(item == "fountain" || item == "treasure" || item == "book" || item == "map" || item == "flare")
-            cout << "Did you mean 'activate'?" << endl << endl;
+            std::cout << "Did you mean 'activate'?" << std::endl << std::endl;
         else
-            cout << "You don't have that item, pal!" << endl << endl;
+            std::cout << "You don't have that item, pal!" << std::endl << std::endl;
     }
 }
