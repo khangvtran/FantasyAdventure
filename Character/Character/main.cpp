@@ -1,21 +1,11 @@
 /*
  
- AdventureGame
+ PhantasyAdventure
  
- Welcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this
- dark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to
- attack you and stall your journey for greatness.
- To find the treasure you will have to navigate through a labyrinth and slay monsters.
- Along the way you will find useful hints that will guide you toward the room with the treasure as well as
- maps that will show you your location in relation to the treasure room. You will collect items that
- will help you recover, kill monsters, and move closer to your goal. You have 3 lives.
- Use them wisely!
- 
- 
- //ADD
- -> Print attributes
- -> Attribute allocation
- -> Help menu
+ This simulation is a phantasy quest for a treasure.
+ You must navigate through the dungeon's labyrinth, collect three gems and kill the dragon boss to win your riches.
+ Along the way, you will collect potions that heal you, equipment that strenghtens you and find maps, books and other
+ objects that will help guide you toward your destination. You can also attack monsters and unlock more items of value.
  
  */
 
@@ -34,13 +24,13 @@ const int COLS = 10;
 const string commands[] = {"attack", "activate", "drop", "move", "pickup", "print", "use", "help", "quit", "/"};
 const int NUM_COMMANDS = 10;
 const string HELP_FILE = "help.bin";
-const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this\ndark and abandoned dungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find useful hints that will guide you toward the room with the treasure as well as maps that will show you your location in relation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal. \n\nYou have 3 lives. Use them wisely!\n\n";
+const string INTRO = "AdventureGame \n\nWelcome to the phantasy adventure game! In search for riches and personal glory you have arrived at this dark and abandoned\ndungeon full of dragons and other creatures that lurk from around all corners ready to attack you and stall your journey for greatness. To find the treasure you will have to navigate through a labyrinth and slay monsters. Along the way you will find\nuseful hints that will guide you toward the room with the treasure as well as maps that will show you your location in\nrelation to the treasure room. You will collect items that will help you recover, kill monsters, and move closer to your goal.\n\nYou have 3 lives. Use them wisely!\n\n";
 bool again(Character*&);
 void initialize(Dungeon*&, Character*&, ifstream&);
 bool isInvalidChar(int i);
 void displayHelpScreen(ifstream&, const string& = "help");
 bool isValidCommand(string& command);
-void doCommand(const string& command, Character*& c, ifstream&) throw(/*const char*,*/ AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
+void doCommand(const string& command, Character*& c, ifstream&) throw(AdventureErrors::InvalidMove, AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
 
 int main(void)
 {
@@ -52,17 +42,18 @@ int main(void)
     Dungeon* dungeon = nullptr;
     Character* c = nullptr;
     string command;
-    do {
+    do
+    {
         if(restart)
         {
             cout << INTRO;
             initialize(dungeon, c, helpFile);
             restart = false;
         }
-        //cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         cout << "Enter command: ";
         getline(cin, command);
-        try {
+        try
+        {
             if(isValidCommand(command))
                 doCommand(command, c, helpFile);
             else
@@ -71,12 +62,10 @@ int main(void)
         catch (AdventureErrors::InvalidMove &err)
         {
             cerr << err.what() << endl << endl;
-            //cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         }
         catch(AdventureErrors::MissingObject &err)
         {
             cerr << err.what() << endl << endl;
-            //cout << "X: " << c->getRowPos() << " Y: " << c->getColPos() << endl;
         }
         catch(AdventureErrors::CharacterDeath &err)
         {
@@ -114,10 +103,12 @@ bool again(Character* &c)
 
 void initialize(Dungeon* &d, Character* &c, ifstream& helpFile)
 {
-    try {
+    try
+    {
         if(!helpFile.is_open())
             throw AdventureErrors::FileOpenError(HELP_FILE.c_str());
-    } catch (AdventureErrors::FileOpenError &err) {
+    }
+    catch (AdventureErrors::FileOpenError &err) {
         string newFile;
         cerr << err.what() << endl;
         helpFile.clear();
@@ -239,7 +230,8 @@ void doCommand(const string &command, Character *&c, ifstream& helpFile) throw(/
     size_t spacePos = command.find(" ");
     string cmd = command.substr(0, spacePos);
     
-    try {
+    try
+    {
         if (cmd == commands[0]) // attack
             c->attack();
         else if(cmd == commands[1]) // activate
@@ -263,7 +255,6 @@ void doCommand(const string &command, Character *&c, ifstream& helpFile) throw(/
         else;
 
     }
-    //catch(const char*) { throw; }
     catch(AdventureErrors::InvalidMove) { throw; }
     catch(AdventureErrors::MissingObject) { throw; }
     catch(AdventureErrors::CharacterDeath) { throw; }
