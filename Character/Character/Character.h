@@ -26,7 +26,7 @@
 class Character
 {
 private:
-    string name;
+    std::string name;
     int maxHealth;
     int health;
     int strength;
@@ -84,14 +84,14 @@ public:
      * col refers to the MAX bound of cols in the dungeon.
      * dungeon is a reference which gets stored to use for the dungeon pointer.
      */
-    Character(const string&, const int&, const int&, Dungeon&);
+    Character(const std::string&, const int&, const int&, Dungeon&);
 
     /* Destructor */
 
     ~Character();
 
     /* Accessor */
-    string getName() const;
+    std::string getName() const;
 
     int getHealth() const;
     int getMaxHealth() const;
@@ -106,7 +106,7 @@ public:
 
     /* Manipulator */
     void setInitialAttributes(const int&);
-    void setName(const string&);
+    void setName(const std::string&);
     void setMaxHealth(const int&);
     void setHealth(const int&);
     void setStrength(const int&);
@@ -119,22 +119,22 @@ public:
 
     /* Interaction with Items - Equipment */
 
-    void pickupItem(const string& item);    // CHANGE: swapEquipment is now a part of this
-    void dropItem(const string& item);
-    void useItem(const string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
+    void pickupItem(const std::string& item);    // CHANGE: swapEquipment is now a part of this
+    void dropItem(const std::string& item);
+    void useItem(const std::string& item);       // CHANGE: Implementation: How do we create a dummy item pointer then check it
 
 
     /* Interactions with Monsters */
     void attack() throw(AdventureErrors::CharacterDeath);
 
     /* Moving */
-    void move(const string&) throw(AdventureErrors::InvalidMove);
+    void move(const std::string&) throw(AdventureErrors::InvalidMove);
 
-    void activate(const string&) throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
+    void activate(const std::string&) throw(AdventureErrors::MissingObject, AdventureErrors::CharacterDeath);
     void print() const;
 
     /* Cheat */
-    void cheat(const string&, const string& = "");
+    void cheat(const std::string&, const std::string& = "");
 };
 
 
