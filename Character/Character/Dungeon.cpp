@@ -18,7 +18,7 @@ Dungeon::Dungeon(int r, int c) throw(AdventureErrors::FileOpenError) : rows(r), 
     alloc();
     
     //Set room coordinates and wall data for each room
-    const char fileName[] = "/Users/Agnieszka Rynkiewicz/Desktop/AdventureGame/AdventureGame/walls.bin";
+    const char fileName[] = "walls.bin";
     
     //Open file with room data
     fstream file;
