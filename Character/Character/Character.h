@@ -37,18 +37,20 @@ private:
     
     std::string name;
     Dungeon* dungeon;
-    Room* currentRoom;
+    
     int strength;
     int intelligence;
     int luck;
     bool alive;
     int lives;
     Location* location; // instantiate an inner object from struct location
+    Room* currentRoom;
+    unordered_map<string, Equipment*> equipmentSet;
+    List<Item*> inventory;
     int maxHealth;
     int health;
     
-    unordered_map<string, Equipment*> equipmentSet;
-    List<Item*> inventory;
+    
     
     /** Private Helper Functions **/
 

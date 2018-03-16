@@ -16,20 +16,23 @@
 /* Constructor */
 Character::Character(const string& Name, const int& row, const int& col, Dungeon& dungeon) : name(Name), dungeon(&dungeon), strength(0), intelligence(0), luck(0), alive(true), lives(3)
 {
-    currentRoom = &(this->dungeon->getRoom(location->row, location->col));
+    
     
     location = new Location(row, col);
     setRowPos(rand() % (row - 5) + 5); // spawns player at row (5-9)
     setColPos(rand() % col); // spawns player anywhere at col (0-9)
-    
-    maxHealth = 100 + _equipmentHealth(); // sets health and maxhealth to 100 + sum equipment health (100 + 6+5+4)
-    health = maxHealth;
+    currentRoom = &(this->dungeon->getRoom(location->row, location->col));
     
     equipmentSet = {{"helmet", new IronHelmet},
         {"armor", new IronArmor},
         {"greaves", new IronGreaves},
         {"weapon", nullptr}
     };
+    
+    maxHealth = 100 + _equipmentHealth(); // sets health and maxhealth to 100 + sum equipment health (100 + 6+5+4)
+    health = maxHealth;
+    
+
 
     setInitialAttributes(24);
     
@@ -225,7 +228,8 @@ void Character::_printAttributes() const
 
 void Character::_printEquipmentSet() const
 {
-    cout << "Character Equipment: " << endl;
+    if(equipmentSet.size() > 0)
+        cout << "Character Equipment: " << endl;
     try
     {
         if(equipmentSet.at("helmet")!= nullptr)
@@ -238,7 +242,6 @@ void Character::_printEquipmentSet() const
             cout << setprecision(2) << equipmentSet.at("weapon")->name() << " (+" << equipmentSet.at("weapon")->getValue() << " damage)";
         if(equipmentSet.at("weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("weapon")) != nullptr)
             cout << " [Chance to do critical hit! (x2)]";
-        cout << endl;
 
     } catch (out_of_range &err)
     {
@@ -466,7 +469,10 @@ void Character::cheat(const string& cmd, const string& cmd2)
         try {
             Item* thing = spawner.generateItem(spawner.itemContainer.at(cmd2));
             currentRoom->setItem(thing);
-            pickupItem(thing->name());
+            if(currentRoom->getMonsterPtr() != nullptr)
+                cout << thing->name() << " was spawned on the ground. \nYou can't pick it up until you kill the " << currentRoom->getMonsterPtr()->getName() << " though." << endl << endl;
+            else
+                pickupItem(thing->name());
         } catch (out_of_range &err) {
             cerr << "Invalid type " << cmd2 << "." << endl << endl;
         }
@@ -685,7 +691,7 @@ void Character::pickupItem(const string& item)
 {
     if (currentRoom->getMonsterPtr() != nullptr)
     {
-        cout << "Waste the guarding monster first. No pain no gain, pal" << endl << endl;
+        cout << "Waste the guarding monster first. No pain no gain, pal." << endl << endl;
         return;
     }
 
@@ -816,7 +822,7 @@ void Character::setInitialAttributes(const int& max)
             break;
         }
     } while(temp < 0 || temp > totalBaseStat || temp > max);
-    cout << "You allocated " << strength << " points into strength." << endl << endl;
+    cout << "You allocated " << strength << " point" << (strength == 1 ? "" : "s") << " into strength." << endl << endl;
     do
     {
         if(totalBaseStat > 0)
@@ -839,21 +845,18 @@ void Character::setInitialAttributes(const int& max)
             else
             {
                 setIntelligence(temp);
-                cout << "You allocated " << intelligence << " points to intelligence" << endl << endl;
+                cout << "You allocated " << intelligence << " point" << (intelligence == 1 ? "" : "s") << " into intelligence." << endl << endl;
                 totalBaseStat -= temp;
                 temp = 0;
                 break;
             }
         }
         else
-        {
-            setIntelligence(0);
             cout << intelligence << " points were automatically allocated into intelligence." << endl << endl;
-        }
     }   while (temp < 0 || temp > totalBaseStat || temp > max);
 
     setLuck(totalBaseStat); // sets remaining
-    cout << luck << " points were automatically allocated into luck." << endl;
+    cout << luck << " point" << (luck == 1 ? " was" : "s were") << " automatically allocated into luck." << endl;
     cout << "-----------------------------------------------------------------------------------------------" << endl;
 
 }
@@ -949,7 +952,7 @@ void Character::useItem(const string& item)
         }
 
         KillScroll* killScrollPtr = dynamic_cast<KillScroll*>(itemPtr);
-        if (killScrollPtr) // isn't this when monster exists?
+        if (killScrollPtr) // isn't this when monster exists?  // i don't know who wrote this but _useKillScroll() checks for monster existing or not.
         {
             _useKillScroll();
             killScrollPtr = nullptr;
