@@ -1,10 +1,8 @@
-//
-//  Character.cpp
-//  Character
-//
-//  Created by Khang Tran on 2/2/18.
-//  Copyright © 2018 Khang Tran and Joshua Kuan. All rights reserved.
-//
+/*
+ 
+ Implementation file for the Character class.
+ 
+ */
 
 #include "Character.h"
 #include <cstdlib>
@@ -24,16 +22,16 @@ Character::Character(const std::string& Name, const int& row, const int& col, Du
     currentRoom = &(this->dungeon->getRoom(location->row, location->col));
     
     equipmentSet = {{"helmet", new IronHelmet},
-                    {"armor", new IronArmor},
-                    {"greaves", new IronGreaves},
-                    {"weapon", nullptr}
+        {"armor", new IronArmor},
+        {"greaves", new IronGreaves},
+        {"weapon", nullptr}
     };
     
     maxHealth = 100 + _equipmentHealth(); // sets health and maxhealth to 100 + sum equipment health (100 + 6+5+4)
     health = maxHealth;
     
-
-
+    
+    
     setInitialAttributes(24);
     
     if(_randomizer())
@@ -41,7 +39,7 @@ Character::Character(const std::string& Name, const int& row, const int& col, Du
     else
         equipmentSet["weapon"] = new IronDagger;
     
-
+    
     std::cout << *currentRoom;
 }
 
@@ -50,7 +48,7 @@ Character::Character(const std::string& Name, const int& row, const int& col, Du
 Character::~Character()
 {
     // Linkedlist has destructor
-
+    
     // deallocate equipment
     if(equipmentSet["helmet"] != nullptr)
     {
@@ -72,7 +70,7 @@ Character::~Character()
         delete equipmentSet["weapon"];
         equipmentSet["weapon"] = nullptr;
     }
-
+    
     // deallocate location struct
     delete location;
 }
@@ -82,7 +80,7 @@ void Character::_activateEndgameTreasure() const throw(AdventureErrors::MissingO
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
     if (!roomObjPtr)   // there is a room object in the room
         throw AdventureErrors::MissingObject("Ain't nothing lying around. Get your eyes checked! ");
-
+    
     Treasure* treasure = dynamic_cast<Treasure*>(roomObjPtr);
     if (treasure)       // check if the Room Object is a Treasure
     {
@@ -128,7 +126,7 @@ void Character::_die()
                 std::cout << " lives";
             else
                 std::cout  << " life";
-             std::cout << " remaining." << std::endl;
+            std::cout << " remaining." << std::endl;
         }
     }
 }
@@ -138,14 +136,14 @@ void Character::_drinkFromFountain() throw(AdventureErrors::MissingObject)
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
     if (!roomObjPtr)
         throw AdventureErrors::MissingObject("Do you see anything around. I don't");
-
+    
     Fountain* fountain = dynamic_cast<Fountain*>(roomObjPtr);
     if (fountain)
     {
         fountain->use();
         if (_randomizer())
         {
-
+            
             if(((health + 3 * intelligence) > health) && (health < maxHealth))
             {
                 std::cout << "You were lucky this time! Your health increased from " << health;
@@ -242,12 +240,12 @@ void Character::_printEquipmentSet() const
             std::cout << std::setprecision(2) << equipmentSet.at("weapon")->name() << " (+" << equipmentSet.at("weapon")->getValue() << " damage)";
         if(equipmentSet.at("weapon")!= nullptr && dynamic_cast<Dagger*>(equipmentSet.at("weapon")) != nullptr)
             std::cout << " [Chance to do critical hit! (x2)]";
-
+        
     } catch (std::out_of_range &err)
     {
         std::cerr << err.what() << std::endl;
     }
-
+    
 }
 
 void Character::_printInventory() const
@@ -276,7 +274,7 @@ void Character::_readBook() const throw(AdventureErrors::MissingObject)
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
     if(!roomObjPtr)
         throw AdventureErrors::MissingObject("Do you see a book lying around, fool?");
-
+    
     Book* book = dynamic_cast<Book*>(roomObjPtr);
     if(book)
         book->use();
@@ -289,7 +287,7 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
     if(!roomObjPtr)
         throw AdventureErrors::MissingObject("The room is empty, pal.");
-
+    
     Map* map = dynamic_cast<Map*>(roomObjPtr);
     if(map)
     {
@@ -326,7 +324,7 @@ void Character::_readMap() const throw(AdventureErrors::MissingObject)
             if(cmd == "basic" || cmd == "monster" || cmd == "roomobject" || cmd == "item" || cmd == "all") // fixed this
                 break;
         } while(cmd != "basic" || cmd != "monster" || cmd != "roomobject" || cmd != "item" || cmd != "all"); // fixed this
-
+        
         std::cin.ignore(10, '\n');
         std::cin.clear();
     }
@@ -339,7 +337,7 @@ void Character::_useFlare() const throw(AdventureErrors::MissingObject)
     RoomObject* roomObjPtr = currentRoom->getRoomObjectPtr();
     if(!roomObjPtr)
         throw AdventureErrors::MissingObject("Do you see anything around? I sure don't.");
-
+    
     Flare* flare = dynamic_cast<Flare*>(roomObjPtr);
     if(flare)
     {
@@ -370,18 +368,18 @@ void Character::_useKillScroll()
  Interaction between character and monster in the room
  Precondition: There is a monster alive in the room AND character is not dead
  calls accurateHit() to check the possibility (T/F) of character hitting the monster
-
+ 
  Damage formula: strength * 1.5
-
+ 
  calls monster's attack() function and subtracts character health
  subtracts monter's health based on calculated damage
-
-*/
+ 
+ */
 void Character::attack() throw(AdventureErrors::CharacterDeath)
 {
     // have to implement if room does not have monster
     // throw exception?
-
+    
     Monster* m = currentRoom->getMonsterPtr();
     if(m == nullptr)
     {
@@ -416,10 +414,10 @@ void Character::attack() throw(AdventureErrors::CharacterDeath)
     }
     else
         std::cout << std::endl << std::endl;
-
+    
     if(!isAlive())
         throw AdventureErrors::CharacterDeath("You messed up. You definitely didn't win this time!"); //throw exception (died);
-
+    
 }
 
 
@@ -515,7 +513,7 @@ void Character::dropItem(const std::string& item, bool fromPickup)
                 return;
             }
             else
-                 std::cout << "You have to be more specific than that! Did you mean " << armor->name() << "?" << std::endl << std::endl;
+                std::cout << "You have to be more specific than that! Did you mean " << armor->name() << "?" << std::endl << std::endl;
         }
         else
             std::cout << "You got no armor to drop." << std::endl << std::endl;
@@ -540,7 +538,7 @@ void Character::dropItem(const std::string& item, bool fromPickup)
                 return;
             }
             else
-                 std::cout << "You have to be more specific than that! Did you mean " << helmet->name() << "?" << std::endl << std::endl;
+                std::cout << "You have to be more specific than that! Did you mean " << helmet->name() << "?" << std::endl << std::endl;
         }
         else
             std::cout << "You got no helmet to drop." << std::endl << std::endl;
@@ -613,10 +611,10 @@ int Character::_equipmentHealth() const
     {
         if(equipmentSet.at("helmet") != nullptr)
             sum += equipmentSet.at("helmet")->getValue();
-
+        
         if(equipmentSet.at("armor") != nullptr)
             sum += equipmentSet.at("armor")->getValue();
-
+        
         if(equipmentSet.at("greaves") != nullptr)
             sum += equipmentSet.at("greaves")->getValue();
     } catch (std::out_of_range &err)
@@ -686,7 +684,7 @@ void Character::move(const std::string& direction) throw(AdventureErrors::Invali
     std::cout << *currentRoom;
 }
 
- /* Interaction with Items - Equipment */
+/* Interaction with Items - Equipment */
 void Character::pickupItem(const std::string& item)
 {
     if (currentRoom->getMonsterPtr() != nullptr)
@@ -694,19 +692,19 @@ void Character::pickupItem(const std::string& item)
         std::cout << "Waste the guarding monster first. No pain no gain, pal." << std::endl << std::endl;
         return;
     }
-
+    
     if (currentRoom->contains(item))                    // check if there is an item
     {
         Item* newItem = currentRoom->removeItem(item);  // take the item from the room
-
+        
         Equipment* newEquipment = dynamic_cast<Equipment*>(newItem); // downcast into equipment
-
+        
         if (!newEquipment) // if this is consumable item, do insert
         {
             inventory.insertStart(newItem);
-
+            
             std::cout << std::endl << "Picked up " << item << ". It's now in your inventory." << std::endl << std::endl;
-
+            
             return;
         }
         else               // if this is equipment, do swap
@@ -725,7 +723,7 @@ void Character::pickupItem(const std::string& item)
             Armor* armor = dynamic_cast<Armor*>(newEquipment);
             if(armor)
             {
-
+                
                 //setHealth(getHealth() - (equipmentSet["armor"] != nullptr ? equipmentSet["armor"]->getValue() : 0));
                 dropItem(armor->name(), true);
                 equipmentSet["armor"] = armor;
@@ -734,11 +732,11 @@ void Character::pickupItem(const std::string& item)
                 std::cout << "You picked up " << armor->name() << " and put it on!" << std::endl << std::endl;
                 return;
             }
-
+            
             Greaves* greaves = dynamic_cast<Greaves*>(newEquipment);
             if(greaves)
             {
-
+                
                 //setHealth(getHealth() - (equipmentSet["greaves"] != nullptr ? equipmentSet["greaves"]->getValue() : 0));
                 dropItem(greaves->name(), true);
                 equipmentSet["greaves"] = greaves;
@@ -764,7 +762,7 @@ void Character::pickupItem(const std::string& item)
         else
             std::cout << "There doesn't seem to be that item in the room!" << std::endl << std::endl;
     }
-
+    
 }
 void Character::print() const
 {
@@ -802,7 +800,7 @@ void Character::setInitialAttributes(const int& max)
     {
         std::cout << "Points remaining: " << totalBaseStat << std::endl;
         std::cout << "Enter number of points to allocate for strength: ";
-
+        
         getline(std::cin, input);
         input.erase(remove_if(input.begin(), input.end(), [](char c) { return !isdigit(c); } ), input.end());
         try
@@ -811,7 +809,7 @@ void Character::setInitialAttributes(const int& max)
         }
         catch(std::invalid_argument){ temp = -1; }
         catch(std::out_of_range) { temp = -1; }
-
+        
         if(temp < 0 || temp > totalBaseStat || temp > max)
             std::cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << std::endl;
         else
@@ -829,17 +827,17 @@ void Character::setInitialAttributes(const int& max)
         {
             std::cout << "Points remaining: " << totalBaseStat << std::endl;
             std::cout << "Enter number of points to allocate for intelligence: ";
-
+            
             getline(std::cin, input);
             input.erase(remove_if(input.begin(), input.end(), [](char c) { return !isdigit(c); } ), input.end());
-
+            
             try
             {
                 temp = stoi(input);
             }
             catch(std::invalid_argument){ temp = -1; }
             catch(std::out_of_range) { temp = -1; }
-
+            
             if(temp < 0 || temp > totalBaseStat || temp > max)
                 std::cerr << "You can only allocate a maximum of " << totalBaseStat << " points!" << std::endl;
             else
@@ -854,11 +852,11 @@ void Character::setInitialAttributes(const int& max)
         else
             std::cout << intelligence << " points were automatically allocated into intelligence." << std::endl << std::endl;
     }   while (temp < 0 || temp > totalBaseStat || temp > max);
-
+    
     setLuck(totalBaseStat); // sets remaining
     std::cout << luck << " point" << (luck == 1 ? " was" : "s were") << " automatically allocated into luck." << std::endl;
     std::cout << "-----------------------------------------------------------------------------------------------" << std::endl;
-
+    
 }
 
 void Character::setIntelligence(const int& intel)
@@ -874,12 +872,12 @@ void Character::setMaxHealth(const int& newMaxHealth)
 {
     if(health == maxHealth)
         health = newMaxHealth;
-
+    
     maxHealth = newMaxHealth;
-
+    
     if(health > newMaxHealth)
         setHealth(newMaxHealth);
-
+    
 }
 void Character::setName(const std::string& name)
 {
@@ -902,25 +900,25 @@ void Character::useItem(const std::string& item)
 {
     // check if item in inventory,
     int index = inventory.linearSearch(item);
-
+    
     if (index != -1)
     {
         inventory.advanceToIndex(index);
         Item* itemPtr = inventory.getIterator();
-
+        
         Potion* potionPtr = dynamic_cast<Potion*>(itemPtr);
         if (potionPtr)
         {
             int potionValue = potionPtr->getValue();
             std::string potionName = potionPtr->name();
-
+            
             if (potionName == "health potion")
             {
                 std::cout << "You took a sip from the health potion." << std::endl;
                 if(health < maxHealth)
                     std::cout << "Your health increased by " << potionValue * ((getIntelligence() / 10.) + 1) << "." << std::endl;
                 setHealth(getHealth() + potionValue * ((getIntelligence() / 10.) + 1));
-
+                
             }
             else if (potionName == "max health potion")
             {
@@ -950,7 +948,7 @@ void Character::useItem(const std::string& item)
             inventory.removeIterator();      // remove the pointer from the linkedlist
             return;
         }
-
+        
         KillScroll* killScrollPtr = dynamic_cast<KillScroll*>(itemPtr);
         if (killScrollPtr) // isn't this when monster exists?  // i don't know who wrote this but _useKillScroll() checks for monster existing or not.
         {
@@ -964,7 +962,7 @@ void Character::useItem(const std::string& item)
             std::cout << "You can not use that item directly." << std::endl << std::endl;
             return;
         }
-
+        
     }
     else
     {
@@ -974,3 +972,4 @@ void Character::useItem(const std::string& item)
             std::cout << "You don't have that item, pal!" << std::endl << std::endl;
     }
 }
+

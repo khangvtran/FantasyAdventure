@@ -4,13 +4,13 @@
  
  Here is the hierarchy for the Monster calss:
  
-                                            Monster
-                                            /    \
-                                           /      \
-                                        Dragon    Titan
-                                          \        /
-                                           \      /
-                                          DragonBoss
+ Monster
+ /    \
+ /      \
+ Dragon    Titan
+ \        /
+ \      /
+ DragonBoss
  
  Class Monster is an abstract base class that has two derived clases: Dragon and Titan.
  All monsters have a name, description, strength, health, luck and an indicator whether they are dead or alive
@@ -34,8 +34,8 @@
 class Monster
 {
 protected:
-    std::string name;                    //stores monster name
-    std::string description;             //stores monster description
+    std::string name;                    //stores monster's name
+    std::string description;             //stores monster's description
     double strength;                     //stores monster's strength
     double health;                       //stores monster's health
     double luck;                         //stores monster's luck
@@ -147,7 +147,7 @@ public:
     double getAgility() const;
     
     //Pure virtual functions
-    /* Returns an int representing damage done to the character and causes character to drop one piece of eqipment */
+    /* Returns an int representing damage done to the character*/
     virtual int attack(double characterLuck) override;
 };
 

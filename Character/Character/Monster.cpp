@@ -72,7 +72,7 @@ std::string Monster::getName() const
 }
 /********************************************************************************************
  getDescription
- Returns monster description
+ Returns monster description.
  *******************************************************************************************/
 std::string Monster::getDescription() const
 {
@@ -81,7 +81,7 @@ std::string Monster::getDescription() const
 
 /********************************************************************************************
  getStrength
- Returns monster strength
+ Returns monster strength.
  *******************************************************************************************/
 double Monster::getStrength() const
 {
@@ -90,7 +90,7 @@ double Monster::getStrength() const
 
 /********************************************************************************************
  getHealth
- Returns monster health
+ Returns monster health.
  *******************************************************************************************/
 double Monster::getHealth() const
 {
@@ -99,7 +99,7 @@ double Monster::getHealth() const
 
 /********************************************************************************************
  getLuck
- Returns monster luck
+ Returns monster luck.
  *******************************************************************************************/
 double Monster::getLuck() const
 {
@@ -108,7 +108,7 @@ double Monster::getLuck() const
 
 /********************************************************************************************
  isAlive
- Returns if a monster is dead or alive
+ Returns if a monster is dead or alive.
  *******************************************************************************************/
 bool Monster::isAlive() const
 {
@@ -117,7 +117,7 @@ bool Monster::isAlive() const
 
 /********************************************************************************************
  Dragon's Constructor
- Initializes dragon attributes to starting values
+ Initializes dragon attributes to starting values.
  *******************************************************************************************/
 Dragon::Dragon(const std::string& mName, const std::string& mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality) : Monster(mName, mDescription, mStrength, mHealth,  mLuck, mAlive), vitality(mVitality)
 {
@@ -159,7 +159,7 @@ Dragon::Dragon(double mVitality)
 
 /********************************************************************************************
  setVitality
- Sets Dragon vitality
+ Sets Dragon vitality.
  *******************************************************************************************/
 void Dragon::setVitality(double mVitality)
 {
@@ -168,7 +168,7 @@ void Dragon::setVitality(double mVitality)
 
 /********************************************************************************************
  getVitality
- Returns Dragon vitality
+ Returns Dragon vitality.
  *******************************************************************************************/
 double Dragon::getVitality() const
 {
@@ -177,7 +177,7 @@ double Dragon::getVitality() const
 
 /********************************************************************************************
  Titan's Constructor
- Sets Titan's attributes to starting values 
+ Sets Titan's attributes to starting values.
  *******************************************************************************************/
 Titan::Titan(const std::string& mName, const std::string& mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mAgility) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), agility(mAgility)
 {
@@ -206,7 +206,7 @@ Titan::Titan(const std::string& mName, const std::string& mDescription, double m
 
 /********************************************************************************************
  Titan's Specialized Constructor
- Sets Titan's agility to a starting value
+ Sets Titan's agility to a starting value - data not inherited from the Monster class.
  *******************************************************************************************/
 Titan::Titan(double mAgility)
 {
@@ -242,7 +242,7 @@ double Titan::getAgility() const
 DragonBoss::DragonBoss(const std::string& mName, const std::string& mDescription, double mStrength, double mHealth, double mLuck, bool mAlive, double mVitality, double mAgility) : Monster(mName, mDescription, mStrength, mHealth, mLuck, mAlive), Dragon(mAgility), Titan(mVitality)
 {
     //Set DragonBoss strength
-    const int STRENGTH_MIN = 15;        
+    const int STRENGTH_MIN = 15;
     const int STRENGTH_MAX = 30;
     strength = (rand() % (STRENGTH_MAX - STRENGTH_MIN + 1) + STRENGTH_MIN);
     setStrength(strength);
@@ -296,11 +296,12 @@ void Dragon::throwFireBall()
 /********************************************************************************************
  attack
  Throws a fireball if dragon's vitality is > 12. Computes and returns damage done to the
- character by multiplying the character's strength by 1.5.
+ character by multiplying the monster's strength by 1.5. Dragon's attack can still
+ be a miss, but if it's successful, it's much more severe.
  *******************************************************************************************/
 int Dragon::attack(double characterLuck)
 {
-     int damage = 0;
+    int damage = 0;
     
     //If monster's attack was accurate, compute damage
     if (getHitAccuracy(characterLuck))
@@ -326,7 +327,8 @@ int Dragon::attack(double characterLuck)
 /********************************************************************************************
  attack
  If titan's agility is > 12, critical hit is dealt.
- Computes and returns damage done to the character by multiplying the character's strength by 1.5.
+ Computes and returns damage done to the character by multiplying the monster's strength by 1.5.
+ Titan's attack can still be a miss, but if it's successful, it's much more severe.
  *******************************************************************************************/
 int Titan::attack(double characterLuck)
 {
@@ -337,7 +339,7 @@ int Titan::attack(double characterLuck)
     {
         damage = strength * 1.65;
         
-        //If titan's agility is > 12 deal a critical hit
+        //If titan's agility is > 12, deal a critical hit
         if (agility > 12)
         {
             double modifier = (rand()% 10 + 1) / 10.0 + 1;
@@ -355,9 +357,9 @@ int Titan::attack(double characterLuck)
 
 /********************************************************************************************
  attack
- Throws a fireball if dragonboss's vitality is > 12. Causes character to drop equipment if
- dragonboss's agility is > 12.  Computes and returns damage done to the character by multiplying
- the character's strength by 1.5.
+ Throws a fireball if dragonboss's vitality is > 12. Deals a critical hit if dragonboss's
+ agility is > 12. Computes and returns damage done to the character by multiplying
+ the monster's strength by 1.5.
  *******************************************************************************************/
 int DragonBoss::attack(double characterLuck)
 {
@@ -374,7 +376,7 @@ int DragonBoss::attack(double characterLuck)
             throwFireBall();
             std::cout << "Watch out! Fire coming your way!" << std::endl;
         }
-    
+        
         //If dragonboss's agility is > 12, deal a critical hit
         if (agility > 12)
         {

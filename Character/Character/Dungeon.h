@@ -10,18 +10,18 @@
  Dungeon's layout:
  
  
-                                                        0 1 2 3 4 5 6 7 8 9
-                                                        _ _ _ _ _ _ _ _ _ _
-                                                     0 |   |   |T  |   |   |
-                                                     1 | | | | | | | | | | |
-                                                     2 | | | | | | |K| | | |
-                                                     3 | |G _|_ _ _ _|_ _| |
-                                                     4 |_ _           G _ _|
-                                                     5 |   | |  _ _  | |   |
-                                                     6 | | | | |   | | | | |
-                                                     7 | | | | |   | | | | |
-                                                     8 | |G _| |   | |_ _| |
-                                                     9 |_ _ _ _ _ _ _ _ _ _|
+ 0 1 2 3 4 5 6 7 8 9
+ _ _ _ _ _ _ _ _ _ _
+ 0 |   |   |T  |   |   |
+ 1 | | | | | | | | | | |
+ 2 | | | | | | |K| | | |
+ 3 | |G _|_ _ _ _|_ _| |
+ 4 |_ _           G _ _|
+ 5 |   | |  _ _  | |   |
+ 6 | | | | |   | | | | |
+ 7 | | | | |   | | | | |
+ 8 | |G _| |   | |_ _| |
+ 9 |_ _ _ _ _ _ _ _ _ _|
  
  
  T - room with the treasure
@@ -53,7 +53,7 @@ private:
     int rows;                                       //row count
     int cols;                                       //column count
     int numPopulatedRooms;                          //number of populated rooms
- 
+    
     //Memory Management Functions
     /* Allocates memory for the dungeon matrix of size row x cols */
     void alloc() throw (std::bad_alloc);

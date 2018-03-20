@@ -65,9 +65,9 @@ public:
     virtual ~Potion(){}
 };
 
- /*******************************************************************
-  Heals player, increasing their current health to at most the value of their max health
-  *******************************************************************/
+/*******************************************************************
+ Heals player, increasing their current health to at most the value of their max health
+ *******************************************************************/
 class HealthPotion : public Potion
 {
 public:
@@ -77,9 +77,9 @@ public:
     ~HealthPotion(){}
 };
 
- /*******************************************************************
-  Permanently increases player's max health
-  *******************************************************************/
+/*******************************************************************
+ Permanently increases player's max health
+ *******************************************************************/
 class MaxHealthPotion : public Potion
 {
 public:
@@ -89,9 +89,9 @@ public:
     ~MaxHealthPotion(){}
 };
 
- /*******************************************************************
-  Permanently increases player's strength
-  *******************************************************************/
+/*******************************************************************
+ Permanently increases player's strength
+ *******************************************************************/
 class StrengthPotion : public Potion
 {
 public:
@@ -101,9 +101,9 @@ public:
     ~StrengthPotion(){}
 };
 
- /*******************************************************************
-  Permanently increases player's intelligence
-  *******************************************************************/
+/*******************************************************************
+ Permanently increases player's intelligence
+ *******************************************************************/
 class IntPotion : public Potion
 {
 public:
@@ -148,11 +148,11 @@ public:
     virtual ~Equipment(){}
 };
 
- /*******************************************************************
+/*******************************************************************
  Abstract base class for equipment materials, which determine
  the strength of weapons and armor.  In order of weakest to strongest:
  Iron < Steel < Mithril < Adamantine
-  *******************************************************************/
+ *******************************************************************/
 class Material
 {
 protected:
@@ -200,9 +200,9 @@ public:
     virtual ~Adamantine(){}
 };
 
- /*******************************************************************
-  Abstract classes for weapon and armor types
-  *******************************************************************/
+/*******************************************************************
+ Abstract classes for weapon and armor types
+ *******************************************************************/
 
 //Abstract class for head armor
 class Helmet : public Equipment
@@ -448,3 +448,4 @@ public:
 };
 
 #endif
+

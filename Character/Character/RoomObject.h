@@ -1,26 +1,25 @@
 /*
-
-Specification file for the RoomObject class.
  
-The RoomObject class is a polymorphic class that is based on the following hierarchy:
+ Specification file for the RoomObject class.
+ 
+ The RoomObject class is a polymorphic class that is based on the following hierarchy:
  
  
-                                   Room Object
+ Room Object
  
-                               /   /    |    \   \
-                              /   /     |     \   \
-                             /   /      |      \   \
+ /   /    |    \   \
+ /   /     |     \   \
+ /   /      |      \   \
  
-                        Book  Flare  Fountain  Map  Treasure
+ Book  Flare  Fountain  Map  Treasure
  
  Book prints useful hints on how to win the game.
  Flare prints the contents of four adjacent rooms.
- Fountain prints its description.
- Map prints its description and use.
+ Fountain prints what happens when you use it.
+ Map prints what happens when you use it.
  Treasure prints a message that the treasure has been activated.
  
- 
-*/
+ */
 
 #ifndef RoomObject_h
 #define RoomObject_h

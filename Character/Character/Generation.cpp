@@ -1,10 +1,8 @@
-//
-//  Generation.cpp
-//  Character
-//
-//  Created by Joshua Kuan on 02/03/2018.
-//  Copyright © 2018 Joshua Kuan. All rights reserved.
-//
+/*
+ 
+ Implementation file for the Generation class.
+ 
+ */
 
 #include "Generation.h"
 
@@ -26,7 +24,7 @@ Item* Generation::generateItem(ITEMS type)
             return new LuckPotion();
         case KILLSCROLL:
             return new KillScroll();
-
+            
             /** Equipment **/
         case IRONHELMET:
             return new IronHelmet();
@@ -36,7 +34,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilHelmet();
         case ADAMANTINEHELMET:
             return new AdamantineHelmet();
-
+            
         case IRONARMOR:
             return new IronArmor();
         case STEELARMOR:
@@ -45,7 +43,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilArmor();
         case ADAMANTINEARMOR:
             return new AdamantineArmor();
-
+            
         case IRONGREAVES:
             return new IronGreaves();
         case STEELGREAVES:
@@ -54,7 +52,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilGreaves();
         case ADAMANTINEGREAVES:
             return new AdamantineGreaves();
-
+            
             /** Weapons **/
         case IRONSWORD:
             return new IronSword();
@@ -72,7 +70,7 @@ Item* Generation::generateItem(ITEMS type)
             return new MithrilDagger();
         case ADAMANTINEDAGGER:
             return new AdamantineDagger();
-
+            
             /** Non-Consumable Items **/
         case RUBY:
             return new Ruby();

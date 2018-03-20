@@ -3,7 +3,7 @@
  Specification file for the Room class.
  
  A Room is one Dungeon (matrix) unit that can be entered, traversed and exited by the player according the Dungeon layout.
-  
+ 
  */
 
 #ifndef Room_h
@@ -34,7 +34,7 @@ private:
     //Pointers to monster, room object and list of items
     Monster* monsterPtr;                                     //stores a pointer to a monster
     RoomObject* roomObjectPtr;                               //stores a pointer to a room object
-    std::list<Item*> items;                                       //stores a list of pointers to items present in the room
+    std::list<Item*> items;                                  //stores a list of pointers to items present in the room
     
 public:
     //Constructor

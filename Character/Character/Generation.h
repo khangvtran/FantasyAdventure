@@ -11,32 +11,29 @@
 /* SAMPLE CODE
  Generation spawner;
  try {
-    Item* thing = spawner.generateItem(spawner.itemContainer.at("some item string"));
-    if(thing != nullptr) // this shouldn't ever be nullptr
-    {
-        // do code with thing.
-    }
+ Item* thing = spawner.generateItem(spawner.itemContainer.at("some item string"));
+ if(thing != nullptr) // this shouldn't ever be nullptr
+ {
+ // do code with thing.
+ }
  
-    RoomObject* ro = spawner.generateRoomObj(spawner.roomObjectContainer.at("Book")); // returns a book object
-    if(ro != nullptr)
-    {
-        // do code with ro
-    }
+ RoomObject* ro = spawner.generateRoomObj(spawner.roomObjectContainer.at("Book")); // returns a book object
+ if(ro != nullptr)
+ {
+ // do code with ro
+ }
  
-    Monster* monster = spawner.generateMonster(spawner.monsterContainer.at("Dragon")); // returns a Dragon object
-    if(monster != nullptr)
-    {
-        // do code with monster
-    }
+ Monster* monster = spawner.generateMonster(spawner.monsterContainer.at("Dragon")); // returns a Dragon object
+ if(monster != nullptr)
+ {
+ // do code with monster
+ }
  
  } catch (out_of_range &err) {
-    cerr << "Invalid type " << endl << endl;
+ cerr << "Invalid type " << endl << endl;
  }
  END CODE SAMPLE */
 
-//  Created by Joshua Kuan on 02/03/2018.
-//  Copyright © 2018 Joshua Kuan. All rights reserved.
-//
 
 #ifndef Generation_h
 #define Generation_h
@@ -86,3 +83,4 @@ public:
 };
 
 #endif /* Generation_h */
+

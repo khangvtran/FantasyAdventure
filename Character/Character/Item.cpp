@@ -424,3 +424,4 @@ std::string AdamantineDagger::description()
 {
     return Dagger::description() + " " + Adamantine::description();
 }
+

@@ -599,7 +599,7 @@ void Dungeon::_printMonsterMap(int characterRow, int characterCol) const
     
     for (int r = 0; r < 10; r++)
     {
-       std::cout << std::right << std::setw(55) << r;
+        std::cout << std::right << std::setw(55) << r;
         for (int c = 0; c < 10; c++)
         {
             //Print Character's location
@@ -610,7 +610,7 @@ void Dungeon::_printMonsterMap(int characterRow, int characterCol) const
             //Print monster's location
             else if (dungeonPtr[r][c].getMonsterPtr())
             {
-               std::cout << " M ";
+                std::cout << " M ";
             }
             else
             {
